@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>73300a86-d068-4fd7-a88e-34e64815b7b4</ProjectGuid>
+    <ProjectGuid>{73300A86-D068-4FD7-A88E-34E64815B7B4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NRTyler.KSP.VehicleCatalog.Models</RootNamespace>
@@ -30,24 +30,50 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System"/>
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="Microsoft.CSharp"/>
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Net.Http"/>
-    
-    <Reference Include="System.Xml"/>
+    <Reference Include="NRTyler.CodeLibrary">
+      <HintPath>..\..\NRTyler.CodeLibrary\NRTyler.CodeLibrary\bin\Debug\NRTyler.CodeLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="NRTyler.KSP.Common">
+      <HintPath>..\..\NRTyler.KSP.Utilities\NRTyler.KSP.Common\bin\Debug\NRTyler.KSP.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="DataControllers\DeltaVCalculator.cs" />
+    <Compile Include="DataControllers\LifeSupportCalculator.cs" />
+    <Compile Include="DataProviders\Orbit.cs" />
+    <Compile Include="DataProviders\Settings\ApplicationSettings.cs" />
+    <Compile Include="DataProviders\Settings\BaseGameSettings.cs" />
+    <Compile Include="DataProviders\Settings\LifeSupportSettings.cs" />
+    <Compile Include="DataProviders\VehicleEntry.cs" />
+    <Compile Include="DataProviders\VehicleItems\Fairing.cs" />
+    <Compile Include="DataProviders\VehicleItems\LifeSupportSystem.cs" />
+    <Compile Include="DataProviders\VehicleItems\PacificationOption.cs" />
+    <Compile Include="DataProviders\VehicleItems\Payload.cs" />
+    <Compile Include="DataProviders\VehicleItems\PayloadRange.cs" />
+    <Compile Include="DataProviders\VehicleItems\ProvisionsStorage.cs" />
+    <Compile Include="DataProviders\VehicleItems\Stage.cs" />
+    <Compile Include="DataProviders\VehicleItems\Trajectory.cs" />
+    <Compile Include="DataProviders\VehicleItems\VehicleCapability.cs" />
+    <Compile Include="DataProviders\VehicleItems\VehicleNote.cs" />
+    <Compile Include="DataProviders\VehicleItems\WasteStorage.cs" />
+    <Compile Include="DataProviders\VehicleTypes\CrewedVehicle.cs" />
+    <Compile Include="DataProviders\VehicleTypes\LaunchVehicle.cs" />
+    <Compile Include="DataProviders\VehicleTypes\Vehicle.cs" />
+    <Compile Include="Interfaces\ICrewable.cs" />
+    <Compile Include="Interfaces\IHasDeltaV.cs" />
+    <Compile Include="Interfaces\IManeuver.cs" />
+    <Compile Include="Interfaces\IValuable.cs" />
+    <Compile Include="Interfaces\IVehicle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
- </Project>
+</Project>

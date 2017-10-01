@@ -5,6 +5,14 @@ VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRTyler.KSP.VehicleCatalog.Models", "NRTyler.KSP.VehicleCatalog.Models\NRTyler.KSP.VehicleCatalog.Models.csproj", "{73300A86-D068-4FD7-A88E-34E64815B7B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRTyler.KSP.VehicleCatalog.WPF", "NRTyler.KSP.VehicleCatalog.WPF\NRTyler.KSP.VehicleCatalog.WPF.csproj", "{CCF8A27C-460A-4D8A-906E-E54A09166D2E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{9516D1D7-106A-4D3F-9BD1-A32D85D66346}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRTyler.KSP.VehicleCatalog.ModelTests", "NRTyler.KSP.VehicleCatalog.ModelTests\NRTyler.KSP.VehicleCatalog.ModelTests.csproj", "{60E084C5-A96F-4AED-B910-EF88A98A8735}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRTyler.KSP.VehicleCatalog.WPFTests", "NRTyler.KSP.VehicleCatalog.WPFTests\NRTyler.KSP.VehicleCatalog.WPFTests.csproj", "{C619C4FA-5ECD-4828-BBE2-6455CE2BD48E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +23,25 @@ Global
 		{73300A86-D068-4FD7-A88E-34E64815B7B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73300A86-D068-4FD7-A88E-34E64815B7B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73300A86-D068-4FD7-A88E-34E64815B7B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCF8A27C-460A-4D8A-906E-E54A09166D2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCF8A27C-460A-4D8A-906E-E54A09166D2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCF8A27C-460A-4D8A-906E-E54A09166D2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCF8A27C-460A-4D8A-906E-E54A09166D2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60E084C5-A96F-4AED-B910-EF88A98A8735}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60E084C5-A96F-4AED-B910-EF88A98A8735}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60E084C5-A96F-4AED-B910-EF88A98A8735}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60E084C5-A96F-4AED-B910-EF88A98A8735}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C619C4FA-5ECD-4828-BBE2-6455CE2BD48E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C619C4FA-5ECD-4828-BBE2-6455CE2BD48E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C619C4FA-5ECD-4828-BBE2-6455CE2BD48E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C619C4FA-5ECD-4828-BBE2-6455CE2BD48E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{60E084C5-A96F-4AED-B910-EF88A98A8735} = {9516D1D7-106A-4D3F-9BD1-A32D85D66346}
+		{C619C4FA-5ECD-4828-BBE2-6455CE2BD48E} = {9516D1D7-106A-4D3F-9BD1-A32D85D66346}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BAF2E56F-8C6E-4B5C-8492-4E680EC4DB69}
