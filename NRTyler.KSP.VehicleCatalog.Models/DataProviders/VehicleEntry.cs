@@ -86,7 +86,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 			{
 				if (value == this.name) return;
 
-				value.TitleInsurance(ref this.name);
+				this.name = value.HandleNullOrWhiteSpace();
 				OnPropertyChanged(nameof(Name));
 			}
 		}
@@ -111,9 +111,10 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 		/// <param name="value">The vehicle that you want this entry to represent.</param>
 		public void AddToEntry(IVehicle value)
 		{
-			Vehicle = value;
-			Name    = value.Name;
-			Price   = value.Price;
+			Vehicle     = value;
+			Name        = value.Name;
+			Price       = value.Price;
+		    VehicleType = value.VehicleType;
 		}
 
 		#region INotifyPropertyChanged Members

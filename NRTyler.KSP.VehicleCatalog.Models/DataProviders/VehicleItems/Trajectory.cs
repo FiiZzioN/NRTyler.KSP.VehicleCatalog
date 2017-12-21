@@ -103,7 +103,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders.VehicleItems
 			get { return this.name; }
 			set
 			{
-				value.TitleInsurance(ref this.name);
+				this.name = value.HandleNullOrWhiteSpace();
 				OnPropertyChanged(nameof(this.Name));
 			}
 		}

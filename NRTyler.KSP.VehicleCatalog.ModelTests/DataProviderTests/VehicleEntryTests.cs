@@ -11,9 +11,11 @@
 // ***********************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NRTyler.CodeLibrary.Utilities;
 using NRTyler.KSP.Common.Enums;
 using NRTyler.KSP.VehicleCatalog.Models.DataProviders;
 using NRTyler.KSP.VehicleCatalog.Models.DataProviders.VehicleTypes;
+using NRTyler.KSP.VehicleCatalog.Models.Interfaces;
 
 namespace NRTyler.KSP.VehicleCatalog.ModelTests.DataProviderTests
 {
@@ -38,14 +40,18 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests.DataProviderTests
 			var expectedType  = VehicleType.LaunchVehicle;
 
 			// Act
-			var actualName  = vehicle.Name;
-			var actualPrice = vehicle.Price;
-			var actualType  = vehicle.VehicleType;
+			var actualName  = entry.Name;
+			var actualPrice = entry.Price;
+			var actualType  = entry.VehicleType;
 
 			// Assert
+            // Test the name, price and type.
 			Assert.AreEqual(expectedName, actualName);
 			Assert.AreEqual(expectedPrice, actualPrice);
 			Assert.AreEqual(expectedType, actualType);
+
+            // Make sure the object passed to the entry is the same.
+            Assert.IsTrue(vehicle.CompareObject((Vehicle)entry.Vehicle));
 		}
 
 		[TestMethod]
@@ -67,15 +73,19 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests.DataProviderTests
 			var expectedType  = VehicleType.Probe;
 
 			// Act
-			var actualName  = vehicle.Name;
-			var actualPrice = vehicle.Price;
-			var actualType  = vehicle.VehicleType;
+			var actualName  = entry.Name;
+			var actualPrice = entry.Price;
+			var actualType  = entry.VehicleType;
 
-			// Assert
-			Assert.AreEqual(expectedName, actualName);
+		    // Assert
+		    // Test the name, price and type.
+            Assert.AreEqual(expectedName, actualName);
 			Assert.AreEqual(expectedPrice, actualPrice);
 			Assert.AreEqual(expectedType, actualType);
-		}
+
+		    // Make sure the object passed to the entry is the same.
+		    Assert.IsTrue(vehicle.CompareObject((Vehicle)entry.Vehicle));
+        }
 
 		[TestMethod]
 		public void InvalidPrice()

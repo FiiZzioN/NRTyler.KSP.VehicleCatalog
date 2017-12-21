@@ -14,9 +14,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Runtime.CompilerServices;
 using NRTyler.CodeLibrary.Annotations;
+using NRTyler.CodeLibrary.Extensions;
 
 namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders.Settings
 {
@@ -44,7 +44,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders.Settings
                 this.vehicleFileLocation = value;
                 OnPropertyChanged(nameof(VehicleFileLocation));
 
-                CreateDirectoryIfItDoesntExist(VehicleFileLocation);
+                DirectoryEx.CreateDirectoryIfNonexistent(VehicleFileLocation);
             }
         }
 
@@ -58,19 +58,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders.Settings
                 this.settingsLocation = value;
                 OnPropertyChanged(nameof(SettingsLocation));
 
-                CreateDirectoryIfItDoesntExist(SettingsLocation);
-            }
-        }
-
-        /// <summary>
-        /// Creates a directory if it doesn't exist.
-        /// </summary>
-        /// <param name="path">The path of the directory.</param>
-        private static void CreateDirectoryIfItDoesntExist(string path)
-        {
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
+                DirectoryEx.CreateDirectoryIfNonexistent(SettingsLocation);
             }
         }
 
