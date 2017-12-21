@@ -12,7 +12,7 @@
 
 using System;
 using System.Collections.Generic;
-using NRTyler.CodeLibrary.Utilities;
+using NRTyler.KSP.Common.Utilities;
 using NRTyler.KSP.VehicleCatalog.Models.DataProviders.VehicleItems;
 using NRTyler.KSP.VehicleCatalog.Models.Interfaces;
 
@@ -21,8 +21,8 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
 	/// <summary>
 	/// Contains methods that help calculate the amount of delta-v a given object has at its' disposal.
 	/// </summary>
-	public class DeltaVCalculator
-	{
+	public class DeltaVCalculator : BasicDeltaVCalculator
+    {
 		public static double CalulateDeltaV(Stage stage)
 		{
 			if (stage == null) throw new ArgumentNullException(nameof(stage), @"The object being serialized can not be null!");
@@ -30,29 +30,12 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
 			return CalulateDeltaV(stage.DryMass, stage.WetMass, stage.SpecificImpulse);
 		}
 
-		public static double CalulateDeltaV(double dryMass, double wetMass, double? specificImpulse)
-		{
-			// We have to have a specific impulse in order for our reaction mass to do anything.
-			// If we don't have that, in the form of null, zero, or NaN, then we have no delta-v.
-			if (specificImpulse == null || specificImpulse <= 0 || Double.IsNaN((double)specificImpulse)) return 0;
-
-			// Tsiolkovsky Rocket Equation, more info here: http://enwp.org/Tsiolkovsky_rocket_equation
-			var ve = specificImpulse * ExtendedMathConstants.ɡ;
-			var m0 = wetMass;
-			var mf = dryMass;
-			var ln = Math.Log(m0 / mf);
-
-			var deltaV = ve * ln;
-
-			return (double)deltaV;
-		}
-
 		/// <summary>
 		/// Calculates a vehicle's total delta-v.
 		/// </summary>
 		/// <param name="vehicle">The vehicle whose delta-v needs to be calculated.</param>
-		/// <returns>System.Double.</returns>
-		/// <exception cref="System.ArgumentNullException"></exception>
+		/// <returns>The <see cref="IVehicle"/>'s total DeltaV.</returns>
+		/// <exception cref="System.ArgumentNullException">The <see cref="IVehicle"/> can't be null.</exception>
 		public static double CalculateVehicleDeltaV(IVehicle vehicle)
 		{
 			if (vehicle == null) throw new ArgumentNullException(nameof(vehicle), @"The object being analyzed can not be null!");
