@@ -5,15 +5,17 @@
 // Created          : 10-01-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 10-01-2017
+// Last Modified On : 12-25-2017
 //
 // License          : MIT License
 // ***********************************************************************
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using NRTyler.CodeLibrary.Annotations;
+using NRTyler.KSP.Common.Interfaces;
 
 namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 {
@@ -22,103 +24,114 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 	/// </summary>
 	/// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
 	[Serializable]
-	public class Orbit : INotifyPropertyChanged
+	public class Orbit : IOrbit, INotifyPropertyChanged
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Orbit"/> class.
 		/// </summary>
-		public Orbit()
+		public Orbit() : this(0, 0, 0)
 		{
 			
 		}
 
-		private double apoapsis;
-		private double periapsis;
-		private double inclination;
-		private double? semiMajorAxis;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Orbit"/> class.
+        /// </summary>
+        /// <param name="apoapsis">The orbit's apoapsis.</param>
+        /// <param name="periapsis">The orbit's periapsis.</param>
+        /// <param name="inclination">The orbit's inclination.</param>
+        public Orbit(double apoapsis, double periapsis, double inclination)
+	    {
+	        SetOrbitParameters(apoapsis, periapsis, inclination);
+	    }
 
-		/// <summary>
-		/// Gets or sets the targeted apoapsis.
-		/// </summary>
-		public double Apoapsis
-		{
-			get { return this.apoapsis; }
-			set
-			{
-				if (value < 0) return;
-				//if (value < this.Periapsis) return;
+        #region Fields and Properties
 
-				this.apoapsis = value;
-				OnPropertyChanged(nameof(Apoapsis));
-			}
-		}
+        private double apoapsis;
+        private double periapsis;
+        private double inclination;
 
-		/// <summary>
-		/// Gets or sets the targeted periapsis.
-		/// </summary>
-		public double Periapsis
-		{
-			get { return this.periapsis; }
-			set
-			{
-				if (value < 0) return; 
+        /// <summary>
+        /// Gets or sets the targeted apoapsis.
+        /// </summary>
+        public double Apoapsis
+        {
+            get { return this.apoapsis; }
+            set
+            {
+                if (value < 0) return;
+                //if (value < this.Periapsis) return;
 
-				this.periapsis = value;
-				OnPropertyChanged(nameof(Periapsis));
-			}
-		}
+                this.apoapsis = value;
+                OnPropertyChanged(nameof(Apoapsis));
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the targeted inclination.
-		/// </summary>
-		public double Inclination
-		{
-			get { return this.inclination; }
-			set
-			{
-				if (value > 180.0) return;
-				if (value < -180.0) return;
+        /// <summary>
+        /// Gets or sets the targeted periapsis.
+        /// </summary>
+        public double Periapsis
+        {
+            get { return this.periapsis; }
+            set
+            {
+                if (value < 0) return;
 
-				this.inclination = value;
-				OnPropertyChanged(nameof(Inclination));
-			}
-		}
+                this.periapsis = value;
+                OnPropertyChanged(nameof(Periapsis));
+            }
+        }
 
-		/// <summary>
-		/// Gets or sets the targeted semi-major axis.
-		/// </summary>
-		public double? SemiMajorAxis
-		{
-			get { return this.semiMajorAxis; }
-			set
-			{
-				//if (value < 0) return;
+        /// <summary>
+        /// Gets or sets the targeted inclination.
+        /// </summary>
+        public double Inclination
+        {
+            get { return this.inclination; }
+            set
+            {
+                if (value > 180.0) return;
+                if (value < -180.0) return;
 
-				this.semiMajorAxis = value;
-				OnPropertyChanged(nameof(SemiMajorAxis));
-			}
-		}
+                this.inclination = value;
+                OnPropertyChanged(nameof(Inclination));
+            }
+        }
 
-		#region INotifyPropertyChanged Members
+        #endregion
 
-		#region Overrides of Object
+        #region Overrides of Object
 
-		/// <summary>Returns a string that represents the current object.</summary>
-		/// <returns>A string that represents the current object.</returns>
-		public override string ToString()
-		{
-			var noSMA   = $"Apoapsis: {Apoapsis}@Periapsis: {Periapsis}@Inclination: {Inclination}";
-			var withSMA = $"Apoapsis: {Apoapsis}@Periapsis: {Periapsis}@Inclination: {Inclination}@Semi-Major Axis: {SemiMajorAxis}";
+        /// <summary>Returns a string that represents the current object.</summary>
+        /// <returns>A string that represents the current object.</returns>
+        public override string ToString()
+	    {
+	        var oldString = $"Apoapsis: {Apoapsis}@Periapsis: {Periapsis}@Inclination: {Inclination}";
+	        return oldString.Replace("@", "\n");
+	    }
 
-			return this.SemiMajorAxis == null ? noSMA.Replace("@", "\n") : withSMA.Replace("@", "\n");
-		}
+	    #endregion
 
-		#endregion
+	    /// <summary>
+	    /// Allows for quick specification of the orbit's properties;
+	    /// </summary>
+	    /// <param name="apoapsis">The orbit's apoapsis.</param>
+	    /// <param name="periapsis">The orbit's periapsis.</param>
+	    /// <param name="inclination">The orbit's inclination.</param>
+	    [SuppressMessage("ReSharper", "ParameterHidesMember")]
+	    public void SetOrbitParameters(double apoapsis, double periapsis, double inclination)
+	    {
+	        Apoapsis    = apoapsis;
+	        Periapsis   = periapsis;
+	        Inclination = inclination;
+	    }
 
-		/// <summary>
-		/// Occurs when a property value changes.
-		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
+        #region INotifyPropertyChanged Members
+
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
 		/// <summary>
 		/// Called when [property changed].

@@ -15,7 +15,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using NRTyler.CodeLibrary.Annotations;
 using NRTyler.CodeLibrary.Utilities;
-using NRTyler.KSP.VehicleCatalog.Models.DataProviders.Settings;
+using NRTyler.KSP.VehicleCatalog.Models.DataProviders;
 
 namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
 {

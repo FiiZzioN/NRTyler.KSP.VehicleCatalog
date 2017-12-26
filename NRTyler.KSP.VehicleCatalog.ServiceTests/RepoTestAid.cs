@@ -5,12 +5,12 @@
 // Created          : 10-01-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 10-01-2017
+// Last Modified On : 12-23-2017
 //
 // License          : MIT License
 // ***********************************************************************
 
-using NRTyler.KSP.VehicleCatalog.Models.DataProviders.Settings;
+using NRTyler.KSP.VehicleCatalog.Models.DataProviders;
 
 namespace NRTyler.KSP.VehicleCatalog.ServiceTests
 {

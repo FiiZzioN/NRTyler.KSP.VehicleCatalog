@@ -53,24 +53,15 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataControllerTests\DeltaVCalculatorTests.cs" />
-    <Compile Include="DataControllerTests\LifeSupportCalculatorTests.cs" />
-    <Compile Include="DataProviderTests\LifeSupportCalculatorTests.cs" />
     <Compile Include="DataProviderTests\OrbitTests.cs" />
-    <Compile Include="DataProviderTests\VehicleCapabilityTests.cs" />
-    <Compile Include="DataProviderTests\VehicleEntryDictionaryTests.cs" />
-    <Compile Include="DataProviderTests\VehicleEntryTests.cs" />
-    <Compile Include="DataProviderTests\VehicleItems\FairingTests.cs" />
-    <Compile Include="DataProviderTests\VehicleItems\PacificationOptionTests.cs" />
-    <Compile Include="DataProviderTests\VehicleItems\PayloadRangeTests.cs" />
-    <Compile Include="DataProviderTests\VehicleItems\PayloadTests.cs" />
-    <Compile Include="DataProviderTests\VehicleItems\StageTests.cs" />
-    <Compile Include="DataProviderTests\VehicleItems\TrajectoryTests.cs" />
-    <Compile Include="DataProviderTests\VehicleItems\VehicleNoteTests.cs" />
-    <Compile Include="DataProviderTests\VehicleTypes\LaunchVehicleTests.cs" />
-    <Compile Include="DataProviderTests\VehicleTypes\VehicleTests.cs" />
+    <Compile Include="DataProviderTests\FairingTests.cs" />
+    <Compile Include="DataProviderTests\PacificationOptionTests.cs" />
+    <Compile Include="DataProviderTests\PayloadRangeTests.cs" />
+    <Compile Include="DataProviderTests\TrajectoryTests.cs" />
+    <Compile Include="DataProviderTests\VehicleNoteTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -82,7 +73,9 @@
       <Name>NRTyler.KSP.VehicleCatalog.Models</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="DataControllerTests\" />
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

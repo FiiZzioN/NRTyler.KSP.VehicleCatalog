@@ -59,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RepositoryTests\VehicleRepositoryTests.cs" />
     <Compile Include="RepoTestAid.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +73,9 @@
       <Project>{6a9f0711-975e-4c25-a967-d70f5c7958e5}</Project>
       <Name>NRTyler.KSP.VehicleCatalog.Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="RepositoryTests\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

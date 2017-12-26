@@ -2,7 +2,7 @@
 // Assembly         : NRTyler.KSP.VehicleCatalog.Models
 //
 // Author           : Nicholas Tyler
-// Created          : 10-01-2017
+// Created          : 12-23-2017
 //
 // Last Modified By : Nicholas Tyler
 // Last Modified On : 12-26-2017
@@ -12,14 +12,14 @@
 
 namespace NRTyler.KSP.VehicleCatalog.Models.Interfaces
 {
-	/// <summary>
-	/// Indicates that an <see cref="object"/> is worth a various amount of currency.
-	/// </summary>
-	public interface IValuable
-	{
-		/// <summary>
-		/// Gets or sets the price of this <see cref="object"/>.
-		/// </summary>
-		decimal Price { get; set; }
-	}
+    /// <summary>
+    /// Indicates that an <see cref="object"/> has the ability to show a preview picture.
+    /// </summary>
+    public interface IPreview
+    {
+        /// <summary>
+        /// Gets or sets where the preview picture of this <see cref="object"/> is located.
+        /// </summary>
+        string PictureLocation { get; set; }
+    }
 }

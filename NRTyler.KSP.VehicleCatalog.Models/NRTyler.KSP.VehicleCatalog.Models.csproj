@@ -38,6 +38,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,35 +47,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataControllers\DeltaVCalculator.cs" />
-    <Compile Include="DataControllers\LifeSupportCalculator.cs" />
+    <Compile Include="DataControllers\VehicleController.cs" />
+    <Compile Include="DataProviders\Launcher.cs" />
     <Compile Include="DataProviders\Orbit.cs" />
-    <Compile Include="DataProviders\Settings\ApplicationSettings.cs" />
-    <Compile Include="DataProviders\Settings\BaseGameSettings.cs" />
-    <Compile Include="DataProviders\Settings\LifeSupportSettings.cs" />
-    <Compile Include="DataProviders\VehicleEntry.cs" />
-    <Compile Include="DataProviders\VehicleEntryDictionary.cs" />
-    <Compile Include="DataProviders\VehicleItems\Fairing.cs" />
-    <Compile Include="DataProviders\VehicleItems\LifeSupportSystem.cs" />
-    <Compile Include="DataProviders\VehicleItems\PacificationOption.cs" />
-    <Compile Include="DataProviders\VehicleItems\Payload.cs" />
-    <Compile Include="DataProviders\VehicleItems\PayloadRange.cs" />
-    <Compile Include="DataProviders\VehicleItems\ProvisionsStorage.cs" />
-    <Compile Include="DataProviders\VehicleItems\Stage.cs" />
-    <Compile Include="DataProviders\VehicleItems\Trajectory.cs" />
-    <Compile Include="DataProviders\VehicleItems\VehicleCapability.cs" />
-    <Compile Include="DataProviders\VehicleItems\VehicleNote.cs" />
-    <Compile Include="DataProviders\VehicleItems\WasteStorage.cs" />
-    <Compile Include="DataProviders\VehicleTypes\CrewedVehicle.cs" />
-    <Compile Include="DataProviders\VehicleTypes\LaunchVehicle.cs" />
-    <Compile Include="DataProviders\VehicleTypes\Vehicle.cs" />
-    <Compile Include="Interfaces\ICrewable.cs" />
-    <Compile Include="Interfaces\IHasDeltaV.cs" />
-    <Compile Include="Interfaces\IManeuver.cs" />
-    <Compile Include="Interfaces\ISetting.cs" />
+    <Compile Include="DataProviders\ApplicationSettings.cs" />
+    <Compile Include="DataProviders\Fairing.cs" />
+    <Compile Include="DataProviders\PacificationOption.cs" />
+    <Compile Include="DataProviders\Payload.cs" />
+    <Compile Include="DataProviders\PayloadDimensions.cs" />
+    <Compile Include="DataProviders\PayloadRange.cs" />
+    <Compile Include="DataProviders\Trajectory.cs" />
+    <Compile Include="DataProviders\Capability.cs" />
+    <Compile Include="DataProviders\Note.cs" />
+    <Compile Include="Interfaces\IDataController.cs" />
+    <Compile Include="Interfaces\INotepad.cs" />
+    <Compile Include="Interfaces\IPacifiable.cs" />
+    <Compile Include="Interfaces\IPreview.cs" />
+    <Compile Include="Interfaces\ITaggable.cs" />
     <Compile Include="Interfaces\IValuable.cs" />
     <Compile Include="Interfaces\IVehicle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

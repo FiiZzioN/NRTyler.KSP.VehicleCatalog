@@ -5,51 +5,33 @@
 // Created          : 10-01-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 10-01-2017
+// Last Modified On : 12-26-2017
 //
 // License          : MIT License
 // ***********************************************************************
 
-using System.Collections.Generic;
-using NRTyler.KSP.Common.Enums;
-using NRTyler.KSP.VehicleCatalog.Models.DataProviders.VehicleItems;
-
 namespace NRTyler.KSP.VehicleCatalog.Models.Interfaces
 {
-	/// <summary>
-	/// Contains items that any type of vehicle should have.
-	/// </summary>
-	/// <seealso cref="IValuable" />
-	public interface IVehicle : IHasDeltaV, IValuable
+    /// <summary>
+    /// Contains items that any vehicle in the catalog should have.
+    /// </summary>
+    /// <seealso cref="NRTyler.KSP.VehicleCatalog.Models.Interfaces.IValuable" />
+    /// <seealso cref="NRTyler.KSP.VehicleCatalog.Models.Interfaces.IPreview" />
+    /// <seealso cref="NRTyler.KSP.VehicleCatalog.Models.Interfaces.INotepad" />
+    /// <seealso cref="NRTyler.KSP.VehicleCatalog.Models.Interfaces.IPacifiable" />
+    /// <seealso cref="NRTyler.KSP.VehicleCatalog.Models.Interfaces.ITaggable" />
+    /// <seealso cref="IValuable" />
+    public interface IVehicle : IValuable, IPreview, INotepad, IPacifiable, ITaggable
 	{
 		/// <summary>
-		/// Gets or sets the vehicle's the name.
+		/// Gets or sets the vehicle's name.
 		/// </summary>
 		string Name { get; set; }
 
-		/// <summary>
-		/// Gets or sets the vehicle's dry mass.
-		/// </summary>
-		double DryMass { get; set; }
+	    /// <summary>
+	    /// Gets or sets where the save file of this <see cref="object"/> is located.
+	    /// </summary>
+        string SaveFileLocation { get; set; }
 
-		/// <summary>
-		/// Gets or sets vehicle's the wet mass.
-		/// </summary>
-		double WetMass { get; set; }
-
-		/// <summary>
-		/// Gets or sets the vehicle's stage information.
-		/// </summary>
-		SortedDictionary<int, Stage> StageInfo { get; set; }
-
-		/// <summary>
-		/// Gets or sets the vehicles notes.
-		/// </summary>
-		List<VehicleNote> VehicleNotes { get; set; }
-
-		/// <summary>
-		/// Gets or sets the type of the vehicle.
-		/// </summary>
-		VehicleType VehicleType { get; set; }
-	}
+    }
 }
