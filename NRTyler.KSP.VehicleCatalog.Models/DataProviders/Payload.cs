@@ -5,63 +5,250 @@
 // Created          : 10-01-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 10-01-2017
+// Last Modified On : 12-26-2017
 //
 // License          : MIT License
 // ***********************************************************************
 
+using NRTyler.CodeLibrary.Annotations;
+using NRTyler.CodeLibrary.Extensions;
+using NRTyler.KSP.Common.Enums;
+using NRTyler.KSP.VehicleCatalog.Models.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using NRTyler.CodeLibrary.Annotations;
-using NRTyler.KSP.VehicleCatalog.Models.Interfaces;
+using System.Runtime.Serialization;
 
 namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 {
-	[Serializable]
-	public class Payload : INotifyPropertyChanged
+    /// <summary>
+    /// The item that a launch vehicle inserts into an orbit.
+    /// </summary>
+    /// <seealso cref="NRTyler.KSP.VehicleCatalog.Models.Interfaces.IVehicle" />
+    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
+    [Serializable]
+	[DataContract(Name = "Payload")]
+    public class Payload : IVehicle, INotifyPropertyChanged
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Payload"/> class.
 		/// </summary>
-		/// <param name="vehicle">The vehicle that is the payload for this mission.</param>
-		public Payload(IVehicle vehicle)
-		{
-			Vehicle = vehicle;
+		public Payload() : this("Name Not Specified")
+        {
+			
 		}
 
-		private IVehicle vehicle;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Payload"/> class.
+        /// </summary>
+        /// <param name="name">The name of the payload.</param>
+        public Payload(string name)
+	    {
+	        Name = name;
+	        VehicleType = VehicleType.Undefined;
+	    }
 
-		/// <summary>
-		/// Gets or sets the vehicle that is the payload for this mission.
-		/// </summary>
-		public IVehicle Vehicle
-		{
-			get { return this.vehicle; }
-			set
-			{
-				this.vehicle = value;
-				OnPropertyChanged(nameof(Vehicle));
-			}
-		}
+        #region Fields and Properties
 
-		#region INotifyPropertyChanged Members
+	    private int mass;
+	    private double deltav;
+	    private VehicleType vehicleType;
+	    private PayloadDimensions dimensions;
 
-		/// <summary>
-		/// Occurs when a property value changes.
-		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Gets or sets the wet mass of the payload.
+        /// </summary>
+        [DataMember]
+        public int Mass
+	    {
+	        get { return this.mass; }
+            set
+            {
+                this.mass = value; 
+                OnPropertyChanged(nameof(Mass));
+            }
+	    }
 
-		/// <summary>
-		/// Called when [property changed].
-		/// </summary>
-		/// <param name="propertyName">Name of the property.</param>
-		[NotifyPropertyChangedInvocator]
-		protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
+        /// <summary>
+        /// Gets or sets the payload's delta-v.
+        /// </summary>
+        [DataMember]
+        public double DeltaV
+	    {
+	        get { return this.deltav; }
+            set
+            {
+                this.deltav = value; 
+                OnPropertyChanged(nameof(DeltaV));
+            }
+	    }
 
-		#endregion
-	}
+        /// <summary>
+        /// Gets or sets the type of the vehicle.
+        /// </summary>
+        [DataMember]
+        public VehicleType VehicleType
+	    {
+	        get { return this.vehicleType; }
+            set
+            {
+                this.vehicleType = value; 
+                OnPropertyChanged(nameof(VehicleType));
+            }
+	    }
+
+        /// <summary>
+        /// Gets or sets this payload's dimensions.
+        /// </summary>
+        [DataMember]
+        public PayloadDimensions Dimensions
+        {
+            get { return this.dimensions ?? (this.dimensions = new PayloadDimensions()); }
+            set
+            {
+                if (value == null) return;
+
+                this.dimensions = value;
+                OnPropertyChanged(nameof(Dimensions));
+            }
+        }
+
+        #region IVehicle Members
+
+        private string name;
+        private List<Note> notes;
+        private List<PacificationOption> pacificationOptions;
+        private decimal price;
+        private string pictureLocation;
+        private string saveFileLocation;
+        private List<string> tags;
+
+        /// <summary>
+        /// Gets or sets the payload's name.
+        /// </summary>
+        [DataMember]
+        public string Name
+        {
+            get { return this.name; }
+            set
+            {
+                this.name = value.HandleNullOrWhiteSpace("Invalid Name");
+                OnPropertyChanged(nameof(Name));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the notes for this payload.
+        /// </summary>
+        [DataMember]
+        public List<Note> Notes
+        {
+            get { return this.notes ?? (this.notes = new List<Note>()); }
+            set
+            {
+                if (value == null) return;
+
+                this.notes = value;
+                OnPropertyChanged(nameof(Notes));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the pacification options available for this payload.
+        /// </summary>
+        [DataMember]
+        public List<PacificationOption> PacificationOptions
+        {
+            get { return this.pacificationOptions ?? (this.pacificationOptions = new List<PacificationOption>()); }
+            set
+            {
+                if (value == null) return;
+
+                this.pacificationOptions = value;
+                OnPropertyChanged(nameof(PacificationOptions));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the price of this payload.
+        /// </summary>
+        [DataMember]
+        public decimal Price
+        {
+            get { return this.price; }
+            set
+            {
+                this.price = value;
+                OnPropertyChanged(nameof(Price));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets where the preview picture of this payload is located.
+        /// </summary>
+        [DataMember]
+        public string PictureLocation
+        {
+            get { return this.pictureLocation; }
+            set
+            {
+                this.pictureLocation = value;
+                OnPropertyChanged(nameof(PictureLocation));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets where the save file of this payload is located.
+        /// </summary>
+        [DataMember]
+        public string SaveFileLocation
+        {
+            get { return this.saveFileLocation; }
+            set
+            {
+                this.saveFileLocation = value;
+                OnPropertyChanged(nameof(SaveFileLocation));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the tags that this payload contains.
+        /// </summary>
+        [DataMember]
+        public List<string> Tags
+        {
+            get { return this.tags ?? (this.tags = new List<string>()); }
+            set
+            {
+                if (value == null) return;
+
+                this.tags = value;
+                OnPropertyChanged(nameof(Tags));
+            }
+        }
+
+	    #endregion
+
+        #endregion
+
+        #region INotifyPropertyChanged Members
+
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Called when [property changed].
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        [NotifyPropertyChangedInvocator]
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+    }
 }

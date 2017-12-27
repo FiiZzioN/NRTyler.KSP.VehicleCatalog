@@ -5,17 +5,17 @@
 // Created          : 10-01-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 10-01-2017
+// Last Modified On : 12-26-2017
 //
 // License          : MIT License
 // ***********************************************************************
 
+using NRTyler.CodeLibrary.Annotations;
+using NRTyler.CodeLibrary.Extensions;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using NRTyler.CodeLibrary.Annotations;
-using NRTyler.CodeLibrary.Extensions;
 
 namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 {
@@ -30,10 +30,9 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// <summary>
         /// Initializes a new instance of the <see cref="Note"/> class.
         /// </summary>
-        public Note()
+        public Note() : this (null, null)
 		{
-			Title = null;
-			Body  = null;
+
 		}
 
         /// <summary>
@@ -54,7 +53,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// <param name="body">The note's body.</param>
         public Note(string title, string body)
 	    {
-	        Title = title;
+	        Title = title.HandleNullOrWhiteSpace("Title Not Set");
 	        Body  = body;
 	    }
 

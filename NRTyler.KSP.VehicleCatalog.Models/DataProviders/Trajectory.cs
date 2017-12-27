@@ -5,18 +5,20 @@
 // Created          : 10-01-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 12-25-2017
+// Last Modified On : 12-26-2017
 //
 // License          : MIT License
 // ***********************************************************************
 
 using NRTyler.CodeLibrary.Annotations;
 using NRTyler.CodeLibrary.Extensions;
+using NRTyler.KSP.Common.Enums;
 using NRTyler.KSP.Common.Interfaces;
 using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 
 namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 {
@@ -25,6 +27,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
     /// </summary>
     /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
     [Serializable]
+    [DataContract(Name = "Trajectory")]
 	public class Trajectory : IOrbit, INotifyPropertyChanged
 	{
 		#region Constructors
@@ -32,8 +35,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Trajectory"/> class.
 		/// </summary>
-		public Trajectory() 
-            : this("Name Not Provided", 0, 0, 0, 0)
+		public Trajectory() : this(OrbitType.Undefined, 0, 0, 0, 0)
 		{
 
 		}
@@ -41,21 +43,21 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// <summary>
         /// Initializes a new instance of the <see cref="Trajectory" /> class.
         /// </summary>
-        /// <param name="name">The name that this trajectory will go by.</param>
+        /// <param name="orbitType">The type of this trajectory.</param>
         /// <param name="apoapsis">The orbit's apoapsis.</param>
         /// <param name="periapsis">The orbit's periapsis.</param>
         /// <param name="inclination">The orbit's inclination.</param>
         /// <param name="requiredDeltaV">Gets or sets the required amount of delta-v to reach the specified orbit.</param>
-        public Trajectory(string name, double apoapsis, double periapsis, double inclination, double requiredDeltaV)
+        public Trajectory(OrbitType orbitType, double apoapsis, double periapsis, double inclination, double requiredDeltaV)
         {
-            Name = name.HandleNullOrWhiteSpace("Name Not Provided");
+            OrbitType = orbitType;
 		    SetOrbitParameters(apoapsis, periapsis, inclination);
 		    RequiredDeltaV = requiredDeltaV;
         }
 
         #endregion
 
-	    private string name;
+	    private OrbitType orbitType;
         private double apoapsis;
 	    private double periapsis;
 	    private double inclination;
@@ -64,21 +66,23 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         #region Properties
 
         /// <summary>
-        /// Gets or sets the name of this trajectory.
+        /// Gets or sets the type of this trajectory.
         /// </summary>
-        public string Name
-	    {
-	        get { return this.name; }
+        [DataMember]
+        public OrbitType OrbitType
+        {
+	        get { return this.orbitType; }
 	        set
 	        {
-	            this.name = value.HandleNullOrWhiteSpace("Invalid Name");
-	            OnPropertyChanged(nameof(Name));
+	            this.orbitType = value;
+	            OnPropertyChanged(nameof(OrbitType));
 	        }
 	    }
 
         /// <summary>
         /// Gets or sets the targeted apoapsis.
         /// </summary>
+        [DataMember]
         public double Apoapsis
 	    {
 	        get { return this.apoapsis; }
@@ -91,10 +95,11 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 	        }
 	    }
 
-	    /// <summary>
-	    /// Gets or sets the targeted periapsis.
-	    /// </summary>
-	    public double Periapsis
+        /// <summary>
+        /// Gets or sets the targeted periapsis.
+        /// </summary>
+        [DataMember]
+        public double Periapsis
 	    {
 	        get { return this.periapsis; }
 	        set
@@ -106,10 +111,11 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 	        }
 	    }
 
-	    /// <summary>
-	    /// Gets or sets the targeted inclination.
-	    /// </summary>
-	    public double Inclination
+        /// <summary>
+        /// Gets or sets the targeted inclination.
+        /// </summary>
+        [DataMember]
+        public double Inclination
 	    {
 	        get { return this.inclination; }
 	        set
@@ -125,6 +131,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// <summary>
         /// Gets or sets the required amount of delta-v to reach the targeted orbit.
         /// </summary>
+        [DataMember]
         public double RequiredDeltaV
 		{
 			get { return this.requiredDeltaV; }
@@ -145,7 +152,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 		/// <returns>A string that represents the current object.</returns>
 		public override string ToString()
 		{
-		    var nameUpper    = Name.ToUpper();
+		    var nameUpper    = OrbitType.GetLabel().ToUpper();
             var gtoString    = $"{Apoapsis:n0}km x {Periapsis:n0}km @ {Inclination:n1}° Inclination";
             var normalString = $"{Apoapsis:n0}km @ {Inclination}° Inclination";
 

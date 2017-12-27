@@ -75,9 +75,12 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 	        get { return this.length; }
 	        set
 	        {
-	            if (value < 0) return;
+	            if (value < 0)
+	            {
+	                value = null;
+	            }
 
-	            this.length = value;
+                this.length = value;
 	            OnPropertyChanged(nameof(Length));
 	        }
 	    }
@@ -91,9 +94,12 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 	        get { return this.diameter; }
 	        set
 	        {
-	            if (value < 0) return;
+	            if (value < 0)
+	            {
+	                value = null;
+	            }
 
-	            this.diameter = value;
+                this.diameter = value;
 	            OnPropertyChanged(nameof(Diameter));
 	        }
 	    }

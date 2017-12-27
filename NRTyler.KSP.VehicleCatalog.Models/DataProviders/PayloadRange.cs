@@ -5,16 +5,16 @@
 // Created          : 07-14-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 12-20-2017
+// Last Modified On : 12-26-2017
 //
 // License          : MIT License
 // ***********************************************************************
 
+using NRTyler.CodeLibrary.Annotations;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using NRTyler.CodeLibrary.Annotations;
 
 namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 {
@@ -27,6 +27,14 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
     [DataContract(Name = "PayloadRange")]
     public class PayloadRange : INotifyPropertyChanged
 	{
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PayloadRange"/> class.
+        /// </summary>
+        public PayloadRange() : this (0, 0)
+	    {
+	        
+	    }
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PayloadRange"/> class.
 		/// </summary>

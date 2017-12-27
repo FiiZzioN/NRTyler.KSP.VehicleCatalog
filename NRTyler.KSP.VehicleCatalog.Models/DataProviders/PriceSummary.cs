@@ -1,12 +1,12 @@
-﻿// ***********************************************************************
+﻿// ************************************************************************
 // Assembly         : NRTyler.KSP.VehicleCatalog.Models
-//
+// 
 // Author           : Nicholas Tyler
-// Created          : 12-24-2017
-//
+// Created          : 12-26-2017
+// 
 // Last Modified By : Nicholas Tyler
 // Last Modified On : 12-26-2017
-//
+// 
 // License          : MIT License
 // ***********************************************************************
 
@@ -19,64 +19,60 @@ using System.Runtime.Serialization;
 namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 {
     /// <summary>
-    /// Holds the various dimensions of a <see cref="Payload"/>.
+    /// Holds the cheapest and most expensive price that's found in a vehicle family.
     /// </summary>
     /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
     [Serializable]
-    [DataContract(Name = "PayloadDimensions")]
-    public class PayloadDimensions : INotifyPropertyChanged
+    [DataContract(Name = "PriceSummary")]
+    public class PriceSummary : INotifyPropertyChanged
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PayloadDimensions"/> class.
+        /// Initializes a new instance of the <see cref="PriceSummary"/> class.
         /// </summary>
-        public PayloadDimensions() : this(0, 0)
+        public PriceSummary() : this (0, 0)
         {
             
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PayloadDimensions"/> class.
+        /// Initializes a new instance of the <see cref="PriceSummary" /> class.
         /// </summary>
-        /// <param name="length">The length of the <see cref="Payload"/>.</param>
-        /// <param name="diameter">The diameter of the <see cref="Payload"/>.</param>
-        public PayloadDimensions(double length, double diameter)
+        /// <param name="cheapest">The cheapest price.</param>
+        /// <param name="mostExpensive">The most expensive price.</param>
+        public PriceSummary(decimal cheapest, decimal mostExpensive)
         {
-            Length   = length;
-            Diameter = diameter;
+            Cheapest      = cheapest;
+            MostExpensive = mostExpensive;
         }
-        
-        private double length;
-        private double diameter;
+
+        private decimal cheapest;
+        private decimal mostExpensive;
 
         /// <summary>
-        /// Gets or sets the length of the <see cref="Payload"/>.
+        /// Gets or sets the cheapest price found in the family.
         /// </summary>
         [DataMember]
-        public double Length
+        public decimal Cheapest
         {
-            get { return this.length; }
+            get { return this.cheapest; }
             set
             {
-                if (value < 0) return;
-
-                this.length = value; 
-                OnPropertyChanged(nameof(Length));
+                this.cheapest = value;
+                OnPropertyChanged(nameof(Cheapest));
             }
         }
 
         /// <summary>
-        /// Gets or sets the diameter of the <see cref="Payload"/>.
+        /// Gets or sets the most expensive price found in the family.
         /// </summary>
         [DataMember]
-        public double Diameter
+        public decimal MostExpensive
         {
-            get { return this.diameter; }
+            get { return this.mostExpensive; }
             set
             {
-                if (value < 0) return;
-
-                this.diameter = value; 
-                OnPropertyChanged(nameof(Diameter));
+                this.mostExpensive = value;
+                OnPropertyChanged(nameof(MostExpensive));
             }
         }
 

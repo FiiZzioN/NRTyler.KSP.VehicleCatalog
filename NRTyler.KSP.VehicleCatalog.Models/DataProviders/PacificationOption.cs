@@ -5,70 +5,59 @@
 // Created          : 10-01-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 10-01-2017
+// Last Modified On : 12-26-2017
 //
 // License          : MIT License
 // ***********************************************************************
 
+using NRTyler.CodeLibrary.Annotations;
+using NRTyler.KSP.Common.Enums;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using NRTyler.CodeLibrary.Annotations;
-using NRTyler.CodeLibrary.Utilities;
-using NRTyler.KSP.Common.Enums;
-using NRTyler.KSP.VehicleCatalog.Models.Interfaces;
+using System.Runtime.Serialization;
 
 namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 {
-	/// <summary>
-	/// Contains pacification information such as the type and the amount of delta v required for such a maneuver.
-	/// </summary>
-	/// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
-	/// <seealso cref="IManeuver" />
-	[Serializable]
-	public class PacificationOption : INotifyPropertyChanged, IManeuver
+    /// <summary>
+    /// Contains pacification information for a vehicle's final stage of a payload once it's passed its lifespan.
+    /// </summary>
+    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
+    [Serializable]
+    [DataContract(Name = "PacificationOption")]
+	public class PacificationOption : INotifyPropertyChanged
 	{
 		#region Constructors
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PacificationOption"/> class.
 		/// </summary>
-		public PacificationOption()
+		public PacificationOption() : this (PacificationType.Undefined, 0)
 		{
 
 		}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="PacificationOption"/> class.
-		/// </summary>
-		/// <param name="pacificationType">The pacification type.</param>
-		public PacificationOption(PacificationType pacificationType) : this(pacificationType, 0)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PacificationOption" /> class.
+        /// </summary>
+        /// <param name="pacificationType">The pacification type.</param>
+        /// <param name="requiredDeltaV">The required amount of delta-v to accomplish this pacification type.</param>
+        public PacificationOption(PacificationType pacificationType, double requiredDeltaV)
 		{
-
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="PacificationOption"/> class.
-		/// </summary>
-		/// <param name="pacificationType">The pacification type.</param>
-		/// <param name="requiredDeltaV">The required delta v.</param>
-		public PacificationOption(PacificationType pacificationType, double requiredDeltaV)
-		{
-			this.PacificationType = pacificationType;
-			this.RequiredDeltaV   = requiredDeltaV;
+		    PacificationType = pacificationType;
+		    RequiredDeltaV   = requiredDeltaV;
 		}
 
 		#endregion
 
 		private PacificationType pacificationType;
-		private double requiredDeltaV;
+	    private double requiredDeltaV;
 
-		#region Properties
-
-		/// <summary>
-		/// Gets or sets the pacification type.
-		/// </summary>
-		/// <value>The type of the pacification.</value>
+        /// <summary>
+        /// Gets or sets the pacification type.
+        /// </summary>
+        /// <value>The type of the pacification.</value>
+        [DataMember]
 		public PacificationType PacificationType
 		{
 			get { return this.pacificationType; }
@@ -79,44 +68,28 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 			}
 		}
 
-		/// <summary>
-		/// Gets or sets the required amount of delta v to accomplish the pacification type.
-		/// </summary>
-		/// <value>The required delta v.</value>
-		public double RequiredDeltaV
-		{
-			get { return this.requiredDeltaV; }
-			set
-			{
-				if (value < 0) return;
+        /// <summary>
+        /// Gets or sets the required amount of delta-v to accomplish this pacification type.
+        /// </summary>
+        [DataMember]
+        public double RequiredDeltaV
+	    {
+	        get { return this.requiredDeltaV; }
+	        set
+	        {
+	            if (value < 0) return;
 
-				this.requiredDeltaV = value;
-				OnPropertyChanged(nameof(RequiredDeltaV));
-			}
-		}
+	            this.requiredDeltaV = value;
+	            OnPropertyChanged(nameof(RequiredDeltaV));
+	        }
+	    }
 
-		#endregion
+        #region INotifyPropertyChanged Members
 
-		#region Overrides of Object
-
-		/// <summary>Returns a string that represents the current object.</summary>
-		/// <returns>A string that represents the current object.</returns>
-		public override string ToString()
-		{
-			var oldString = $"Pacification Type: {StringLabel.GetLabel(this.PacificationType)}@Required DeltaV: {this.RequiredDeltaV}";
-			var newString = oldString.Replace("@", "\n");
-
-			return newString;
-		}
-
-		#endregion
-
-		#region INotifyPropertyChanged Members
-
-		/// <summary>
-		/// Occurs when a property value changes.
-		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
 		/// <summary>
 		/// Called when [property changed].

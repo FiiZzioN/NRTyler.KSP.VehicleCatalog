@@ -91,7 +91,7 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests.DataProviderTests
 			var expected = "GTO";
 
 			//Act
-			var actual = parameters.Name;
+			var actual = parameters.OrbitType;
 
 			//Assert
 			Assert.AreEqual(expected, actual);
@@ -105,7 +105,7 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests.DataProviderTests
 			var expected = "Invalid Title";
 
 			//Act
-			var actual = parameters.Name;
+			var actual = parameters.OrbitType;
 
 			//Assert
 			Assert.AreEqual(expected, actual);

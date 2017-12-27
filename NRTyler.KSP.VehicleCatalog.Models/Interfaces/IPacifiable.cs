@@ -10,6 +10,7 @@
 // License          : MIT License
 // ***********************************************************************
 
+using System.Collections.Generic;
 using NRTyler.KSP.VehicleCatalog.Models.DataProviders;
 
 namespace NRTyler.KSP.VehicleCatalog.Models.Interfaces
@@ -23,6 +24,6 @@ namespace NRTyler.KSP.VehicleCatalog.Models.Interfaces
         /// <summary>
         /// Gets or sets the pacification options available for this <see cref="object"/>.
         /// </summary>
-        PacificationOption PacificationOptions { get; set; }
+        List<PacificationOption> PacificationOptions { get; set; }
     }
 }

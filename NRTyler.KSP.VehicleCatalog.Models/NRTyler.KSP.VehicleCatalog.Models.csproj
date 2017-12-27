@@ -47,7 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataControllers\VehicleController.cs" />
+    <Compile Include="DataControllers\SearchController.cs" />
+    <Compile Include="DataControllers\SummaryController.cs" />
+    <Compile Include="DataProviders\FairingSummary.cs" />
     <Compile Include="DataProviders\Launcher.cs" />
     <Compile Include="DataProviders\Orbit.cs" />
     <Compile Include="DataProviders\ApplicationSettings.cs" />
@@ -56,9 +58,13 @@
     <Compile Include="DataProviders\Payload.cs" />
     <Compile Include="DataProviders\PayloadDimensions.cs" />
     <Compile Include="DataProviders\PayloadRange.cs" />
+    <Compile Include="DataProviders\PriceSummary.cs" />
+    <Compile Include="DataProviders\Summary.cs" />
     <Compile Include="DataProviders\Trajectory.cs" />
     <Compile Include="DataProviders\Capability.cs" />
     <Compile Include="DataProviders\Note.cs" />
+    <Compile Include="DataProviders\PayloadRangeSummary.cs" />
+    <Compile Include="DataProviders\VehicleFamily.cs" />
     <Compile Include="Interfaces\IDataController.cs" />
     <Compile Include="Interfaces\INotepad.cs" />
     <Compile Include="Interfaces\IPacifiable.cs" />

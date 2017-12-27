@@ -30,6 +30,10 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
             
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Launcher"/> class.
+        /// </summary>
+        /// <param name="name">The name of the launcher.</param>
         public Launcher(string name)
         {
             Name = name;
@@ -37,9 +41,63 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 
         #region Fields and Properties
 
+        private List<Fairing> fairings;
+        private List<Capability> capabilities;
+        private PayloadDimensions maxPayloadDimensions;
+
+        /// <summary>
+        /// Gets or sets this vehicle's fairing options.
+        /// </summary>
+        [DataMember]
+        public List<Fairing> Fairings
+        {
+            get { return this.fairings ?? (this.fairings = new List<Fairing>()); }
+            set
+            {
+                if (value == null) return;
+
+                this.fairings = value;
+                OnPropertyChanged(nameof(Fairings));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets this vehicle's launch capabilities.
+        /// </summary>
+        [DataMember]
+        public List<Capability> Capabilities
+        {
+            get { return this.capabilities ?? (this.capabilities = new List<Capability>()); }
+            set
+            {
+                if (value == null) return;
+
+                this.capabilities = value;
+                OnPropertyChanged(nameof(Capabilities));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets this vehicle's maximum payload dimensions.
+        /// </summary>
+        [DataMember]
+        public PayloadDimensions MaxPayloadDimensions
+        {
+            get { return this.maxPayloadDimensions ?? (this.maxPayloadDimensions = new PayloadDimensions()); }
+            set
+            {
+                if (value == null) return;
+
+                this.maxPayloadDimensions = value;
+                OnPropertyChanged(nameof(MaxPayloadDimensions));
+            }
+        }
+
+        #region IVehicle Members
+
         private string name;
         private List<Note> notes;
-        private PacificationOption pacificationOptions;
+        private List<PacificationOption> pacificationOptions;
         private decimal price;
         private string pictureLocation;
         private string saveFileLocation;
@@ -68,6 +126,8 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
             get { return this.notes ?? (this.notes = new List<Note>()); }
             set
             {
+                if (value == null) return;
+
                 this.notes = value;
                 OnPropertyChanged(nameof(Notes));
             }
@@ -77,12 +137,14 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// Gets or sets the pacification options available for this vehicle.
         /// </summary>
         [DataMember]
-        public PacificationOption PacificationOptions
+        public List<PacificationOption> PacificationOptions
         {
-            get { return this.pacificationOptions; }
+            get { return this.pacificationOptions ?? (this.pacificationOptions = new List<PacificationOption>()); }
             set
             {
-                this.pacificationOptions = value; 
+                if (value == null) return;
+
+                this.pacificationOptions = value;
                 OnPropertyChanged(nameof(PacificationOptions));
             }
         }
@@ -138,10 +200,14 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
             get { return this.tags ?? (this.tags = new List<string>()); }
             set
             {
+                if (value == null) return;
+
                 this.tags = value;
                 OnPropertyChanged(nameof(Tags));
             }
         }
+
+        #endregion
 
         #endregion
 

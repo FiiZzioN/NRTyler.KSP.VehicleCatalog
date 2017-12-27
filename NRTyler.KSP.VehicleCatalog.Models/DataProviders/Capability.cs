@@ -5,24 +5,24 @@
 // Created          : 10-01-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 10-01-2017
+// Last Modified On : 12-26-2017
 //
 // License          : MIT License
 // ***********************************************************************
 
+using NRTyler.CodeLibrary.Annotations;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using NRTyler.CodeLibrary.Annotations;
 
 namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 {
-	/// <summary>
-	/// Holds information containing what a launch vehicle can lift and where it can place it's payload.
-	/// </summary>
-	/// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
-	[Serializable]
+    /// <summary>
+    /// Holds information containing what a launch vehicle can lift and where it can place its payload.
+    /// </summary>
+    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
+    [Serializable]
     [DataContract(Name = "Capability")]
 	public class Capability : INotifyPropertyChanged
 	{
@@ -49,8 +49,10 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 			get { return this.payloadRange; }
 			set
 			{
-				this.payloadRange = value;
-				OnPropertyChanged(nameof(PayloadRange));
+			    if (value == null) return;
+
+                this.payloadRange = value;
+			    OnPropertyChanged(nameof(PayloadRange));
 			}
 		}
 
@@ -63,8 +65,10 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 			get { return this.trajectory; }
 			set
 			{
-				this.trajectory = value;
-				OnPropertyChanged(nameof(Trajectory));
+			    if (value == null) return;
+
+                this.trajectory = value;
+			    OnPropertyChanged(nameof(Trajectory));
 			}
 		}
 

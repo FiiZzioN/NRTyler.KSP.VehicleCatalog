@@ -1,16 +1,17 @@
-﻿// ***********************************************************************
+﻿// ************************************************************************
 // Assembly         : NRTyler.KSP.VehicleCatalog.Models
-//
+// 
 // Author           : Nicholas Tyler
-// Created          : 12-24-2017
-//
+// Created          : 12-26-2017
+// 
 // Last Modified By : Nicholas Tyler
 // Last Modified On : 12-26-2017
-//
+// 
 // License          : MIT License
 // ***********************************************************************
 
 using NRTyler.CodeLibrary.Annotations;
+using NRTyler.KSP.Common.Enums;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -19,64 +20,62 @@ using System.Runtime.Serialization;
 namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 {
     /// <summary>
-    /// Holds the various dimensions of a <see cref="Payload"/>.
+    /// Holds the weight range that a payload can be for a given orbit type in a vehicle family.
     /// </summary>
     /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
     [Serializable]
-    [DataContract(Name = "PayloadDimensions")]
-    public class PayloadDimensions : INotifyPropertyChanged
+    [DataContract(Name = "PayloadRangeSummary")]
+    public class PayloadRangeSummary : INotifyPropertyChanged
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PayloadDimensions"/> class.
+        /// Initializes a new instance of the <see cref="PayloadRangeSummary"/> class.
         /// </summary>
-        public PayloadDimensions() : this(0, 0)
+        public PayloadRangeSummary() : this(OrbitType.Undefined, new PayloadRange())
         {
             
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PayloadDimensions"/> class.
+        /// Initializes a new instance of the <see cref="PayloadRangeSummary"/> class.
         /// </summary>
-        /// <param name="length">The length of the <see cref="Payload"/>.</param>
-        /// <param name="diameter">The diameter of the <see cref="Payload"/>.</param>
-        public PayloadDimensions(double length, double diameter)
+        /// <param name="orbitType">The type of the trajectory this summary represents.</param>
+        /// <param name="payloadRange">The weight range for the given orbit type in a vehicle family.</param>
+        public PayloadRangeSummary(OrbitType orbitType, PayloadRange payloadRange)
         {
-            Length   = length;
-            Diameter = diameter;
+            OrbitType = orbitType;
+            PayloadRange = payloadRange;
         }
-        
-        private double length;
-        private double diameter;
+
+        private OrbitType orbitType;
+        private PayloadRange payloadRange;
 
         /// <summary>
-        /// Gets or sets the length of the <see cref="Payload"/>.
+        /// Gets or sets the type of the trajectory this summary represents.
         /// </summary>
         [DataMember]
-        public double Length
+        public OrbitType OrbitType
         {
-            get { return this.length; }
+            get { return this.orbitType; }
             set
             {
-                if (value < 0) return;
-
-                this.length = value; 
-                OnPropertyChanged(nameof(Length));
+                this.orbitType = value;
+                OnPropertyChanged(nameof(OrbitType));
             }
         }
 
         /// <summary>
-        /// Gets or sets the diameter of the <see cref="Payload"/>.
+        /// Gets or sets the weight range that a payload can be for the given orbit type in a vehicle family.
         /// </summary>
         [DataMember]
-        public double Diameter
+        public PayloadRange PayloadRange
         {
-            get { return this.diameter; }
+            get { return this.payloadRange; }
             set
             {
-                if (value < 0) return;
+                if (value == null) return;
 
-                this.diameter = value; 
-                OnPropertyChanged(nameof(Diameter));
+                this.payloadRange = value;
+                OnPropertyChanged(nameof(PayloadRange));
             }
         }
 

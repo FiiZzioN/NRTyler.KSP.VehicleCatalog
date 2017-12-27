@@ -2,10 +2,10 @@
 // Assembly         : NRTyler.KSP.VehicleCatalog.Models
 // 
 // Author           : Nicholas Tyler
-// Created          : 12-22-2017
+// Created          : 12-27-2017
 // 
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 12-22-2017
+// Last Modified On : 12-27-2017
 // 
 // License          : MIT License
 // ***********************************************************************
@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
 {
-    public class VehicleController
+    public class SearchController
     {
         
     }
