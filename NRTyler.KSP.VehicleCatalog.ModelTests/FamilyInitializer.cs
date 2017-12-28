@@ -1,23 +1,20 @@
-﻿// ************************************************************************
+﻿// ***********************************************************************
 // Assembly         : NRTyler.KSP.VehicleCatalog.ModelTests
-// 
+//
 // Author           : Nicholas Tyler
 // Created          : 12-27-2017
-// 
+//
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 12-27-2017
-// 
+// Last Modified On : 12-28-2017
+//
 // License          : MIT License
 // ***********************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NRTyler.KSP.Common.Enums;
+using NRTyler.KSP.VehicleCatalog.Models.DataControllers;
 using NRTyler.KSP.VehicleCatalog.Models.DataProviders;
+using System.Collections.Generic;
 
 namespace NRTyler.KSP.VehicleCatalog.ModelTests
 {
@@ -36,12 +33,7 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         /// Gets or sets the <see cref="LauncherCollection"/> that various <see langword="unit tests"/> can use.
         /// </summary>
         protected virtual LauncherCollection Collection { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref= "Launcher"/> that various<see langword="unit tests"/> can use.
-        /// </summary>
-        protected virtual Launcher Launcher { get; set; }
-
+        
         #endregion
 
         #region Launcher, LauncherCollection, and VehicleFamily Creation Methods
@@ -49,7 +41,7 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         #region Family Member Creation
 
         /// <summary>
-        /// Creates the family that's used in the test initializer.
+        /// Creates the <see cref="VehicleFamily"/> that's used in the test initializer.
         /// </summary>
         protected virtual VehicleFamily CreateVehicleFamily()
         {
@@ -57,12 +49,12 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
             {
                 Notes           = CreateFamilyNotes(),
                 PreviewLocation = CreateFamilyPreviewLocation(),
-                Summary         = CreateFamilySummary(),
             };
 
+            // Add the collection(s) to the family and then create the summary.
+            family.Add(CreateCollection());
 
-
-
+            family.Summary = CreateFamilySummary();
 
             return family;
         }
@@ -99,11 +91,18 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         }
 
         /// <summary>
-        /// Create the preview file location for the <see cref="Models.DataProviders.VehicleFamily"/>.
+        /// Create the summary for the <see cref="Models.DataProviders.VehicleFamily"/>.
         /// </summary>
         protected virtual Summary CreateFamilySummary()
         {
-            return new Summary();
+            var summary = new Summary
+            {
+                NumberOfVerisons = Family.GetNumberOfVersions(),
+                PriceSummary     = Family.GetPriceSummary(),
+                FairingSummary   = Family.GetFairingSummary(),
+            };
+
+            return summary;
         }
 
         #endregion
@@ -111,16 +110,22 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         #region Launcher Collection Member Creation
 
         /// <summary>
-        /// Creates the star that's used in the test initializer.
+        /// Creates the <see cref="LauncherCollection"/> that's used in the test initializer.
         /// </summary>
         protected virtual LauncherCollection CreateCollection()
         {
             var collection = new LauncherCollection(CreateCollectionName())
             {
                 Notes           = CreateCollectionNotes(),
-                PreviewLocation = CreateCollectionPreviewLocation(),
-                Summary         = CreateCollectionSummary(),
+                PreviewLocation = CreateCollectionPreviewLocation()
             };
+
+            // Add the launcher(s) to the collection and then create the summary.
+            collection.Add(CreateAngaraA5());
+            collection.Add(CreateAngaraA5BrizM());
+            collection.Add(CreateAngaraA5KVTK());
+
+            collection.Summary = CreateCollectionSummary();
 
             return collection;
         }
@@ -130,7 +135,7 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         /// </summary>
         protected virtual string CreateCollectionName()
         {
-            return "Angara A5";
+            return "A5";
         }
 
         /// <summary>
@@ -157,11 +162,18 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         }
 
         /// <summary>
-        /// Create the preview file location for the <see cref="LauncherCollection"/>.
+        /// Create the summary for the <see cref="LauncherCollection"/>.
         /// </summary>
         protected virtual Summary CreateCollectionSummary()
         {
-            return new Summary();
+            var summary = new Summary
+            {
+                NumberOfVerisons = Collection.GetNumberOfVersions(),
+                PriceSummary     = Collection.GetPriceSummary(),
+                FairingSummary   = Collection.GetFairingSummary(),
+            };
+
+            return summary;
         }
 
         #endregion
@@ -173,6 +185,7 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         /// </summary>
         protected Launcher CreateAngaraA5()
         {
+            // Looks complicated, but all it's doing is holding the information that makes up an Angara A5 Rocket.
             var launcher = new Launcher()
             {
                 Name = "Angara A5",
@@ -288,6 +301,8 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         /// </summary>
         protected Launcher CreateAngaraA5BrizM()
         {
+            // Looks complicated, but all it's doing is holding the information 
+            // that makes up an Angara A5 rocket with a Briz-M upper stage.
             var launcher = new Launcher()
             {
                 Name = "Angara A5 Briz-M",
@@ -404,6 +419,8 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         /// </summary>
         protected Launcher CreateAngaraA5KVTK()
         {
+            // Looks complicated, but all it's doing is holding the information 
+            // that makes up an Angara A5 rocket with a cryogenic KVTK upper stage.
             var launcher = new Launcher()
             {
                 Name = "Angara A5 KVTK",
@@ -515,8 +532,6 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
             return launcher;
         }
 
-
-
         #endregion
 
         #endregion
@@ -529,7 +544,8 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         [TestInitialize]
         public virtual void SetupFamily()
         {
-            Family = CreateVehicleFamily();
+            Family     = CreateVehicleFamily();
+            Collection = CreateCollection();
         }
 
         #endregion

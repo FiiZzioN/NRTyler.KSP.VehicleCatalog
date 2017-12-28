@@ -25,18 +25,18 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
         /// <summary>
         /// Gets the number of versions of vehicles in the vehicle family.
         /// </summary>
-        private static int GetNumberOfVersions(this ICollection collection)
+        public static int GetNumberOfVersions(this ICollection collection)
         {
             return collection.Count;
         }
 
-        public static PriceSummary GetPriceSummary(this IEnumerable<LauncherCollection> launcherCollection)
+        public static PriceSummary GetPriceSummary(this IEnumerable<LauncherCollection> collection)
         {
             // The reason for this is 'cheapest' can only go lower and 'mostExpensive' can only go higher.
             var cheapest      = decimal.MaxValue;
             var mostExpensive = decimal.MinValue;
 
-            foreach (var launcher in launcherCollection)
+            foreach (var launcher in collection)
             {
                 // Get's the price summary for the version.
                 var priceSummary = launcher.GetPriceSummary();
@@ -49,13 +49,13 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
             return new PriceSummary(cheapest, mostExpensive);
         }
 
-        public static PriceSummary GetPriceSummary(this IEnumerable<Launcher> launchers)
+        public static PriceSummary GetPriceSummary(this IEnumerable<Launcher> collection)
         {
             // The reason for this is 'cheapest' can only go lower and 'mostExpensive' can only go higher.
             var cheapest      = decimal.MaxValue;
             var mostExpensive = decimal.MinValue;
 
-            foreach (var launcher in launchers)
+            foreach (var launcher in collection)
             {
                 // If the price is less than the current 'cheapest' value, then replace it with the cheaper value.
                 if (launcher.Price < cheapest)
@@ -72,5 +72,72 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
 
             return new PriceSummary(cheapest, mostExpensive);
         }
+
+
+
+
+
+
+
+
+
+
+        public static FairingSummary GetFairingSummary(this IEnumerable<LauncherCollection> collection)
+        {
+            // The reason for this is 'maxLength' and 'maxDiameter' can only go higher.
+            double? maxLength   = double.MinValue;
+            double? maxDiameter = double.MinValue;
+
+            foreach (var launcher in collection)
+            {
+                // Get's the price summary for the version.
+                var fairingSummary = launcher.GetFairingSummary();
+
+                // Simply relays the values to this method's scope.
+                maxLength   = fairingSummary.MaxLength;
+                maxDiameter = fairingSummary.MaxDiameter;
+            }
+
+            return new FairingSummary(maxLength, maxDiameter);
+        }
+
+        public static FairingSummary GetFairingSummary(this IEnumerable<Launcher> collection)
+        {
+            // The reason for this is 'maxLength' and 'maxDiameter' can only go higher.
+            double? maxLength   = double.MinValue;
+            double? maxDiameter = double.MinValue;
+
+            // Parse through each launcher...
+            foreach (var launcher in collection)
+            {
+                // And then parse through each one of it's fairings to get their values.
+                // Do this until you go through all launchers fairings.
+                foreach (var fairing in launcher.Fairings)
+                {
+                    if (fairing.Length > maxLength)
+                    {
+                        maxLength = fairing.Length;
+                    }
+                    if (fairing.Diameter > maxDiameter)
+                    {
+                        maxDiameter = fairing.Diameter;
+                    }
+                }
+            }
+
+            // If either value is below zero, then that means that a 
+            // vehicle has no fairings, so there are no values to represent.
+            if (maxLength <= 0)
+            {
+                maxLength = null;
+            }
+            if (maxDiameter <= 0)
+            {
+                maxDiameter = null;
+            }
+
+            return new FairingSummary(maxLength, maxDiameter);
+        }
+
     }
 }
