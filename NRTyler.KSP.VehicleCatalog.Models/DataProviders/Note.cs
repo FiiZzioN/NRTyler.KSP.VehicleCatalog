@@ -54,7 +54,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         public Note(string title, string body)
 	    {
 	        Title = title.HandleNullOrWhiteSpace("Title Not Set");
-	        Body  = body;
+	        Body  = body.HandleNullOrWhiteSpace("Body not set.");
 	    }
 
 		private string title;
@@ -84,7 +84,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 			get { return this.body; }
 			set
 			{
-				this.body = value.HandleNullOrWhiteSpace("Body is empty.");
+				this.body = value.HandleNullOrWhiteSpace("Invalid body.");
 				OnPropertyChanged(nameof(Body));
 			}
 		}

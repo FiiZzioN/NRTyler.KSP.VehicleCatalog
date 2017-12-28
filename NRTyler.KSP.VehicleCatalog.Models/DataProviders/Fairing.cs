@@ -41,14 +41,14 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// <param name="id">The fairings identifier. Examples include: Small, Medium, Large</param>
         /// <param name="length">The length of the fairing.</param>
         /// <param name="diameter">The diameter of the fairing.</param>
-		public Fairing(string id, double? diameter, double? length)
+		public Fairing(string id, double? length, double? diameter)
         {
             ID       = id.HandleNullOrWhiteSpace("ID Not Specified");
-			Diameter = diameter;
 		    Length   = length;
+            Diameter = diameter;
         }
 
-	    private string id;
+        private string id;
         private double? length;
 		private double? diameter;
 

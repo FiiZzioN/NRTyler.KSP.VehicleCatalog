@@ -5,65 +5,81 @@
 // Created          : 10-01-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 12-23-2017
+// Last Modified On : 12-28-2017
 //
 // License          : MIT License
 // ***********************************************************************
 
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NRTyler.KSP.VehicleCatalog.Models.DataProviders;
+using System;
 
 namespace NRTyler.KSP.VehicleCatalog.ModelTests.DataProviderTests
 {
-	[TestClass]
+    [TestClass]
 	public class VehicleNoteTests
 	{
+        
 		[TestMethod]
-		public void VehicleNoteTitleNotNull()
+		public void Note_TitleNotSet()
 		{
-			//Arrange
-			var vehicleNote = new Note();
+			var note  = new Note();
+			var title = "Title Not Set";
 
-			var expected = "Invalid Title";
-
-			//Act
-			var actual = vehicleNote.Title;
-			Console.WriteLine(vehicleNote.ToString());
-
-			//Assert
-			Assert.AreEqual(expected, actual);
+            // Since the title wasn't set in the constructor, the title automatically 
+            // gets set to "Title Not Set" since it was never set in the first place.
+            Assert.AreEqual(title, note.Title);
 		}
 
 		[TestMethod]
-		public void VehicleNoteTitleValid()
+		public void Note_TitleSetValid()
 		{
-			//Arrange
-			var vehicleNote = new Note("Best Note");
+		    var note  = new Note("This Is My Title");
+		    var title = "This Is My Title";
 
-			var expected = "Best Note";
+		    // Since the title was set in the constructor, and it wasn't null, it's a valid title.
+		    Assert.AreEqual(title, note.Title);
+        }
 
-			//Act
-			var actual = vehicleNote.Title;
+	    [TestMethod]
+	    public void Note_TitleSetInvalid()
+	    {
+	        var note  = new Note(String.Empty);
+	        var title = "Invalid Title";
 
-			//Assert
-			Assert.AreEqual(expected, actual);
-		}
+	        // Since the title was empty in the constructor, it means it's an invalid title. A valid one is then set in its place.
+	        Assert.AreEqual(title, note.Title);
+	    }
 
-		[TestMethod]
-		public void VehicleNoteContentSet()
-		{
-			//Arrange
-			var vehicleNote = new Note();
-			vehicleNote.Body = "This is a note. Maybe note a great one, but it's mine.";
+	    [TestMethod]
+	    public void Note_BodyNotSet()
+	    {
+	        var note = new Note();
+	        var body = "Body not set.";
 
-			var expected = "This is a note. Maybe note a great one, but it's mine.";
+            // Since the body wasn't set in the constructor, the body automatically 
+            // gets set to "Body is empty." since it was never set in the first place.
+            Assert.AreEqual(body, note.Body);
+	    }
 
-			//Act
-			var actual = vehicleNote.Body;
+	    [TestMethod]
+	    public void Note_BodySetValid()
+	    {
+	        var note = new Note(null, "This is my body.");
+	        var body = "This is my body.";
 
-			//Assert
-			Assert.AreEqual(expected, actual);
-		}
-	}
+	        // Since the body was set in the constructor, and it wasn't null, it's a valid body.
+	        Assert.AreEqual(body, note.Body);
+	    }
+
+	    [TestMethod]
+	    public void Note_BodySetInvalid()
+	    {
+	        var note = new Note(null, String.Empty);
+	        var body = "Body not set.";
+
+	        // Since the body was empty in the constructor, it means it's an invalid body. A valid one is then set in its place.
+	        Assert.AreEqual(body, note.Body);
+	    }
+    }
 }

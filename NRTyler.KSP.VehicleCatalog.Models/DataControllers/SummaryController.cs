@@ -1,35 +1,37 @@
-﻿// ************************************************************************
+﻿// ***********************************************************************
 // Assembly         : NRTyler.KSP.VehicleCatalog.Models
-// 
+//
 // Author           : Nicholas Tyler
 // Created          : 12-27-2017
-// 
+//
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 12-27-2017
-// 
+// Last Modified On : 12-28-2017
+//
 // License          : MIT License
 // ***********************************************************************
 
-using System.Collections;
-using System.Collections.Generic;
-using NRTyler.CodeLibrary.Annotations;
 using NRTyler.KSP.VehicleCatalog.Models.DataProviders;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using NRTyler.KSP.VehicleCatalog.Models.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
 {
+    /// <summary>
+    /// Contains the methods that a <see cref="Summary"/> object uses in order to fill its fields.
+    /// </summary>
     public static class SummaryController
     {
-        /// <summary>
-        /// Gets the number of versions of vehicles in the vehicle family.
-        /// </summary>
-        public static int GetNumberOfVersions(this ICollection collection)
-        {
-            return collection.Count;
-        }
 
+
+        /// <summary>
+        /// Gets the price of the cheapest and most expensive launcher in a vehicle family, 
+        /// and then returns them in the form of a <see cref="PriceSummary"/>.
+        /// </summary>
+        /// <param name="collection">An enumerable collection of type <see cref="LauncherCollection"/>.</param>
+        /// <returns>
+        /// A <see cref="PriceSummary"/> containing the price of the cheapest and 
+        /// most expensive launcher in a vehicle family.
+        /// </returns>
         public static PriceSummary GetPriceSummary(this IEnumerable<LauncherCollection> collection)
         {
             // The reason for this is 'cheapest' can only go lower and 'mostExpensive' can only go higher.
@@ -41,14 +43,30 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
                 // Get's the price summary for the version.
                 var priceSummary = launcher.GetPriceSummary();
 
-                // Simply relays the values to this method's scope.
-                cheapest      = priceSummary.Cheapest;
-                mostExpensive = priceSummary.MostExpensive;
+                // Check to make sure the values returned are cheaper or more expensive. 
+                // If they are, update the values, otherwise we continue checking the collection.
+                if (priceSummary.Cheapest < cheapest)
+                {
+                    cheapest = priceSummary.Cheapest;
+                }
+                if (priceSummary.MostExpensive > mostExpensive)
+                {
+                    mostExpensive = priceSummary.MostExpensive;
+                }                
             }
 
             return new PriceSummary(cheapest, mostExpensive);
         }
 
+        /// <summary>
+        /// Gets the price of the cheapest and most expensive launcher in a launcher collection, 
+        /// and then returns them in the form of a <see cref="PriceSummary"/>.
+        /// </summary>
+        /// <param name="collection">An enumerable collection of type <see cref="Launcher"/>.</param>
+        /// <returns>
+        /// A <see cref="PriceSummary"/> containing the price of the cheapest and 
+        /// most expensive launcher in a Launcher collection.
+        /// </returns>
         public static PriceSummary GetPriceSummary(this IEnumerable<Launcher> collection)
         {
             // The reason for this is 'cheapest' can only go lower and 'mostExpensive' can only go higher.
@@ -74,14 +92,15 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
         }
 
 
-
-
-
-
-
-
-
-
+        /// <summary>
+        /// Gets the values from the longest and the largest diameter fairing in a vehicle family
+        /// and returns the values in the form of a <see cref="FairingSummary"/>;
+        /// </summary>
+        /// <param name="collection">An enumerable collection of type <see cref="LauncherCollection"/>.</param>
+        /// <returns>
+        /// A <see cref="FairingSummary"/> containing the longest 
+        /// and the largest diameter fairing in a vehicle family.
+        /// </returns>
         public static FairingSummary GetFairingSummary(this IEnumerable<LauncherCollection> collection)
         {
             // The reason for this is 'maxLength' and 'maxDiameter' can only go higher.
@@ -93,14 +112,30 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
                 // Get's the price summary for the version.
                 var fairingSummary = launcher.GetFairingSummary();
 
-                // Simply relays the values to this method's scope.
-                maxLength   = fairingSummary.MaxLength;
-                maxDiameter = fairingSummary.MaxDiameter;
+                // Check to make sure the values returned are greater than the current values. 
+                // If they are, update the values, otherwise we continue checking the collection.
+                if (fairingSummary.MaxLength > maxLength)
+                {
+                    maxLength = fairingSummary.MaxLength;
+                }
+                if (fairingSummary.MaxDiameter > maxDiameter)
+                {
+                    maxDiameter = fairingSummary.MaxDiameter;
+                }
             }
 
             return new FairingSummary(maxLength, maxDiameter);
         }
 
+        /// <summary>
+        /// Gets the values from the longest and the largest diameter fairing in a launcher collection
+        /// and returns the values in the form of a <see cref="FairingSummary"/>;
+        /// </summary>
+        /// <param name="collection">An enumerable collection of type <see cref="Launcher"/>.</param>
+        /// <returns>
+        /// A <see cref="FairingSummary"/> containing the longest and 
+        /// the largest diameter fairing in a launcher collection.
+        /// </returns>
         public static FairingSummary GetFairingSummary(this IEnumerable<Launcher> collection)
         {
             // The reason for this is 'maxLength' and 'maxDiameter' can only go higher.
@@ -125,19 +160,27 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
                 }
             }
 
-            // If either value is below zero, then that means that a 
-            // vehicle has no fairings, so there are no values to represent.
-            if (maxLength <= 0)
-            {
-                maxLength = null;
-            }
-            if (maxDiameter <= 0)
-            {
-                maxDiameter = null;
-            }
-
             return new FairingSummary(maxLength, maxDiameter);
         }
 
+        /// <summary>
+        /// Gets the number of launchers in a vehicle family.
+        /// </summary>
+        /// <param name="collection">A collection of type <see cref="LauncherCollection"/>..</param>
+        /// <returns>The number of items in the vehicle family.</returns>
+        public static int GetNumberOfVersions(this ICollection<LauncherCollection> collection)
+        {
+            return collection.Sum(GetNumberOfVersions);
+        }
+
+        /// <summary>
+        /// Gets the number of launchers in a launcher collection
+        /// </summary>
+        /// <param name="collection">A collection of type <see cref="Launcher"/>..</param>
+        /// <returns>The number of items in the launcher collection.</returns>
+        public static int GetNumberOfVersions(this ICollection<Launcher> collection)
+        {
+            return collection.Count;
+        }
     }
 }

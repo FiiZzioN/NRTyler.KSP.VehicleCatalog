@@ -61,21 +61,5 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests.DataProviderTests
 			//Assert
 			Assert.AreEqual(expected, actual);
 		}
-
-		[TestMethod]
-		public void PacificationOption_ToString()
-		{
-			//Arrange
-			var pacificationOption = new PacificationOption(PacificationType.GraveyardOrbit, 501);
-
-			var oldString = $"Pacification Type: {StringLabel.GetLabel(PacificationType.GraveyardOrbit)}@Required DeltaV: {501}";
-			var expected = oldString.Replace("@", "\n");
-
-			//Act
-			var actual = pacificationOption.ToString();
-
-			//Assert
-			Assert.AreEqual(expected, actual);
-		}
 	}
 }

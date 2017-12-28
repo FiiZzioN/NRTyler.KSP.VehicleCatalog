@@ -56,6 +56,7 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CatalogInitializerTests.cs" />
     <Compile Include="DataControllerTests\SummaryControllerTests.cs" />
     <Compile Include="DataProviderTests\OrbitTests.cs" />
     <Compile Include="DataProviderTests\FairingTests.cs" />
@@ -63,7 +64,7 @@
     <Compile Include="DataProviderTests\PayloadRangeTests.cs" />
     <Compile Include="DataProviderTests\TrajectoryTests.cs" />
     <Compile Include="DataProviderTests\VehicleNoteTests.cs" />
-    <Compile Include="FamilyInitializer.cs" />
+    <Compile Include="CatalogInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

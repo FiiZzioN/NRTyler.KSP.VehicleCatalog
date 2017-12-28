@@ -18,7 +18,11 @@ using System.Collections.Generic;
 
 namespace NRTyler.KSP.VehicleCatalog.ModelTests
 {
-    public abstract class FamilyInitializer
+    /// <summary>
+    /// Meant to be an aid for the <see cref="VehicleFamily"/>, 
+    /// <see cref="LauncherCollection"/>, and <see cref="Launcher"/> <see langword="unit tests"/>.
+    /// </summary>
+    public abstract class CatalogInitializer
     {
         #region Test Initialization
 
@@ -33,7 +37,22 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         /// Gets or sets the <see cref="LauncherCollection"/> that various <see langword="unit tests"/> can use.
         /// </summary>
         protected virtual LauncherCollection Collection { get; set; }
-        
+
+        /// <summary>
+        /// Gets or sets an Angara A5 <see cref="Launcher"/> that various <see langword="unit tests"/> can use.
+        /// </summary>
+        protected virtual Launcher AngaraA5 { get; set; }
+
+        /// <summary>
+        /// Gets or sets an Angara A5 Briz-M <see cref="Launcher"/> that various <see langword="unit tests"/> can use.
+        /// </summary>
+        protected virtual Launcher AngaraA5BrizM { get; set; }
+
+        /// <summary>
+        /// Gets or sets an Angara A5 KVTK <see cref="Launcher"/> that various <see langword="unit tests"/> can use.
+        /// </summary>
+        protected virtual Launcher AngaraA5KVTK { get; set; }
+
         #endregion
 
         #region Launcher, LauncherCollection, and VehicleFamily Creation Methods
@@ -43,20 +62,18 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         /// <summary>
         /// Creates the <see cref="VehicleFamily"/> that's used in the test initializer.
         /// </summary>
-        protected virtual VehicleFamily CreateVehicleFamily()
+        protected virtual void CreateVehicleFamily()
         {
-            var family = new VehicleFamily(CreateFamilyName())
+            Family = new VehicleFamily(CreateFamilyName())
             {
                 Notes           = CreateFamilyNotes(),
                 PreviewLocation = CreateFamilyPreviewLocation(),
             };
 
             // Add the collection(s) to the family and then create the summary.
-            family.Add(CreateCollection());
+            Family.Add(Collection);
 
-            family.Summary = CreateFamilySummary();
-
-            return family;
+            Family.Summary = CreateFamilySummary();
         }
 
         /// <summary>
@@ -97,7 +114,7 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         {
             var summary = new Summary
             {
-                NumberOfVerisons = Family.GetNumberOfVersions(),
+                NumberOfVerisons = Family.Count,
                 PriceSummary     = Family.GetPriceSummary(),
                 FairingSummary   = Family.GetFairingSummary(),
             };
@@ -112,22 +129,20 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         /// <summary>
         /// Creates the <see cref="LauncherCollection"/> that's used in the test initializer.
         /// </summary>
-        protected virtual LauncherCollection CreateCollection()
+        protected virtual void CreateCollection()
         {
-            var collection = new LauncherCollection(CreateCollectionName())
+            Collection = new LauncherCollection(CreateCollectionName())
             {
                 Notes           = CreateCollectionNotes(),
                 PreviewLocation = CreateCollectionPreviewLocation()
             };
 
             // Add the launcher(s) to the collection and then create the summary.
-            collection.Add(CreateAngaraA5());
-            collection.Add(CreateAngaraA5BrizM());
-            collection.Add(CreateAngaraA5KVTK());
+            Collection.Add(AngaraA5);
+            Collection.Add(AngaraA5BrizM);
+            Collection.Add(AngaraA5KVTK);
 
-            collection.Summary = CreateCollectionSummary();
-
-            return collection;
+            Collection.Summary = CreateCollectionSummary();
         }
 
         /// <summary>
@@ -168,7 +183,7 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         {
             var summary = new Summary
             {
-                NumberOfVerisons = Collection.GetNumberOfVersions(),
+                NumberOfVerisons = Collection.Count,
                 PriceSummary     = Collection.GetPriceSummary(),
                 FairingSummary   = Collection.GetFairingSummary(),
             };
@@ -183,10 +198,10 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         /// <summary>
         /// Creates an Angara A5 launcher.
         /// </summary>
-        protected Launcher CreateAngaraA5()
+        protected virtual void CreateAngaraA5()
         {
             // Looks complicated, but all it's doing is holding the information that makes up an Angara A5 Rocket.
-            var launcher = new Launcher()
+            AngaraA5 = new Launcher()
             {
                 Name = "Angara A5",
                 Notes = new List<Note>()
@@ -222,20 +237,20 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
                 {
                     new Fairing()
                     {
-                        ID = "Small",
-                        Length = 10,
+                        ID       = "Small",
+                        Length   = 10,
+                        Diameter = 2.8
+                    },
+                    new Fairing()
+                    {
+                        ID       = "Medium",
+                        Length   = 12,
                         Diameter = 3
                     },
                     new Fairing()
                     {
-                        ID = "Medium",
-                        Length = 12,
-                        Diameter = 3
-                    },
-                    new Fairing()
-                    {
-                        ID = "Large",
-                        Length = 14,
+                        ID       = "Large",
+                        Length   = 14,
                         Diameter = 3
                     }
                 },
@@ -292,18 +307,16 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
                 },
                 MaxPayloadDimensions = new PayloadDimensions(8, 2.75)
             };
-
-            return launcher;
         }
 
         /// <summary>
         /// Creates an Angara A5 Briz-M launcher.
         /// </summary>
-        protected Launcher CreateAngaraA5BrizM()
+        protected virtual void CreateAngaraA5BrizM()
         {
             // Looks complicated, but all it's doing is holding the information 
             // that makes up an Angara A5 rocket with a Briz-M upper stage.
-            var launcher = new Launcher()
+            AngaraA5BrizM = new Launcher()
             {
                 Name = "Angara A5 Briz-M",
                 Notes = new List<Note>()
@@ -340,20 +353,20 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
                 {
                     new Fairing()
                     {
-                        ID = "Small",
-                        Length = 10,
+                        ID       = "Small",
+                        Length   = 10,
                         Diameter = 3
                     },
                     new Fairing()
                     {
-                        ID = "Medium",
-                        Length = 12,
+                        ID       = "Medium",
+                        Length   = 12,
                         Diameter = 3
                     },
                     new Fairing()
                     {
-                        ID = "Large",
-                        Length = 14,
+                        ID       = "Large",
+                        Length   = 14,
                         Diameter = 3
                     }
                 },
@@ -410,18 +423,16 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
                 },
                 MaxPayloadDimensions = new PayloadDimensions(6, 2.75)
             };
-
-            return launcher;
         }
 
         /// <summary>
         /// Creates an Angara A5 KVTK launcher.
         /// </summary>
-        protected Launcher CreateAngaraA5KVTK()
+        protected virtual void CreateAngaraA5KVTK()
         {
             // Looks complicated, but all it's doing is holding the information 
             // that makes up an Angara A5 rocket with a cryogenic KVTK upper stage.
-            var launcher = new Launcher()
+            AngaraA5KVTK = new Launcher()
             {
                 Name = "Angara A5 KVTK",
                 Notes = new List<Note>()
@@ -458,21 +469,21 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
                 {
                     new Fairing()
                     {
-                        ID = "Small",
-                        Length = 14,
+                        ID       = "Small",
+                        Length   = 14,
                         Diameter = 3
                     },
                     new Fairing()
                     {
-                        ID = "Medium",
-                        Length = 16,
+                        ID       = "Medium",
+                        Length   = 16,
                         Diameter = 3
                     },
                     new Fairing()
                     {
-                        ID = "Large",
-                        Length = 18,
-                        Diameter = 3
+                        ID       = "Large",
+                        Length   = 18,
+                        Diameter = 3.2
                     }
                 },
                 Capabilities = new List<Capability>()
@@ -528,8 +539,6 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
                 },
                 MaxPayloadDimensions = new PayloadDimensions(6, 2.75)
             };
-
-            return launcher;
         }
 
         #endregion
@@ -544,8 +553,12 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         [TestInitialize]
         public virtual void SetupFamily()
         {
-            Family     = CreateVehicleFamily();
-            Collection = CreateCollection();
+            CreateAngaraA5();
+            CreateAngaraA5BrizM();
+            CreateAngaraA5KVTK();
+
+            CreateCollection();
+            CreateVehicleFamily();
         }
 
         #endregion
