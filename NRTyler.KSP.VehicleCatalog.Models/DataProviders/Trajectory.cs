@@ -44,10 +44,10 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// Initializes a new instance of the <see cref="Trajectory" /> class.
         /// </summary>
         /// <param name="orbitType">The type of this trajectory.</param>
-        /// <param name="apoapsis">The orbit's apoapsis.</param>
-        /// <param name="periapsis">The orbit's periapsis.</param>
+        /// <param name="apoapsis">The orbit's apoapsis in kilometers.</param>
+        /// <param name="periapsis">The orbit's periapsis in kilometers.</param>
         /// <param name="inclination">The orbit's inclination.</param>
-        /// <param name="requiredDeltaV">Gets or sets the required amount of delta-v to reach the specified orbit.</param>
+        /// <param name="requiredDeltaV">Gets or sets the required amount of delta-v in m/s to reach the specified orbit.</param>
         public Trajectory(OrbitType orbitType, double apoapsis, double periapsis, double inclination, double requiredDeltaV)
         {
             OrbitType = orbitType;
@@ -80,7 +80,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 	    }
 
         /// <summary>
-        /// Gets or sets the targeted apoapsis.
+        /// Gets or sets the targeted apoapsis in kilometers.
         /// </summary>
         [DataMember]
         public double Apoapsis
@@ -96,7 +96,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 	    }
 
         /// <summary>
-        /// Gets or sets the targeted periapsis.
+        /// Gets or sets the targeted periapsis in kilometers.
         /// </summary>
         [DataMember]
         public double Periapsis
@@ -129,7 +129,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 	    }
 
         /// <summary>
-        /// Gets or sets the required amount of delta-v to reach the targeted orbit.
+        /// Gets or sets the required amount of delta-v in m/s to reach the targeted orbit.
         /// </summary>
         [DataMember]
         public double RequiredDeltaV
@@ -161,13 +161,13 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 
         #endregion
 
-	    /// <summary>
-	    /// Allows for quick specification of the orbit's properties;
-	    /// </summary>
-	    /// <param name="apoapsis">The orbit's apoapsis.</param>
-	    /// <param name="periapsis">The orbit's periapsis.</param>
-	    /// <param name="inclination">The orbit's inclination.</param>
-	    [SuppressMessage("ReSharper", "ParameterHidesMember")]
+        /// <summary>
+        /// Allows for quick specification of the orbit's properties;
+        /// </summary>
+        /// <param name="apoapsis">The orbit's apoapsis in kilometers.</param>
+        /// <param name="periapsis">The orbit's periapsis in kilometers.</param>
+        /// <param name="inclination">The orbit's inclination.</param>
+        [SuppressMessage("ReSharper", "ParameterHidesMember")]
 	    public void SetOrbitParameters(double apoapsis, double periapsis, double inclination)
 	    {
 	        Apoapsis    = apoapsis;

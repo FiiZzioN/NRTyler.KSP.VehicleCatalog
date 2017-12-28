@@ -37,8 +37,8 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// <summary>
         /// Initializes a new instance of the <see cref="PayloadDimensions"/> class.
         /// </summary>
-        /// <param name="length">The length of the <see cref="Payload"/>.</param>
-        /// <param name="diameter">The diameter of the <see cref="Payload"/>.</param>
+        /// <param name="length">The length of the <see cref="Payload"/> in meters.</param>
+        /// <param name="diameter">The diameter of the <see cref="Payload"/> in meters.</param>
         public PayloadDimensions(double length, double diameter)
         {
             Length   = length;
@@ -49,7 +49,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         private double diameter;
 
         /// <summary>
-        /// Gets or sets the length of the <see cref="Payload"/>.
+        /// Gets or sets the length of the <see cref="Payload"/> in meters.
         /// </summary>
         [DataMember]
         public double Length
@@ -65,7 +65,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         }
 
         /// <summary>
-        /// Gets or sets the diameter of the <see cref="Payload"/>.
+        /// Gets or sets the diameter of the <see cref="Payload"/> in meters.
         /// </summary>
         [DataMember]
         public double Diameter

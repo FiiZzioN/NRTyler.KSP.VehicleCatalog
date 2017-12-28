@@ -31,7 +31,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.Interfaces
 	    /// <summary>
 	    /// Gets or sets where the save file of this <see cref="object"/> is located.
 	    /// </summary>
-        string SaveFileLocation { get; set; }
+        string CraftFileLocation { get; set; }
 
     }
 }

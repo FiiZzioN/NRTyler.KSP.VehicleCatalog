@@ -5,7 +5,7 @@
 // Created          : 07-14-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 12-26-2017
+// Last Modified On : 12-28-2017
 //
 // License          : MIT License
 // ***********************************************************************
@@ -35,12 +35,12 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 	        
 	    }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="PayloadRange"/> class.
-		/// </summary>
-		/// <param name="lightest">The lightest the payload can be.</param>
-		/// <param name="heaviest">The heaviest the payload can be.</param>
-		public PayloadRange(int lightest, int heaviest)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PayloadRange"/> class.
+        /// </summary>
+        /// <param name="lightest">The lightest the payload can be in kilograms.</param>
+        /// <param name="heaviest">The heaviest the payload can be in kilograms.</param>
+        public PayloadRange(int lightest, int heaviest)
 		{
 			Lightest = lightest;
 			Heaviest = heaviest;
@@ -50,7 +50,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 		private int heaviest;
 
 		/// <summary>
-		/// Gets or sets the lightest the payload can possibly be.
+		/// Gets or sets the lightest the payload can possibly be in kilograms.
 		/// </summary>
 		[DataMember]
 		public int Lightest
@@ -66,7 +66,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 		}
 
         /// <summary>
-        /// Gets or sets the heaviest the payload can possibly be.
+        /// Gets or sets the heaviest the payload can possibly be in kilograms.
         /// </summary>
         [DataMember]
         public int Heaviest

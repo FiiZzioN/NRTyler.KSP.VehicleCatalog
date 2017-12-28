@@ -20,6 +20,7 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests.DataProviderTests
 	[TestClass]
 	public class TrajectoryTests
 	{
+        /*
 		[TestMethod]
 		public void TrajectoryRangeAssignment()
 		{
@@ -138,5 +139,6 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests.DataProviderTests
 	        //Assert
 	        Assert.AreEqual(expected, actual);
 	    }
+        */
     }
 }

@@ -19,6 +19,7 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests.DataProviderTests
 	[TestClass]
 	public class FairingTests
 	{
+        /*
 		[TestMethod]
 		public void FairingConstructorOne()
 		{
@@ -60,5 +61,6 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests.DataProviderTests
 			//Assert
 			CollectionAssert.AreEqual(expected, actual);
 		}
+        */
 	}
 }

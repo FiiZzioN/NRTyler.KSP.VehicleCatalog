@@ -26,6 +26,14 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
     [DataContract(Name = "Capability")]
 	public class Capability : INotifyPropertyChanged
 	{
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Capability"/> class.
+        /// </summary>
+        public Capability() : this (new PayloadRange(), new Trajectory())
+	    {
+	        
+	    }
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Capability"/> class.
 		/// </summary>

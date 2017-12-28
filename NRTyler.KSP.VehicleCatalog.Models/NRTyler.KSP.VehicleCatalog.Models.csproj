@@ -65,6 +65,7 @@
     <Compile Include="DataProviders\Note.cs" />
     <Compile Include="DataProviders\PayloadRangeSummary.cs" />
     <Compile Include="DataProviders\VehicleFamily.cs" />
+    <Compile Include="DataProviders\LauncherCollection.cs" />
     <Compile Include="Interfaces\IDataController.cs" />
     <Compile Include="Interfaces\INotepad.cs" />
     <Compile Include="Interfaces\IPacifiable.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Interfaces\ITaggable.cs" />
     <Compile Include="Interfaces\IValuable.cs" />
     <Compile Include="Interfaces\IVehicle.cs" />
+    <Compile Include="Interfaces\IVehicleGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

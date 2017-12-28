@@ -24,7 +24,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
     /// </summary>
     /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
     [Serializable]
-    [DataContract(Name = "Trajectory")]
+    [DataContract(Name = "Summary")]
     public class Summary : INotifyPropertyChanged
     {
         /// <summary>
@@ -32,7 +32,9 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// </summary>
         public Summary()
         {
-
+            PayloadRangeSummary = new List<PayloadRangeSummary>();
+            FairingSummary      = new FairingSummary();
+            PriceSummary        = new PriceSummary();
         }
 
         private int numberOfVersions;
@@ -43,6 +45,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// <summary>
         /// Gets or sets the number of vehicle versions in the vehicle family.
         /// </summary>
+        [DataMember]
         public int NumberOfVerisons
         {
             get { return this.numberOfVersions; }
@@ -59,7 +62,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         [DataMember]
         public List<PayloadRangeSummary> PayloadRangeSummary
         {
-            get { return this.payloadRangeSummary ?? (this.payloadRangeSummary = new List<PayloadRangeSummary>()); }
+            get { return this.payloadRangeSummary; }
             set
             {
                 if (value == null) return;
@@ -75,7 +78,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         [DataMember]
         public FairingSummary FairingSummary
         {
-            get { return this.fairingSummary ?? (this.fairingSummary = new FairingSummary()); }
+            get { return this.fairingSummary; }
             set
             {
                 if (value == null) return;
@@ -91,7 +94,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         [DataMember]
         public PriceSummary PriceSummary
         {
-            get { return this.priceSummary ?? (this.priceSummary = new PriceSummary()); }
+            get { return this.priceSummary; }
             set
             {
                 if (value == null) return;

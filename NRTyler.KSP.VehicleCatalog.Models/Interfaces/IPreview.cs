@@ -20,6 +20,6 @@ namespace NRTyler.KSP.VehicleCatalog.Models.Interfaces
         /// <summary>
         /// Gets or sets where the preview picture of this <see cref="object"/> is located.
         /// </summary>
-        string PictureLocation { get; set; }
+        string PreviewLocation { get; set; }
     }
 }

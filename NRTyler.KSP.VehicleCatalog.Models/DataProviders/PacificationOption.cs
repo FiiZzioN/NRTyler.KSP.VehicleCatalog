@@ -69,7 +69,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 		}
 
         /// <summary>
-        /// Gets or sets the required amount of delta-v to accomplish this pacification type.
+        /// Gets or sets the required amount of delta-v in m/s to accomplish this pacification type.
         /// </summary>
         [DataMember]
         public double RequiredDeltaV

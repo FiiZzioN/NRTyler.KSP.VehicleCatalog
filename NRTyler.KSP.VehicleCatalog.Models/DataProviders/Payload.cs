@@ -120,8 +120,8 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         private List<Note> notes;
         private List<PacificationOption> pacificationOptions;
         private decimal price;
-        private string pictureLocation;
-        private string saveFileLocation;
+        private string previewLocation;
+        private string craftFileLocation;
         private List<string> tags;
 
         /// <summary>
@@ -188,27 +188,27 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// Gets or sets where the preview picture of this payload is located.
         /// </summary>
         [DataMember]
-        public string PictureLocation
+        public string PreviewLocation
         {
-            get { return this.pictureLocation; }
+            get { return this.previewLocation; }
             set
             {
-                this.pictureLocation = value;
-                OnPropertyChanged(nameof(PictureLocation));
+                this.previewLocation = value;
+                OnPropertyChanged(nameof(PreviewLocation));
             }
         }
 
         /// <summary>
-        /// Gets or sets where the save file of this payload is located.
+        /// Gets or sets where the craft file of this payload is located.
         /// </summary>
         [DataMember]
-        public string SaveFileLocation
+        public string CraftFileLocation
         {
-            get { return this.saveFileLocation; }
+            get { return this.craftFileLocation; }
             set
             {
-                this.saveFileLocation = value;
-                OnPropertyChanged(nameof(SaveFileLocation));
+                this.craftFileLocation = value;
+                OnPropertyChanged(nameof(CraftFileLocation));
             }
         }
 
