@@ -5,11 +5,12 @@
 // Created          : 12-27-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 12-28-2017
+// Last Modified On : 01-05-2018
 //
 // License          : MIT License
 // ***********************************************************************
 
+using System;
 using NRTyler.KSP.VehicleCatalog.Models.DataProviders;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,6 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
     /// </summary>
     public static class SummaryController
     {
-
 
         /// <summary>
         /// Gets the price of the cheapest and most expensive launcher in a vehicle family, 
@@ -170,6 +170,11 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
         /// <returns>The number of items in the vehicle family.</returns>
         public static int GetNumberOfVersions(this ICollection<LauncherCollection> collection)
         {
+            if (collection == null)
+            {
+                throw new ArgumentNullException($"{nameof(collection)}", "The collection cannot be null.");
+            }
+
             return collection.Sum(GetNumberOfVersions);
         }
 

@@ -5,60 +5,80 @@
 // Created          : 09-07-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 09-11-2017
+// Last Modified On : 12-29-2017
 //
-// License          : GNU General Public License v3.0
+// License          : MIT License
 // ***********************************************************************
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using NRTyler.CodeLibrary.Annotations;
 using NRTyler.CodeLibrary.Extensions;
+using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 
 namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 {
+    /// <summary>
+    /// Holds information regarding where files are saved. This class cannot be inherited.
+    /// </summary>
+    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
     [Serializable]
-    public sealed class ApplicationSettings : INotifyPropertyChanged, IEnumerable<string>
+    [DataContract(Name = "ApplicationSettings")]
+    public sealed class ApplicationSettings : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApplicationSettings" /> class.
+        /// </summary>
         public ApplicationSettings()
         {
-            VehicleFileLocation = $"{CurrentDirectory}/Vehicles";
-            SettingsLocation    = $"{CurrentDirectory}/Settings";
+            CurrentDirectory      = Environment.CurrentDirectory;
+            VehicleFamilyLocation = $"{CurrentDirectory}/VehicleFamilies";
+            PayloadLocation       = $"{CurrentDirectory}/Payloads";
         }
 
-        public string CurrentDirectory { get; } = Environment.CurrentDirectory;
+        private string vehicleFamilyLocation;
+        private string payloadLocation;
 
-        private string vehicleFileLocation;
-        private string settingsLocation;
+        /// <summary>
+        /// Gets the current directory that the application is residing in.
+        /// </summary>
+        //[DataMember]
+        public string CurrentDirectory { get; }
 
-        public string VehicleFileLocation
+        /// <summary>
+        /// Gets or sets the location where <see cref="VehicleFamily"/> objects are saved.
+        /// </summary>
+        [DataMember]
+        public string VehicleFamilyLocation
         {
-            get { return this.vehicleFileLocation; }
+            get { return this.vehicleFamilyLocation; }
             set
             {
                 if (String.IsNullOrWhiteSpace(value)) return;
 
-                this.vehicleFileLocation = value;
-                OnPropertyChanged(nameof(VehicleFileLocation));
+                this.vehicleFamilyLocation = value;
+                OnPropertyChanged(nameof(VehicleFamilyLocation));
 
-                DirectoryEx.CreateDirectoryIfNonexistent(VehicleFileLocation);
+                DirectoryEx.CreateDirectoryIfNonexistent(VehicleFamilyLocation);
             }
         }
 
-        public string SettingsLocation
+        /// <summary>
+        /// Gets or sets the location where <see cref="Payload"/> objects are saved.
+        /// </summary>
+        [DataMember]
+        public string PayloadLocation
         {
-            get { return this.settingsLocation; }
+            get { return this.payloadLocation; }
             set
             {
                 if (String.IsNullOrWhiteSpace(value)) return;
 
-                this.settingsLocation = value;
-                OnPropertyChanged(nameof(SettingsLocation));
+                this.payloadLocation = value;
+                OnPropertyChanged(nameof(PayloadLocation));
 
-                DirectoryEx.CreateDirectoryIfNonexistent(SettingsLocation);
+                DirectoryEx.CreateDirectoryIfNonexistent(PayloadLocation);
             }
         }
 
@@ -77,34 +97,6 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
-
-        #region Implementation of IEnumerable
-
-        private IEnumerable<string> DirectoryList()
-        {
-            var list = new List<string>
-            {
-                VehicleFileLocation,
-                SettingsLocation,
-            };
-
-            return list;
-        }
-
-        public IEnumerator<string> GetEnumerator()
-        {
-            foreach (var path in DirectoryList())
-            {
-                yield return path;
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
 
         #endregion

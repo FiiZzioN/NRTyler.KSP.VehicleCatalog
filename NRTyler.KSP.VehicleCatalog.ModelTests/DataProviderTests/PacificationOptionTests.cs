@@ -5,19 +5,18 @@
 // Created          : 10-01-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 10-01-2017
+// Last Modified On : 12-28-2017
 //
 // License          : MIT License
 // ***********************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NRTyler.CodeLibrary.Utilities;
 using NRTyler.KSP.Common.Enums;
 using NRTyler.KSP.VehicleCatalog.Models.DataProviders;
 
 namespace NRTyler.KSP.VehicleCatalog.ModelTests.DataProviderTests
 {
-	[TestClass]
+    [TestClass]
 	public class PacificationOptionTests
 	{
 		[TestMethod]

@@ -551,12 +551,24 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         /// The method that gets called after each test has been completed.
         /// </summary>
         [TestInitialize]
-        public virtual void SetupFamily()
+        public virtual void Initialize()
         {
+            SetupMethods();
+        }
+
+        /// <summary>
+        /// This method is used to setup the <see cref="CatalogInitializer"/> class. Call this in 
+        /// any class that overrides the Initialize() method so everything gets set up correctly.
+        /// </summary>
+        protected virtual void SetupMethods()
+        {
+            // Vehicles created first so they can be added to the collection.
             CreateAngaraA5();
             CreateAngaraA5BrizM();
             CreateAngaraA5KVTK();
 
+            // Since we now have vehicles, we can create the collection. From 
+            // there, we have a collection, so we can then create a family.
             CreateCollection();
             CreateVehicleFamily();
         }
