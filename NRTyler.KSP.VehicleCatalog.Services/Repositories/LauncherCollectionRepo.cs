@@ -1,12 +1,12 @@
-﻿// ***********************************************************************
+﻿// ************************************************************************
 // Assembly         : NRTyler.KSP.VehicleCatalog.Services
-//
+// 
 // Author           : Nicholas Tyler
-// Created          : 01-08-2018
-//
+// Created          : 01-12-2018
+// 
 // Last Modified By : Nicholas Tyler
 // Last Modified On : 01-12-2018
-//
+// 
 // License          : MIT License
 // ***********************************************************************
 
@@ -21,27 +21,27 @@ using System.Xml;
 
 namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
 {
-    public class LauncherRepo : IDataContractRepository<Launcher>, ICrudRepository<Launcher>
+    public class LauncherCollectionRepo : IDataContractRepository<LauncherCollection>, ICrudRepository<LauncherCollection>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LauncherRepo"/> class.
         /// </summary>
-        /// <param name="path">The directory where the launcher is located.</param>
-        public LauncherRepo(string path) : this(path, new ErrorReport(true))
+        /// <param name="path">The directory where the launcher collection is located.</param>
+        public LauncherCollectionRepo(string path) : this(path, new ErrorReport(true))
         {
-            
+
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LauncherRepo"/> class.
         /// </summary>
-        /// <param name="path">The directory where the launcher is located.</param>
+        /// <param name="path">The directory where the launcher collection is located.</param>
         /// <param name="errorDialogService">The dialog service that this will use when an error occurs.</param>
-        public LauncherRepo(string path, IErrorDialogService errorDialogService)
+        public LauncherCollectionRepo(string path, IErrorDialogService errorDialogService)
         {
             Path               = path;
             ErrorDialogService = errorDialogService;
-            DCSerializer       = new DataContractSerializer(typeof(Launcher));
+            DCSerializer       = new DataContractSerializer(typeof(LauncherCollection));
         }
 
         #region Fields and Properties
@@ -96,7 +96,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         /// </summary>
         /// <param name="stream">The <see cref="T:System.IO.Stream" /> that the <see cref="T:System.Object" /> will be serialized to.</param>
         /// <param name="obj">The <see cref="T:System.Object" /> being serialized.</param>
-        public void Serialize(Stream stream, Launcher obj)
+        public void Serialize(Stream stream, LauncherCollection obj)
         {
             var xmlWriter = XmlWriter.Create(stream, RetrieveXMLWriterSettings());
 
@@ -111,11 +111,11 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         /// </summary>
         /// <param name="stream">The <see cref="T:System.IO.Stream" /> that the <see cref="T:System.Object" /> is being deserialized from.</param>
         /// <returns>The deserialized <see cref="T:System.Object" />.</returns>
-        public Launcher Deserialize(Stream stream)
+        public LauncherCollection Deserialize(Stream stream)
         {
             using (stream)
             {
-                return (Launcher)DCSerializer.ReadObject(stream);
+                return (LauncherCollection)DCSerializer.ReadObject(stream);
             }
         }
 
@@ -123,11 +123,11 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         /// Creates the specified <see cref="T:System.Object" />.
         /// </summary>
         /// <param name="obj">The <see cref="T:System.Object" />.</param>
-        public void Create(Launcher obj)
+        public void Create(LauncherCollection obj)
         {
-            var message      = String.Empty;
-            var launcherName = obj.Name;
-            var path         = $"{Path}/{launcherName}";
+            var message        = String.Empty;
+            var collectionName = obj.Name;
+            var path           = $"{Path}/{collectionName}";
 
             // This methods job is to create new objects, not replace them. 
             // If the folder already exists, then that's what the update method is for.
@@ -135,8 +135,8 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
             if (Directory.Exists(path))
             {
                 message =
-                    "A Launcher with that name already exists. If you wish to update the launcher, call the Update() method. " +
-                    "If you want to replace the launcher, call the Delete() method and then try to create the family again.";
+                    "A Launcher Collection with that name already exists. If you wish to update the launcher collection, call the Update() method. " +
+                    "If you want to replace the launcher collection, call the Delete() method and then try to create the launcher collection again.";
                 ErrorDialogService.Show(message);
                 return;
             }
@@ -153,8 +153,8 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         /// <summary>
         /// Retrieves an <see cref="T:System.Object" /> with the specified key.
         /// </summary>
-        /// <param name="key">The name of the launcher.</param>
-        public Launcher Retrieve(string key)
+        /// <param name="key">The name of the launcher collection.</param>
+        public LauncherCollection Retrieve(string key)
         {
             var message = String.Empty;
             var path    = $"{Path}/{key}/{key}.xml";
@@ -167,32 +167,32 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
             }
             catch (DirectoryNotFoundException)
             {
-                message = "The launcher's directory couldn't be found because the path was invalid (for example, it's on an unmapped drive).";
+                message = "The launcher collection's directory couldn't be found because the path was invalid (for example, it's on an unmapped drive).";
                 ErrorDialogService.Show(message);
             }
             catch (FileNotFoundException)
             {
-                message = "The launcher's XML file couldn't be found.";
+                message = "The launcher collection's XML file couldn't be found.";
                 ErrorDialogService.Show(message);
             }
             catch (PathTooLongException)
             {
-                message = "The launcher's XML file couldn't be retrieved as the resulting path would be too long.";
+                message = "The launcher collection's XML file couldn't be retrieved as the resulting path would be too long.";
                 ErrorDialogService.Show(message);
             }
             catch (IOException)
             {
-                message = $"The launcher's XML file couldn't be retrieved because an Input / Output error occurred while opening the file.";
+                message = $"The launcher collection's XML file couldn't be retrieved because an Input / Output error occurred while opening the file.";
                 ErrorDialogService.Show(message);
             }
             catch (UnauthorizedAccessException)
             {
-                message = "The launcher's XML file couldn't be retrieved because this application doesn't have access to the destination.";
+                message = "The launcher collection's XML file couldn't be retrieved because this application doesn't have access to the destination.";
                 ErrorDialogService.Show(message);
             }
             catch (NotSupportedException)
             {
-                message = "The launcher's XML file couldn't be retrieved because the path was in an invalid format.";
+                message = "The launcher collection's XML file couldn't be retrieved because the path was in an invalid format.";
                 ErrorDialogService.Show(message);
             }
             catch (Exception e)
@@ -212,15 +212,15 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         /// Updates the specified <see cref="T:System.Object" />.
         /// </summary>
         /// <param name="obj">The <see cref="T:System.Object" />.</param>
-        public void Update(Launcher obj)
+        public void Update(LauncherCollection obj)
         {
-            var message      = String.Empty;
-            var launcherName = obj.Name;
-            var path         = $"{Path}/{launcherName}";
+            var message        = String.Empty;
+            var collectionName = obj.Name;
+            var path           = $"{Path}/{collectionName}";
 
             if (!Directory.Exists(path))
             {
-                message = "The launcher's directory doesn't exist so there's nothing to update.";
+                message = "The launcher collection's directory doesn't exist so there's nothing to update.";
                 ErrorDialogService.Show(message);
                 return;
             }
@@ -236,7 +236,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         /// <summary>
         /// Deletes the family's directory with the specified key. This also removes all files inside of the directory.
         /// </summary>
-        /// <param name="key">The name of the launcher.</param>
+        /// <param name="key">The name of the launcher collection.</param>
         public void Delete(string key)
         {
             var message = String.Empty;
@@ -248,23 +248,23 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
             }
             catch (DirectoryNotFoundException)
             {
-                message = "The launcher's directory couldn't be deleted because the path was invalid (for example, it's on an unmapped drive or it couldn't be found).";
+                message = "The launcher collection's directory couldn't be deleted because the path was invalid (for example, it's on an unmapped drive or it couldn't be found).";
                 ErrorDialogService.Show(message);
             }
             catch (PathTooLongException)
             {
-                message = "The launcher's directory couldn't be deleted because the resulting path would be too long.";
+                message = "The launcher collection's directory couldn't be deleted because the resulting path would be too long.";
                 ErrorDialogService.Show(message);
             }
             catch (IOException)
             {
-                message = "The launcher's directory couldn't be deleted because it's the applications current " +
+                message = "The launcher collection's directory couldn't be deleted because it's the applications current " +
                           "working directory, being used by another process, or contains a read-only file.";
                 ErrorDialogService.Show(message);
             }
             catch (UnauthorizedAccessException)
             {
-                message = "The launcher's directory couldn't be deleted because this application doesn't have the proper permissions.";
+                message = "The launcher collection's directory couldn't be deleted because this application doesn't have the proper permissions.";
                 ErrorDialogService.Show(message);
             }
             catch (Exception e)
@@ -276,14 +276,14 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         }
 
         /// <summary>
-        /// Creates the directory where the launcher's files are located.
+        /// Creates the directory where the launcher collection's files are located.
         /// </summary>
-        /// <param name="obj">The <see cref="Launcher"/> object that this methods uses to gather its information.</param>
-        public DirectoryInfo CreateLauncherDirectory(Launcher obj)
+        /// <param name="obj">The <see cref="LauncherCollection"/> object that this methods uses to gather its information.</param>
+        public DirectoryInfo CreateLauncherDirectory(LauncherCollection obj)
         {
-            var message      = String.Empty;
-            var launcherName = obj.Name;
-            var path         = $"{Path}/{launcherName}";
+            var message        = String.Empty;
+            var collectionName = obj.Name;
+            var path           = $"{Path}/{collectionName}";
 
             DirectoryInfo directory = null;
 
@@ -293,22 +293,22 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
             }
             catch (DirectoryNotFoundException)
             {
-                message = "The launcher directory couldn't be created because the path was invalid (for example, it's on an unmapped drive).";
+                message = "The launcher collection directory couldn't be created because the path was invalid (for example, it's on an unmapped drive).";
                 ErrorDialogService.Show(message);
             }
             catch (PathTooLongException)
             {
-                message = "The launcher directory couldn't be created because the resulting path would be too long.";
+                message = "The launcher collection directory couldn't be created because the resulting path would be too long.";
                 ErrorDialogService.Show(message);
             }
             catch (IOException)
             {
-                message = $"The launcher directory couldn't be created because the specified path was a file, or the network name isn't known.";
+                message = $"The launcher collection directory couldn't be created because the specified path was a file, or the network name isn't known.";
                 ErrorDialogService.Show(message);
             }
             catch (UnauthorizedAccessException)
             {
-                message = "The launcher directory couldn't be created because this application doesn't have access to the destination.";
+                message = "The launcher collection directory couldn't be created because this application doesn't have access to the destination.";
                 ErrorDialogService.Show(message);
             }
             catch (Exception e)
@@ -322,14 +322,14 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         }
 
         /// <summary>
-        /// Creates the XML file where the launcher's information is held.
+        /// Creates the XML file where the launcher collection's information is held.
         /// </summary>
-        /// <param name="obj">The <see cref="Launcher"/> object that this methods uses to gather its information.</param>
-        public FileStream CreateLauncherFileStream(Launcher obj)
+        /// <param name="obj">The <see cref="LauncherCollection"/> object that this methods uses to gather its information.</param>
+        public FileStream CreateLauncherFileStream(LauncherCollection obj)
         {
-            var message      = String.Empty;
-            var launcherName = obj.Name;
-            var path         = $"{Path}/{launcherName}/{launcherName}.xml";
+            var message        = String.Empty;
+            var collectionName = obj.Name;
+            var path           = $"{Path}/{collectionName}/{collectionName}.xml";
 
             FileStream stream = null;
 
@@ -339,22 +339,22 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
             }
             catch (DirectoryNotFoundException)
             {
-                message = "The launcher file couldn't be created because the path was invalid (for example, it's on an unmapped drive).";
+                message = "The launcher collection file couldn't be created because the path was invalid (for example, it's on an unmapped drive).";
                 ErrorDialogService.Show(message);
             }
             catch (PathTooLongException)
             {
-                message = "The launcher file couldn't be created because the resulting path would be too long.";
+                message = "The launcher collection file couldn't be created because the resulting path would be too long.";
                 ErrorDialogService.Show(message);
             }
             catch (IOException)
             {
-                message = $"The launcher file couldn't be created because the specified path was a file, or the network name isn't known.";
+                message = $"The launcher collection file couldn't be created because the specified path was a file, or the network name isn't known.";
                 ErrorDialogService.Show(message);
             }
             catch (UnauthorizedAccessException)
             {
-                message = "The launcher file couldn't be created because this application doesn't have access to the destination.";
+                message = "The launcher collection file couldn't be created because this application doesn't have access to the destination.";
                 ErrorDialogService.Show(message);
             }
             catch (Exception e)

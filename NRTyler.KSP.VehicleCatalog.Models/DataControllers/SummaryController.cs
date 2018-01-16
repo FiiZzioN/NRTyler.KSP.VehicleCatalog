@@ -5,14 +5,13 @@
 // Created          : 12-27-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 01-05-2018
+// Last Modified On : 01-16-2018
 //
 // License          : MIT License
 // ***********************************************************************
 
-using System;
 using NRTyler.KSP.VehicleCatalog.Models.DataProviders;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 
 namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
@@ -20,172 +19,97 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
     /// <summary>
     /// Contains the methods that a <see cref="Summary"/> object uses in order to fill its fields.
     /// </summary>
-    public static class SummaryController
+    public class SummaryController
     {
+        #region Summary Controllers
 
         /// <summary>
-        /// Gets the price of the cheapest and most expensive launcher in a vehicle family, 
-        /// and then returns them in the form of a <see cref="PriceSummary"/>.
+        /// Gets the fairing summary controller so you access the methods required to get a fairing summary.
         /// </summary>
-        /// <param name="collection">An enumerable collection of type <see cref="LauncherCollection"/>.</param>
-        /// <returns>
-        /// A <see cref="PriceSummary"/> containing the price of the cheapest and 
-        /// most expensive launcher in a vehicle family.
-        /// </returns>
-        public static PriceSummary GetPriceSummary(this IEnumerable<LauncherCollection> collection)
-        {
-            // The reason for this is 'cheapest' can only go lower and 'mostExpensive' can only go higher.
-            var cheapest      = decimal.MaxValue;
-            var mostExpensive = decimal.MinValue;
+        private FairingSummaryController FairingController { get; } = new FairingSummaryController();
+        /// <summary>
+        /// Gets the price summary controller so you access the methods required to get a price summary.
+        /// </summary>
+        private PriceSummaryController PriceController { get; } = new PriceSummaryController();
+        /// <summary>
+        /// Gets the capability summary controller so you access the methods required to get a capability summary.
+        /// </summary>
+        private CapabilitySummaryController CapabilityController { get; } = new CapabilitySummaryController(); 
 
-            foreach (var launcher in collection)
-            {
-                // Get's the price summary for the version.
-                var priceSummary = launcher.GetPriceSummary();
+        #endregion
 
-                // Check to make sure the values returned are cheaper or more expensive. 
-                // If they are, update the values, otherwise we continue checking the collection.
-                if (priceSummary.Cheapest < cheapest)
-                {
-                    cheapest = priceSummary.Cheapest;
-                }
-                if (priceSummary.MostExpensive > mostExpensive)
-                {
-                    mostExpensive = priceSummary.MostExpensive;
-                }                
-            }
+        /// <summary>
+        /// Gets a complete <see cref="Summary"/> for the specified <see cref="VehicleFamily"/>.
+        /// </summary>
+        /// <param name="vehicleFamily">The <see cref="VehicleFamily"/> to analyze.</param>
+        public Summary GetFamilySummary(VehicleFamily vehicleFamily)
+        {       
+            var numberOfVersions  = GetNumberOfVersions(vehicleFamily);
+            var fairingSummary    = FairingController.GetFairingSummary(vehicleFamily);
+            var priceSummary      = PriceController.GetPriceSummary(vehicleFamily);
+            var capabilitySummary = CapabilityController.GetCapabilitySummary(vehicleFamily).ToList();
 
-            return new PriceSummary(cheapest, mostExpensive);
+            return new Summary(numberOfVersions, capabilitySummary, fairingSummary, priceSummary);
         }
 
         /// <summary>
-        /// Gets the price of the cheapest and most expensive launcher in a launcher collection, 
-        /// and then returns them in the form of a <see cref="PriceSummary"/>.
+        /// Gets a complete <see cref="Summary"/> for the specified <see cref="LauncherCollection"/>.
         /// </summary>
-        /// <param name="collection">An enumerable collection of type <see cref="Launcher"/>.</param>
-        /// <returns>
-        /// A <see cref="PriceSummary"/> containing the price of the cheapest and 
-        /// most expensive launcher in a Launcher collection.
-        /// </returns>
-        public static PriceSummary GetPriceSummary(this IEnumerable<Launcher> collection)
+        /// <param name="launcherCollection">The <see cref="LauncherCollection"/> to analyze.</param>
+        public Summary GetCollectionSummary(LauncherCollection launcherCollection)
         {
-            // The reason for this is 'cheapest' can only go lower and 'mostExpensive' can only go higher.
-            var cheapest      = decimal.MaxValue;
-            var mostExpensive = decimal.MinValue;
+            var numberOfVersions  = launcherCollection.Launchers.Count;
+            var fairingSummary    = FairingController.GetFairingSummary(launcherCollection.Launchers);
+            var priceSummary      = PriceController.GetPriceSummary(launcherCollection.Launchers);
+            var capabilitySummary = CapabilityController.GetCapabilitySummary(launcherCollection.Launchers).ToList();
 
-            foreach (var launcher in collection)
-            {
-                // If the price is less than the current 'cheapest' value, then replace it with the cheaper value.
-                if (launcher.Price < cheapest)
-                {
-                    cheapest = launcher.Price;
-                }
-
-                // If the price is more than the current 'mostExpensive' value, then replace it with the more expensive value.
-                if (launcher.Price > mostExpensive)
-                {
-                    mostExpensive = launcher.Price;
-                }
-            }
-
-            return new PriceSummary(cheapest, mostExpensive);
-        }
-
-
-        /// <summary>
-        /// Gets the values from the longest and the largest diameter fairing in a vehicle family
-        /// and returns the values in the form of a <see cref="FairingSummary"/>;
-        /// </summary>
-        /// <param name="collection">An enumerable collection of type <see cref="LauncherCollection"/>.</param>
-        /// <returns>
-        /// A <see cref="FairingSummary"/> containing the longest 
-        /// and the largest diameter fairing in a vehicle family.
-        /// </returns>
-        public static FairingSummary GetFairingSummary(this IEnumerable<LauncherCollection> collection)
-        {
-            // The reason for this is 'maxLength' and 'maxDiameter' can only go higher.
-            double? maxLength   = double.MinValue;
-            double? maxDiameter = double.MinValue;
-
-            foreach (var launcher in collection)
-            {
-                // Get's the price summary for the version.
-                var fairingSummary = launcher.GetFairingSummary();
-
-                // Check to make sure the values returned are greater than the current values. 
-                // If they are, update the values, otherwise we continue checking the collection.
-                if (fairingSummary.MaxLength > maxLength)
-                {
-                    maxLength = fairingSummary.MaxLength;
-                }
-                if (fairingSummary.MaxDiameter > maxDiameter)
-                {
-                    maxDiameter = fairingSummary.MaxDiameter;
-                }
-            }
-
-            return new FairingSummary(maxLength, maxDiameter);
+            return new Summary(numberOfVersions, capabilitySummary, fairingSummary, priceSummary);
         }
 
         /// <summary>
-        /// Gets the values from the longest and the largest diameter fairing in a launcher collection
-        /// and returns the values in the form of a <see cref="FairingSummary"/>;
+        /// Gets the number of launchers in a <see cref="VehicleFamily"/> and it's associated collection of <see cref="LauncherCollection"/>.
         /// </summary>
-        /// <param name="collection">An enumerable collection of type <see cref="Launcher"/>.</param>
-        /// <returns>
-        /// A <see cref="FairingSummary"/> containing the longest and 
-        /// the largest diameter fairing in a launcher collection.
-        /// </returns>
-        public static FairingSummary GetFairingSummary(this IEnumerable<Launcher> collection)
+        /// <param name="vehicleFamily">The <see cref="VehicleFamily"/> to analyze.</param>
+        public int GetNumberOfVersions(VehicleFamily vehicleFamily)
         {
-            // The reason for this is 'maxLength' and 'maxDiameter' can only go higher.
-            double? maxLength   = double.MinValue;
-            double? maxDiameter = double.MinValue;
+            var collectionCount = vehicleFamily.LauncherCollection.Count;
+            var launcherCount   = vehicleFamily.Launchers.Count;
 
-            // Parse through each launcher...
-            foreach (var launcher in collection)
-            {
-                // And then parse through each one of it's fairings to get their values.
-                // Do this until you go through all launchers fairings.
-                foreach (var fairing in launcher.Fairings)
-                {
-                    if (fairing.Length > maxLength)
-                    {
-                        maxLength = fairing.Length;
-                    }
-                    if (fairing.Diameter > maxDiameter)
-                    {
-                        maxDiameter = fairing.Diameter;
-                    }
-                }
-            }
+            return collectionCount + launcherCount;
+        }
 
-            return new FairingSummary(maxLength, maxDiameter);
+        #region Helpers
+
+        /// <summary>
+        /// Gets the larger value of the two items.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type of object to compare. Must be a <see langword="struct"/>
+        /// and implement the <see cref="IComparable{T}"/> interface.
+        /// </typeparam>
+        /// <param name="itemOne">The first item to compare.</param>
+        /// <param name="itemTwo">The second item to compare.</param>
+        public static T GetLargerValue<T>(T itemOne, T itemTwo) where T : struct, IComparable<T>
+        {
+            // Greater Than Zero = This current instance follows the object specified by the CompareTo method argument in the sort order.
+            return itemOne.CompareTo(itemTwo) > 0 ? itemOne : itemTwo; ;
         }
 
         /// <summary>
-        /// Gets the number of launchers in a vehicle family.
+        /// Gets the smaller value of the two items.
         /// </summary>
-        /// <param name="collection">A collection of type <see cref="LauncherCollection"/>..</param>
-        /// <returns>The number of items in the vehicle family.</returns>
-        public static int GetNumberOfVersions(this ICollection<LauncherCollection> collection)
+        /// <typeparam name="T">
+        /// The type of object to compare. Must be a <see langword="struct"/>
+        /// and implement the <see cref="IComparable{T}"/> interface.
+        /// </typeparam>
+        /// <param name="itemOne">The first item to compare.</param>
+        /// <param name="itemTwo">The second item to compare.</param>
+        public static T GetSmallerValue<T>(T itemOne, T itemTwo) where T : struct, IComparable<T>
         {
-            if (collection == null)
-            {
-                throw new ArgumentNullException($"{nameof(collection)}", "The collection cannot be null.");
-            }
+            // Less Than Zero = This object precedes the object specified by the CompareTo method in the sort order.
+            return itemOne.CompareTo(itemTwo) < 0 ? itemOne : itemTwo; ;
+        } 
 
-            return collection.Sum(GetNumberOfVersions);
-        }
-
-        /// <summary>
-        /// Gets the number of launchers in a launcher collection
-        /// </summary>
-        /// <param name="collection">A collection of type <see cref="Launcher"/>..</param>
-        /// <returns>The number of items in the launcher collection.</returns>
-        public static int GetNumberOfVersions(this ICollection<Launcher> collection)
-        {
-            return collection.Count;
-        }
+        #endregion
     }
 }

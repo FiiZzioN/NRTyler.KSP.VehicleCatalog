@@ -20,35 +20,35 @@ using System.IO;
 namespace NRTyler.KSP.VehicleCatalog.ServiceTests.RepositoryTests
 {
     [TestClass]
-    public class VehicleFamilyRepoTests : CatalogInitializer
+    public class VehicleFamilyRepoTests  // : CatalogInitializer
     {
-        [TestInitialize]
-        public override void Initialize()
-        {
-            SetupMethods();
+        //[TestInitialize]
+        //public override void Initialize()
+        //{
+        //    SetupMethods();
 
-            Settings = new ApplicationSettings();
-            Path     = Settings.VehicleFamilyLocation;
-            Repo     = new VehicleFamilyRepo(Path, new ErrorReport(false));
-        }
+        //    Settings = new ApplicationSettings();
+        //    Path     = Settings.VehicleFamilyLocation;
+        //    Repo     = new VehicleFamilyRepo(Path, new ErrorReport(false));
+        //}
 
-        private string Path { get; set; }
-        private ApplicationSettings Settings { get; set; }
-        private VehicleFamilyRepo Repo { get; set; }
+        //private string Path { get; set; }
+        //private ApplicationSettings Settings { get; set; }
+        //private VehicleFamilyRepo Repo { get; set; }
 
-        [TestMethod]
-        public void VehicleFamilyRepoCreationTest()
-        {
-            var familyName    = Family.Name;
-            var directoryPath = $"{Path}/{familyName}";
-            var xmlPath       = $"{Path}/{familyName}/{familyName} Family.xml";
+        //[TestMethod]
+        //public void VehicleFamilyRepoCreationTest()
+        //{
+        //    var familyName    = Family.Name;
+        //    var directoryPath = $"{Path}/{familyName}";
+        //    var xmlPath       = $"{Path}/{familyName}/{familyName} Family.xml";
 
-            Directory.Delete(directoryPath, true);
+        //    Directory.Delete(directoryPath, true);
 
-            Repo.Create(Family);
+        //    Repo.Create(Family);
 
-            Assert.IsTrue(Directory.Exists(directoryPath));
-            Assert.IsTrue(File.Exists(xmlPath));
-        }
+        //    Assert.IsTrue(Directory.Exists(directoryPath));
+        //    Assert.IsTrue(File.Exists(xmlPath));
+        //}
     }
 }

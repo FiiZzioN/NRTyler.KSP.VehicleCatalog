@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRTyler.KSP.VehicleCatalog.Models", "NRTyler.KSP.VehicleCatalog.Models\NRTyler.KSP.VehicleCatalog.Models.csproj", "{73300A86-D068-4FD7-A88E-34E64815B7B4}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRTyler.KSP.VehicleCatalog.Services", "NRTyler.KSP.VehicleCatalog.Services\NRTyler.KSP.VehicleCatalog.Services.csproj", "{6A9F0711-975E-4C25-A967-D70F5C7958E5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRTyler.KSP.VehicleCatalog.ServiceTests", "NRTyler.KSP.VehicleCatalog.ServiceTests\NRTyler.KSP.VehicleCatalog.ServiceTests.csproj", "{0784CE03-ED42-41DD-BEF0-FA550489081C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRTyler.KSP.VehicleCatalog.Console", "NRTyler.KSP.VehicleCatalog.Console\NRTyler.KSP.VehicleCatalog.Console.csproj", "{08033FC8-BB83-4731-8A55-D1B9A819B158}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{0784CE03-ED42-41DD-BEF0-FA550489081C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0784CE03-ED42-41DD-BEF0-FA550489081C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0784CE03-ED42-41DD-BEF0-FA550489081C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08033FC8-BB83-4731-8A55-D1B9A819B158}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08033FC8-BB83-4731-8A55-D1B9A819B158}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08033FC8-BB83-4731-8A55-D1B9A819B158}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08033FC8-BB83-4731-8A55-D1B9A819B158}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{60E084C5-A96F-4AED-B910-EF88A98A8735} = {9516D1D7-106A-4D3F-9BD1-A32D85D66346}
 		{C619C4FA-5ECD-4828-BBE2-6455CE2BD48E} = {9516D1D7-106A-4D3F-9BD1-A32D85D66346}
 		{0784CE03-ED42-41DD-BEF0-FA550489081C} = {9516D1D7-106A-4D3F-9BD1-A32D85D66346}
+		{08033FC8-BB83-4731-8A55-D1B9A819B158} = {9516D1D7-106A-4D3F-9BD1-A32D85D66346}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BAF2E56F-8C6E-4B5C-8492-4E680EC4DB69}

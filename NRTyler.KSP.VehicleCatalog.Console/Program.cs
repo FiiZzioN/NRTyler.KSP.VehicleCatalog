@@ -1,197 +1,48 @@
 ﻿// ***********************************************************************
-// Assembly         : NRTyler.KSP.VehicleCatalog.ModelTests
+// Assembly         : NRTyler.KSP.VehicleCatalog.Console
 //
 // Author           : Nicholas Tyler
-// Created          : 12-27-2017
+// Created          : 01-12-2018
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 12-28-2017
+// Last Modified On : 01-12-2018
 //
 // License          : MIT License
 // ***********************************************************************
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using NRTyler.KSP.Common.Enums;
 using NRTyler.KSP.VehicleCatalog.Models.DataControllers;
 using NRTyler.KSP.VehicleCatalog.Models.DataProviders;
-using System.Collections.Generic;
+using NRTyler.KSP.VehicleCatalog.ModelTests;
 
-namespace NRTyler.KSP.VehicleCatalog.ModelTests
+namespace NRTyler.KSP.VehicleCatalog.Console
 {
-
-    /// <summary>
-    /// Meant to be an aid for the <see cref="VehicleFamily"/>, 
-    /// <see cref="LauncherCollection"/>, and <see cref="Launcher"/> <see langword="unit tests"/>.
-    /// </summary>
-    public abstract class CatalogInitializer
+    public class Program : CatalogInitializer
     {
-        #region Test Initialization
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the <see cref="VehicleFamily"/> that various <see langword="unit tests"/> can use.
-        /// </summary>
-        protected virtual VehicleFamily Family { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="LauncherCollection"/> that various <see langword="unit tests"/> can use.
-        /// </summary>
-        protected virtual LauncherCollection Collection { get; set; }
-
         /// <summary>
         /// Gets or sets an Angara A5 <see cref="Launcher"/> that various <see langword="unit tests"/> can use.
         /// </summary>
-        protected virtual Launcher AngaraA5 { get; set; }
+        protected static Launcher AngaraA5 { get; set; }
 
         /// <summary>
         /// Gets or sets an Angara A5 Briz-M <see cref="Launcher"/> that various <see langword="unit tests"/> can use.
         /// </summary>
-        protected virtual Launcher AngaraA5BrizM { get; set; }
+        protected static Launcher AngaraA5BrizM { get; set; }
 
         /// <summary>
         /// Gets or sets an Angara A5 KVTK <see cref="Launcher"/> that various <see langword="unit tests"/> can use.
         /// </summary>
-        protected virtual Launcher AngaraA5KVTK { get; set; }
-
-        #endregion
-
-        #region Launcher, LauncherCollection, and VehicleFamily Creation Methods
-
-        #region Family Member Creation
-
-        /// <summary>
-        /// Creates the <see cref="VehicleFamily"/> that's used in the test initializer.
-        /// </summary>
-        protected virtual void CreateVehicleFamily()
-        {
-            Family = new VehicleFamily(CreateFamilyName())
-            {
-                Notes           = CreateFamilyNotes(),
-                PreviewLocation = CreateFamilyPreviewLocation(),
-            };
-
-            // Add the collection(s) to the family and then create the summary.
-            Family.LauncherCollection.Add(Collection);
-
-            Family.Summary = CreateFamilySummary();
-        }
-
-        /// <summary>
-        /// Creates the name for the <see cref="Models.DataProviders.VehicleFamily"/>.
-        /// </summary>
-        protected virtual string CreateFamilyName()
-        {
-            return "Angara";
-        }
-
-        /// <summary>
-        /// Create the notes for the <see cref="Models.DataProviders.VehicleFamily"/>.
-        /// </summary>
-        protected virtual List<Note> CreateFamilyNotes()
-        {
-            return new List<Note>()
-            {
-                new Note()
-                {
-                    Title = "Family Strength",
-                    Body  = "Has many versions for all mission types to help tailor the vehicle to the mission's needs."
-                }
-            };
-        }
-
-        /// <summary>
-        /// Create the preview file location for the <see cref="Models.DataProviders.VehicleFamily"/>.
-        /// </summary>
-        protected virtual string CreateFamilyPreviewLocation()
-        {
-            return @"C:/Nick/TestFolder/FamilyPictures/NothingHere.png";
-        }
-
-        /// <summary>
-        /// Create the summary for the <see cref="Models.DataProviders.VehicleFamily"/>.
-        /// </summary>
-        protected virtual Summary CreateFamilySummary()
-        {
-            var controller = new SummaryController();
-            var summary    = controller.GetFamilySummary(Family);
-
-            return summary;
-        }
-
-        #endregion
-
-        #region Launcher Collection Member Creation
-
-        /// <summary>
-        /// Creates the <see cref="LauncherCollection"/> that's used in the test initializer.
-        /// </summary>
-        protected virtual void CreateCollection()
-        {
-            Collection = new LauncherCollection(CreateCollectionName())
-            {
-                Notes           = CreateCollectionNotes(),
-                PreviewLocation = CreateCollectionPreviewLocation()
-            };
-
-            // Add the launcher(s) to the collection and then create the summary.
-            Collection.Launchers.Add(AngaraA5);
-            Collection.Launchers.Add(AngaraA5BrizM);
-            Collection.Launchers.Add(AngaraA5KVTK);
-
-            //Collection.Summary = CreateCollectionSummary();
-        }
-
-        /// <summary>
-        /// Creates the name for the <see cref="LauncherCollection"/>.
-        /// </summary>
-        protected virtual string CreateCollectionName()
-        {
-            return "A5";
-        }
-
-        /// <summary>
-        /// Create the notes for the <see cref="LauncherCollection"/>.
-        /// </summary>
-        protected virtual List<Note> CreateCollectionNotes()
-        {
-            return new List<Note>()
-            {
-                new Note()
-                {
-                    Title = "Version Strength",
-                    Body  = "Has many upper stages for all payload types to help tailor the vehicle to the mission's needs."
-                }
-            };
-        }
-
-        /// <summary>
-        /// Create the preview file location for the <see cref="LauncherCollection"/>.
-        /// </summary>
-        protected virtual string CreateCollectionPreviewLocation()
-        {
-            return @"C:/Nick/TestFolder/CollectionPictures/NothingHere.png";
-        }
-
-        /// <summary>
-        /// Create the summary for the <see cref="LauncherCollection"/>.
-        /// </summary>
-        protected virtual Summary CreateCollectionSummary()
-        {
-            var controller = new SummaryController();
-            var summary    = controller.GetFamilySummary(Family);
-
-            return summary;
-        }
-
-        #endregion
-
-        #region Launcher Creation
+        protected static Launcher AngaraA5KVTK { get; set; }
 
         /// <summary>
         /// Creates an Angara A5 launcher.
         /// </summary>
-        protected virtual void CreateAngaraA5()
+        protected static void CreateAngaraA5()
         {
             // Looks complicated, but all it's doing is holding the information that makes up an Angara A5 Rocket.
             AngaraA5 = new Launcher()
@@ -305,7 +156,7 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         /// <summary>
         /// Creates an Angara A5 Briz-M launcher.
         /// </summary>
-        protected virtual void CreateAngaraA5BrizM()
+        protected static void CreateAngaraA5BrizM()
         {
             // Looks complicated, but all it's doing is holding the information 
             // that makes up an Angara A5 rocket with a Briz-M upper stage.
@@ -421,7 +272,7 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
         /// <summary>
         /// Creates an Angara A5 KVTK launcher.
         /// </summary>
-        protected virtual void CreateAngaraA5KVTK()
+        protected static void CreateAngaraA5KVTK()
         {
             // Looks complicated, but all it's doing is holding the information 
             // that makes up an Angara A5 rocket with a cryogenic KVTK upper stage.
@@ -522,7 +373,7 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
                         },
                         Trajectory = new Trajectory()
                         {
-                            OrbitType      = OrbitType.GEO,
+                            OrbitType      = OrbitType.SSO,
                             Apoapsis       = 11475,
                             Periapsis      = 11475,
                             Inclination    = 0.0,
@@ -533,41 +384,60 @@ namespace NRTyler.KSP.VehicleCatalog.ModelTests
                 MaxPayloadDimensions = new PayloadDimensions(6, 2.75)
             };
         }
-
-        #endregion
-
-        #endregion
-
-        #region Initializer
-
-        /// <summary>
-        /// The method that gets called after each test has been completed.
-        /// </summary>
-        [TestInitialize]
-        public virtual void Initialize()
+        private static void Main()
         {
-            SetupMethods();
-        }
+            var family = new VehicleFamily("Angara");
 
-        /// <summary>
-        /// This method is used to setup the <see cref="CatalogInitializer"/> class. Call this in 
-        /// any class that overrides the Initialize() method so everything gets set up correctly.
-        /// </summary>
-        protected virtual void SetupMethods()
-        {
-            // Vehicles created first so they can be added to the collection.
             CreateAngaraA5();
             CreateAngaraA5BrizM();
             CreateAngaraA5KVTK();
 
-            // Since we now have vehicles, we can create the collection. From 
-            // there, we have a collection, so we can then create a family.
-            CreateCollection();
-            CreateVehicleFamily();
+            var collection = UseLauncherCollection();
+            family.LauncherCollection.Add(collection);
+
+
+            foreach (var launcher in UseLaunchers())
+            {
+                family.Launchers.Add(launcher);
+            }
+
+            var controller = new SummaryController();
+            family.Summary = controller.GetFamilySummary(family);
+
+            foreach (var payloadRangeSummary in family.Summary.PayloadRangeSummary)
+            {                
+                WriteLine($"OrbitType: {payloadRangeSummary.OrbitType}");
+                WriteLine($" Lightest: {payloadRangeSummary.PayloadRange.Lightest}");
+                WriteLine($" Heaviest: {payloadRangeSummary.PayloadRange.Heaviest}");
+                WriteLine("---------------");
+            }
         }
 
-        #endregion
+        private static void WriteLine(object obj = null)
+        {
+            System.Console.WriteLine(obj);
+        }
 
-        #endregion
+        private static LauncherCollection UseLauncherCollection()
+        {
+            var collection = new LauncherCollection();
+            collection.Launchers.Add(AngaraA5);
+            collection.Launchers.Add(AngaraA5BrizM);
+            //collection.Launchers.Add(AngaraA5KVTK);
+
+            return collection;
+        }
+
+        private static List<Launcher> UseLaunchers()
+        {
+            var collection = new List<Launcher>
+            {
+               // AngaraA5,
+                //AngaraA5BrizM,
+                AngaraA5KVTK 
+            };
+
+            return collection;
+        }
     }
 }

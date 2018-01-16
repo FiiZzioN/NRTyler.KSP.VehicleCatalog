@@ -5,7 +5,7 @@
 // Created          : 12-26-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 12-27-2017
+// Last Modified On : 01-12-2018
 //
 // License          : MIT License
 // ***********************************************************************
@@ -30,15 +30,20 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// <summary>
         /// Initializes a new instance of the <see cref="Summary"/> class.
         /// </summary>
-        public Summary()
+        public Summary() : this(0, new List<CapabilitySummary>(), new FairingSummary(), new PriceSummary())
         {
-            PayloadRangeSummary = new List<PayloadRangeSummary>();
-            FairingSummary      = new FairingSummary();
-            PriceSummary        = new PriceSummary();
+        }
+
+        public Summary(int numberOfVersions, List<CapabilitySummary> payloadRangeSummary, FairingSummary fairingSummary, PriceSummary priceSummary)
+        {
+            NumberOfVerisons    = numberOfVersions;
+            PayloadRangeSummary = payloadRangeSummary;
+            FairingSummary      = fairingSummary;
+            PriceSummary        = priceSummary;
         }
 
         private int numberOfVersions;
-        private List<PayloadRangeSummary> payloadRangeSummary;
+        private List<CapabilitySummary> payloadRangeSummary;
         private FairingSummary fairingSummary;
         private PriceSummary priceSummary;
 
@@ -60,7 +65,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// Gets or sets the payload range summary for the vehicle family.
         /// </summary>
         [DataMember]
-        public List<PayloadRangeSummary> PayloadRangeSummary
+        public List<CapabilitySummary> PayloadRangeSummary
         {
             get { return this.payloadRangeSummary; }
             set

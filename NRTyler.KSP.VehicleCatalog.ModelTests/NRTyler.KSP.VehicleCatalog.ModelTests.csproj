@@ -75,6 +75,10 @@
       <Project>{73300a86-d068-4fd7-a88e-34e64815b7b4}</Project>
       <Name>NRTyler.KSP.VehicleCatalog.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NRTyler.KSP.VehicleCatalog.Services\NRTyler.KSP.VehicleCatalog.Services.csproj">
+      <Project>{6a9f0711-975e-4c25-a967-d70f5c7958e5}</Project>
+      <Name>NRTyler.KSP.VehicleCatalog.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

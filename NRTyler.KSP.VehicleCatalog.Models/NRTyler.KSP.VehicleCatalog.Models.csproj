@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataControllers\CapabilitySummaryController.cs" />
+    <Compile Include="DataControllers\FairingSummaryController.cs" />
+    <Compile Include="DataControllers\PriceSummaryController.cs" />
     <Compile Include="DataControllers\SearchController.cs" />
     <Compile Include="DataControllers\SummaryController.cs" />
     <Compile Include="DataProviders\FairingSummary.cs" />
@@ -63,7 +66,7 @@
     <Compile Include="DataProviders\Trajectory.cs" />
     <Compile Include="DataProviders\Capability.cs" />
     <Compile Include="DataProviders\Note.cs" />
-    <Compile Include="DataProviders\PayloadRangeSummary.cs" />
+    <Compile Include="DataProviders\CapabilitySummary.cs" />
     <Compile Include="DataProviders\VehicleFamily.cs" />
     <Compile Include="DataProviders\LauncherCollection.cs" />
     <Compile Include="Interfaces\INotepad.cs" />

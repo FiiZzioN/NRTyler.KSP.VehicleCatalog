@@ -18,6 +18,7 @@ using System.Collections.Generic;
 
 namespace NRTyler.KSP.VehicleCatalog.ModelTests
 {
+
     [TestClass]
     public class CatalogInitializerTests : CatalogInitializer
     {

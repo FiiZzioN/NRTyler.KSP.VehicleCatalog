@@ -5,7 +5,7 @@
 // Created          : 10-01-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 12-20-2017
+// Last Modified On : 01-12-2018
 //
 // License          : MIT License
 // ***********************************************************************
@@ -30,7 +30,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Fairing"/> class.
 		/// </summary>
-		public Fairing() : this(null, null, null)
+		public Fairing() : this(null, 0, 0)
 		{
 			
 		}
@@ -41,7 +41,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// <param name="id">The fairings identifier. Examples include: Small, Medium, Large</param>
         /// <param name="length">The length of the fairing.</param>
         /// <param name="diameter">The diameter of the fairing.</param>
-		public Fairing(string id, double? length, double? diameter)
+		public Fairing(string id, double length, double diameter)
         {
             ID       = id.HandleNullOrWhiteSpace("ID Not Specified");
 		    Length   = length;
@@ -49,8 +49,8 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         }
 
         private string id;
-        private double? length;
-		private double? diameter;
+        private double length;
+		private double diameter;
 
 	    /// <summary>
 	    /// Gets or sets the fairings identifier.
@@ -70,14 +70,14 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 	    /// Gets or sets the length of the fairing.
 	    /// </summary>
 	    [DataMember]
-	    public double? Length
+	    public double Length
 	    {
 	        get { return this.length; }
 	        set
 	        {
 	            if (value < 0)
 	            {
-	                value = null;
+	                value = 0;
 	            }
 
                 this.length = value;
@@ -89,14 +89,14 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// Gets or sets the diameter of the fairing.
         /// </summary>
         [DataMember]
-	    public double? Diameter
+	    public double Diameter
 	    {
 	        get { return this.diameter; }
 	        set
 	        {
 	            if (value < 0)
 	            {
-	                value = null;
+	                value = 0;
 	            }
 
                 this.diameter = value;

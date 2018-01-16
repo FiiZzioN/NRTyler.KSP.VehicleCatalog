@@ -1,36 +1,35 @@
-﻿// ************************************************************************
+﻿// ***********************************************************************
 // Assembly         : NRTyler.KSP.VehicleCatalog.Models
-// 
+//
 // Author           : Nicholas Tyler
 // Created          : 12-26-2017
-// 
+//
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 12-26-2017
-// 
+// Last Modified On : 01-12-2018
+//
 // License          : MIT License
 // ***********************************************************************
 
 using NRTyler.CodeLibrary.Annotations;
+using NRTyler.CodeLibrary.Extensions;
 using NRTyler.KSP.VehicleCatalog.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using NRTyler.CodeLibrary.Extensions;
 
 namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 {
     /// <summary>
     /// A vehicle family is a collection of vehicle versions.
     /// </summary>
-    /// <seealso cref="System.Collections.Generic.List{NRTyler.KSP.VehicleCatalog.Models.DataProviders.LauncherCollection}" />
     /// <seealso cref="NRTyler.KSP.VehicleCatalog.Models.Interfaces.INotepad" />
     /// <seealso cref="NRTyler.KSP.VehicleCatalog.Models.Interfaces.IPreview" />
     /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
     [Serializable]
     [DataContract(Name = "VehicleFamily")]
-    public class VehicleFamily : List<LauncherCollection>, INotepad, IPreview, INotifyPropertyChanged
+    public class VehicleFamily : INotepad, IPreview, INotifyPropertyChanged
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="VehicleFamily"/> class.
@@ -47,9 +46,11 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// <param name="name">The name of the vehicle family.</param>
         public VehicleFamily(string name)
         {
-            Name    = name;
-            Notes   = new List<Note>();
-            Summary = new Summary();
+            Name               = name;
+            Notes              = new List<Note>();
+            Summary            = new Summary();
+            Launchers          = new List<Launcher>();
+            LauncherCollection = new List<LauncherCollection>();
         }
 
         #region Fields of Properties
@@ -58,7 +59,9 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         private List<Note> notes;
         private string previewLocation;
         private Summary summary;
-        //private LauncherCollection launcherVersions;
+        private List<Launcher> launchers;
+        private List<LauncherCollection> launcherCollection;
+
 
         /// <summary>
         /// Gets or sets the name of this vehicle family.
@@ -120,23 +123,38 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
             }
         }
 
-        /*
         /// <summary>
-        /// Gets or sets the vehicle versions in the vehicle family.
+        /// Gets or sets the launchers included in the family.
         /// </summary>
         [DataMember]
-        public LauncherCollection LauncherVersions
+        public List<Launcher> Launchers
         {
-            get { return this.launcherVersions; }
+            get { return this.launchers; }
             set
             {
                 if (value == null) return;
 
-                this.launcherVersions = value;
-                OnPropertyChanged(nameof(LauncherVersions));
+                this.launchers = value;
+                OnPropertyChanged(nameof(Launchers));
             }
         }
-        */
+
+        /// <summary>
+        /// Gets or sets the launcher collections included in the family.
+        /// </summary>
+        [DataMember]
+        public List<LauncherCollection> LauncherCollection
+        {
+            get { return this.launcherCollection; }
+            set
+            {
+                if (value == null) return;
+
+                this.launcherCollection = value;
+                OnPropertyChanged(nameof(LauncherCollection));
+            }
+        }
+
         #endregion
 
         #region INotifyPropertyChanged Members
