@@ -5,7 +5,7 @@
 // Created          : 12-26-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 01-12-2018
+// Last Modified On : 01-21-2018
 //
 // License          : MIT License
 // ***********************************************************************
@@ -47,15 +47,17 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         public VehicleFamily(string name)
         {
             Name               = name;
+            GlobalIdentifier   = Guid.NewGuid();
             Notes              = new List<Note>();
             Summary            = new Summary();
             Launchers          = new List<Launcher>();
-            LauncherCollection = new List<LauncherCollection>();
+            LauncherCollections = new List<LauncherCollection>();
         }
 
         #region Fields of Properties
 
         private string name;
+        private Guid globalIdentifier;
         private List<Note> notes;
         private string previewLocation;
         private Summary summary;
@@ -74,6 +76,21 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
             {
                 this.name = value.HandleNullOrWhiteSpace("Invalid Name");
                 OnPropertyChanged(nameof(Name));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the <see cref="Guid"/> that various launchers and launcher
+        /// collections will use to determine whether they belong to this family.
+        /// </summary>
+        [DataMember]
+        public Guid GlobalIdentifier
+        {
+            get { return this.globalIdentifier; }
+            set
+            {
+                this.globalIdentifier = value;
+                OnPropertyChanged(nameof(GlobalIdentifier));
             }
         }
 
@@ -126,7 +143,6 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// <summary>
         /// Gets or sets the launchers included in the family.
         /// </summary>
-        [DataMember]
         public List<Launcher> Launchers
         {
             get { return this.launchers; }
@@ -142,8 +158,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// <summary>
         /// Gets or sets the launcher collections included in the family.
         /// </summary>
-        [DataMember]
-        public List<LauncherCollection> LauncherCollection
+        public List<LauncherCollection> LauncherCollections
         {
             get { return this.launcherCollection; }
             set
@@ -151,7 +166,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
                 if (value == null) return;
 
                 this.launcherCollection = value;
-                OnPropertyChanged(nameof(LauncherCollection));
+                OnPropertyChanged(nameof(LauncherCollections));
             }
         }
 

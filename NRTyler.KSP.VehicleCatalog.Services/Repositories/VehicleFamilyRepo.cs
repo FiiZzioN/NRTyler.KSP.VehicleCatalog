@@ -5,7 +5,7 @@
 // Created          : 01-05-2018
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 01-08-2018
+// Last Modified On : 01-21-2018
 //
 // License          : MIT License
 // ***********************************************************************
@@ -21,12 +21,18 @@ using System.Xml;
 
 namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
 {
+    /// <summary>
+    /// Handles the creation, retrieval, updating, and deletion of <see cref="VehicleFamily"/> objects and their directories.
+    /// </summary>
+    /// <seealso cref="NRTyler.CodeLibrary.Interfaces.Generic.IDataContractRepository{NRTyler.KSP.VehicleCatalog.Models.DataProviders.LauncherCollection}" />
+    /// <seealso cref="NRTyler.CodeLibrary.Interfaces.Generic.ICrudRepository{NRTyler.KSP.VehicleCatalog.Models.DataProviders.LauncherCollection}" />
+
     public class VehicleFamilyRepo : IDataContractRepository<VehicleFamily>, ICrudRepository<VehicleFamily>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="VehicleFamilyRepo"/> class.
         /// </summary>
-        /// <param name="path">The directory where vehicle families are stored.</param>
+        /// <param name="path">The directory where launcher collections are saved.</param>
         public VehicleFamilyRepo(string path) : this(path, new ErrorReport(true))
         {
             
@@ -35,7 +41,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         /// <summary>
         /// Initializes a new instance of the <see cref="VehicleFamilyRepo"/> class.
         /// </summary>
-        /// <param name="path">The directory where vehicle families are stored.</param>
+        /// <param name="path">The directory where launcher collections are saved.</param>
         /// <param name="errorDialogService">The dialog service that this will use when an error occurs.</param>
         public VehicleFamilyRepo(string path, IErrorDialogService errorDialogService)
         {
@@ -120,9 +126,9 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         }
 
         /// <summary>
-        /// Creates the specified <see cref="T:System.Object" />.
+        /// Creates the vehicle family's directory and XML file.
         /// </summary>
-        /// <param name="obj">The <see cref="T:System.Object" />.</param>
+        /// <param name="obj">The launcher collection you want to serialize.</param>
         public void Create(VehicleFamily obj)
         {
             var message    = String.Empty;
@@ -151,7 +157,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         }
 
         /// <summary>
-        /// Retrieves an <see cref="T:System.Object" /> with the specified key.
+        /// Retrieves a vehicle family with specified name / key.
         /// </summary>
         /// <param name="key">The name of the vehicle family.</param>
         public VehicleFamily Retrieve(string key)
@@ -209,9 +215,9 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         }
 
         /// <summary>
-        /// Updates the specified <see cref="T:System.Object" />.
+        /// Updates a vehicle family with the specified vehicle family.
         /// </summary>
-        /// <param name="obj">The <see cref="T:System.Object" />.</param>
+        /// <param name="obj">The vehicle family you wish to replace the old vehicle family with.</param>
         public void Update(VehicleFamily obj)
         {
             var message    = String.Empty;
@@ -234,7 +240,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         }
 
         /// <summary>
-        /// Deletes the family's directory with the specified key. This also removes all files inside of the directory.
+        /// Deletes the directory of the vehicle family with the specified name / key. This also removes all files inside of the directory.
         /// </summary>
         /// <param name="key">The name of the vehicle family.</param>
         public void Delete(string key)
@@ -276,9 +282,9 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         }
 
         /// <summary>
-        /// Creates the directory where the family's files are located.
+        /// Creates the directory where the vehicle family's files are located.
         /// </summary>
-        /// <param name="obj">The <see cref="VehicleFamily"/> object that this methods uses to gather its information.</param>
+        /// <param name="obj">The <see cref="VehicleFamily"/> object that this method uses to gather its information.</param>
         public DirectoryInfo CreateFamilyDirectory(VehicleFamily obj)
         {
             var message    = String.Empty;
@@ -322,14 +328,14 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         }
 
         /// <summary>
-        /// Creates the XML file where the family's information is held.
+        /// Creates the XML file where the vehicle family's information is held.
         /// </summary>
-        /// <param name="obj">The <see cref="VehicleFamily"/> object that this methods uses to gather its information.</param>
+        /// <param name="obj">The <see cref="VehicleFamily"/> object that this method uses to gather its information.</param>
         public FileStream CreateFamilyFileStream(VehicleFamily obj)
         {
             var message    = String.Empty;
             var familyName = obj.Name;
-            var path       = $"{Path}/{familyName}/{familyName} Family.xml";
+            var path       = $"{Path}/{familyName}/{familyName}.xml";
 
             FileStream stream = null;
 

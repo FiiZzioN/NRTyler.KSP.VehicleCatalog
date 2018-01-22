@@ -5,170 +5,46 @@
 // Created          : 12-27-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 12-28-2017
+// Last Modified On : 01-20-2018
 //
 // License          : MIT License
 // ***********************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NRTyler.KSP.VehicleCatalog.Models.DataControllers;
-using NRTyler.KSP.VehicleCatalog.Models.DataProviders;
-using System.Collections.Generic;
 
 namespace NRTyler.KSP.VehicleCatalog.ModelTests.DataControllerTests
 {
-    
     [TestClass]
     public class SummaryControllerTests : CatalogInitializer
     {
         [TestInitialize]
         public override void Initialize()
         {
-            SetupMethods();
-            Family.LauncherCollection.Add(AddAnotherCollection());
+            SetupCatalogInitializer(ExtraLaunchers.AddIndividually);
+
             Controller = new SummaryController();
         }
 
         public SummaryController Controller { get; set; }
 
-
-
-        /// <summary>
-        /// Adds this collection of launchers to a family. Only prices and fairings have 
-        /// been added to these launchers, so they are of no use for any other tests.
-        /// </summary>
-        public LauncherCollection AddAnotherCollection()
-        {
-            var collection = new LauncherCollection();
-
-            // Create some launchers with a range of price for more thorough tests.
-            var launcher1 = new Launcher()
-            {
-                Price = 20500
-            };
-            var launcher2 = new Launcher()
-            {
-                Price = 200000
-            };
-            var launcher3 = new Launcher()
-            {
-                Price = 5000
-            };
-            var launcher4 = new Launcher()
-            {
-                Price = 175000,
-                Fairings = new List<Fairing>()
-                {
-                    new Fairing("Normal", 11, 3.75)
-                }
-                
-            };
-            var launcher5 = new Launcher()
-            {
-                Price = -12000,
-                Fairings = new List<Fairing>()
-                {
-                    new Fairing("Normal", -15, -2)
-                }
-            };
-
-            collection.Launchers.Add(launcher1);
-            collection.Launchers.Add(launcher2);
-            collection.Launchers.Add(launcher3);
-            collection.Launchers.Add(launcher4);
-            collection.Launchers.Add(launcher5);
-
-            return collection;
-        }
-
-
-        //[TestMethod]
-        //public void SummaryController_Family_GetNumberOfVersions()
-        //{
-        //    // There are 8 vehicles in total when you add the number of vehicles in both collections together.
-        //    Assert.AreEqual(8, Family.GetNumberOfVersions());
-        //}
-
-        //[TestMethod]
-        //public void SummaryController_Collection_GetNumberOfVersions()
-        //{
-        //    // There are three vehicles in the inherited collection.
-        //    Assert.AreEqual(3, Collection.GetNumberOfVersions());
-        //}
-
-        //[TestMethod]
-        //public void SummaryController_Family_GetPriceSummary()
-        //{
-        //    const int lowest  = 0;
-        //    const int highest = 235000;
-
-        //    // Adds another collection of launchers to the family to see if the method searches throughout the entire family 
-        //    Family.Add(AddAnotherCollection());
-
-        //    // These are the cheapest and most expensive values when both collections are analyzed.
-        //    Assert.AreEqual(lowest , Family.GetPriceSummary().Cheapest);
-        //    Assert.AreEqual(highest, Family.GetPriceSummary().MostExpensive);
-        //}
-
-        //[TestMethod]
-        //public void SummaryController_Collection_GetPriceSummary()
-        //{
-        //    const int lowest  = 221000;
-        //    const int highest = 235000;
-
-        //    // These are the cheapest and most expensive values in the inherited collection.
-        //    Assert.AreEqual(lowest , Collection.GetPriceSummary().Cheapest);
-        //    Assert.AreEqual(highest, Collection.GetPriceSummary().MostExpensive);
-        //}
-
-        //[TestMethod]
-        //public void SummaryController_Family_GetFairingSummary()
-        //{
-        //    double? length   = 18;
-        //    double? diameter = 3.75;
-
-        //    // Adds another collection of launchers to the family to see if the method searches throughout the entire family 
-        //    Family.Add(AddAnotherCollection());
-
-        //    // These are the longest and widest fairing values when both collections are analyzed.
-        //    Assert.AreEqual(length  , Family.GetFairingSummary().MaxLength);
-        //    Assert.AreEqual(diameter, Family.GetFairingSummary().MaxDiameter);
-        //}
-
-        //[TestMethod]
-        //public void SummaryController_Collection_GetFairingSummary()
-        //{
-        //    double? length   = 18;
-        //    double? diameter = 3.2;
-
-        //    // These are the longest and widest fairing values in the inherited collection.
-        //    Assert.AreEqual(length  , Collection.GetFairingSummary().MaxLength);
-        //    Assert.AreEqual(diameter, Collection.GetFairingSummary().MaxDiameter);
-        //}
-
-
         [TestMethod]
-        public void SummaryController_GetLargerValueTest()
+        public void SummaryController_GetNumberOfVehiclesTest()
         {
-            var testOne   = SummaryController.GetLargerValue(1, 10);
-            var testTwo   = SummaryController.GetLargerValue(100, 10);
-            var testThree = SummaryController.GetLargerValue(100, 1000);
+            var numberOfVehicles = Controller.GetNumberOfVehicles(Family);
 
-            Assert.AreEqual(10, testOne);
-            Assert.AreEqual(100, testTwo);
-            Assert.AreEqual(1000, testThree);
-        }
+            // Since the CatalogInitializer makes 3 launchers by default and 3 more additional launchers are added to 
+            // the family's launcher list so I had more variables for more thorough summary tests. I expect a total of 6.
+            Assert.AreEqual(6, numberOfVehicles);
 
-        [TestMethod]
-        public void SummaryController_GetSmallerValueTest()
-        {
-            var testOne   = SummaryController.GetSmallerValue(1, 10);
-            var testTwo   = SummaryController.GetSmallerValue(100, 10);
-            var testThree = SummaryController.GetSmallerValue(100, 1000);
+            // ---------------------------
 
-            Assert.AreEqual(1, testOne);
-            Assert.AreEqual(10, testTwo);
-            Assert.AreEqual(100, testThree);
+            Family.Launchers.Clear();
+            numberOfVehicles = Controller.GetNumberOfVehicles(Family);
+
+            // Since the CatalogInitializer makes 3 launchers by default and 
+            // I removed the 3 additional launchers, I expect a total of 3.
+            Assert.AreEqual(3, numberOfVehicles);
         }
     }
 }

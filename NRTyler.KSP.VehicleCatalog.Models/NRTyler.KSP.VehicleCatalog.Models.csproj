@@ -49,9 +49,11 @@
   <ItemGroup>
     <Compile Include="DataControllers\CapabilitySummaryController.cs" />
     <Compile Include="DataControllers\FairingSummaryController.cs" />
+    <Compile Include="DataControllers\LauncherCollectionController.cs" />
     <Compile Include="DataControllers\PriceSummaryController.cs" />
     <Compile Include="DataControllers\SearchController.cs" />
     <Compile Include="DataControllers\SummaryController.cs" />
+    <Compile Include="DataControllers\VehicleFamilyController.cs" />
     <Compile Include="DataProviders\FairingSummary.cs" />
     <Compile Include="DataProviders\Launcher.cs" />
     <Compile Include="DataProviders\Orbit.cs" />
@@ -76,9 +78,6 @@
     <Compile Include="Interfaces\IValuable.cs" />
     <Compile Include="Interfaces\IVehicle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

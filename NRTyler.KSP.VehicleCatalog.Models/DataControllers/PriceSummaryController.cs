@@ -1,17 +1,18 @@
-﻿// ************************************************************************
+﻿// ***********************************************************************
 // Assembly         : NRTyler.KSP.VehicleCatalog.Models
-// 
+//
 // Author           : Nicholas Tyler
 // Created          : 01-16-2018
-// 
+//
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 01-16-2018
-// 
+// Last Modified On : 01-20-2018
+//
 // License          : MIT License
 // ***********************************************************************
 
 using NRTyler.KSP.VehicleCatalog.Models.DataProviders;
 using System.Collections.Generic;
+using NRTyler.CodeLibrary.Utilities;
 
 namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
 {
@@ -33,11 +34,11 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
         {
             // Get the summaries.
             var launcherPriceSummary = GetPriceSummary(vehicleFamily.Launchers);
-            var collectionPriceSummary = GetPriceSummary(vehicleFamily.LauncherCollection);
+            var collectionPriceSummary = GetPriceSummary(vehicleFamily.LauncherCollections);
 
             // Get the cheapest and most expensive of the two summaries in the same categories.
-            var cheapest      = SummaryController.GetSmallerValue(launcherPriceSummary.Cheapest, collectionPriceSummary.Cheapest);
-            var mostExpensive = SummaryController.GetLargerValue(launcherPriceSummary.MostExpensive, collectionPriceSummary.MostExpensive);
+            var cheapest      = ValueComparer.GetSmallerValue(launcherPriceSummary.Cheapest, collectionPriceSummary.Cheapest);
+            var mostExpensive = ValueComparer.GetLargerValue(launcherPriceSummary.MostExpensive, collectionPriceSummary.MostExpensive);
 
             return new PriceSummary(cheapest, mostExpensive);
         }
@@ -64,8 +65,8 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
 
                 // Check to make sure the values returned are cheaper or more expensive. 
                 // If they are, update the values, otherwise we continue checking the collection.
-                cheapest      = SummaryController.GetSmallerValue(priceSummary.Cheapest, cheapest);
-                mostExpensive = SummaryController.GetLargerValue(priceSummary.MostExpensive, mostExpensive);
+                cheapest      = ValueComparer.GetSmallerValue(priceSummary.Cheapest, cheapest);
+                mostExpensive = ValueComparer.GetLargerValue(priceSummary.MostExpensive, mostExpensive);
             }
 
             return new PriceSummary(cheapest, mostExpensive);
@@ -88,8 +89,8 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
 
             foreach (var launcher in launcherCollection)
             {
-                cheapest      = SummaryController.GetSmallerValue(launcher.Price, cheapest);
-                mostExpensive = SummaryController.GetLargerValue(launcher.Price, mostExpensive);
+                cheapest      = ValueComparer.GetSmallerValue(launcher.Price, cheapest);
+                mostExpensive = ValueComparer.GetLargerValue(launcher.Price, mostExpensive);
             }
 
             return new PriceSummary(cheapest, mostExpensive);

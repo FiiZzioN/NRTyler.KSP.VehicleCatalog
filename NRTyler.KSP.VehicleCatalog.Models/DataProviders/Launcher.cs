@@ -5,7 +5,7 @@
 // Created          : 12-26-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 01-12-2018
+// Last Modified On : 01-21-2018
 //
 // License          : MIT License
 // ***********************************************************************
@@ -37,6 +37,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         public Launcher(string name)
         {
             Name                 = name;
+            RootIdentifier       = Guid.Empty;
             Fairings             = new List<Fairing>();
             Capabilities         = new List<Capability>();
             MaxPayloadDimensions = new PayloadDimensions();
@@ -47,9 +48,24 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 
         #region Fields and Properties
 
+        private Guid rootIdentifier;
         private List<Fairing> fairings;
         private List<Capability> capabilities;
         private PayloadDimensions maxPayloadDimensions;
+
+        /// <summary>
+        /// Gets or sets the <see cref="Guid"/> of the object that this launcher belongs to.
+        /// </summary>
+        [DataMember]
+        public Guid RootIdentifier
+        {
+            get { return this.rootIdentifier; }
+            set
+            {
+                this.rootIdentifier = value;
+                OnPropertyChanged(nameof(RootIdentifier));
+            }
+        }
 
         /// <summary>
         /// Gets or sets this vehicle's fairing options.

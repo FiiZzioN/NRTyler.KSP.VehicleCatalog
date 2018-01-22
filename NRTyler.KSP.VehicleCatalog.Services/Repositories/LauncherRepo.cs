@@ -5,7 +5,7 @@
 // Created          : 01-08-2018
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 01-12-2018
+// Last Modified On : 01-21-2018
 //
 // License          : MIT License
 // ***********************************************************************
@@ -21,12 +21,17 @@ using System.Xml;
 
 namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
 {
+    /// <summary>
+    /// Handles the creation, retrieval, updating, and deletion of <see cref="Launcher"/> objects and their directories.
+    /// </summary>
+    /// <seealso cref="NRTyler.CodeLibrary.Interfaces.Generic.IDataContractRepository{NRTyler.KSP.VehicleCatalog.Models.DataProviders.Launcher}" />
+    /// <seealso cref="NRTyler.CodeLibrary.Interfaces.Generic.ICrudRepository{NRTyler.KSP.VehicleCatalog.Models.DataProviders.Launcher}" />
     public class LauncherRepo : IDataContractRepository<Launcher>, ICrudRepository<Launcher>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LauncherRepo"/> class.
         /// </summary>
-        /// <param name="path">The directory where the launcher is located.</param>
+        /// <param name="path">The directory where launchers are saved.</param>
         public LauncherRepo(string path) : this(path, new ErrorReport(true))
         {
             
@@ -35,8 +40,8 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         /// <summary>
         /// Initializes a new instance of the <see cref="LauncherRepo"/> class.
         /// </summary>
-        /// <param name="path">The directory where the launcher is located.</param>
-        /// <param name="errorDialogService">The dialog service that this will use when an error occurs.</param>
+        /// <param name="path">The directory where launchers are saved.</param>
+        /// <param name="errorDialogService">The dialog service that'll be used when an error occurs.</param>
         public LauncherRepo(string path, IErrorDialogService errorDialogService)
         {
             Path               = path;
@@ -120,9 +125,9 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         }
 
         /// <summary>
-        /// Creates the specified <see cref="T:System.Object" />.
+        /// Creates the launcher's directory and XML file.
         /// </summary>
-        /// <param name="obj">The <see cref="T:System.Object" />.</param>
+        /// <param name="obj">The launcher you want to serialize.</param>
         public void Create(Launcher obj)
         {
             var message      = String.Empty;
@@ -151,7 +156,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         }
 
         /// <summary>
-        /// Retrieves an <see cref="T:System.Object" /> with the specified key.
+        /// Retrieves a launcher with specified name / key.
         /// </summary>
         /// <param name="key">The name of the launcher.</param>
         public Launcher Retrieve(string key)
@@ -209,9 +214,9 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         }
 
         /// <summary>
-        /// Updates the specified <see cref="T:System.Object" />.
+        /// Updates a launcher with the specified launcher.
         /// </summary>
-        /// <param name="obj">The <see cref="T:System.Object" />.</param>
+        /// <param name="obj">The launcher you wish to replace the old launcher with.</param>
         public void Update(Launcher obj)
         {
             var message      = String.Empty;
@@ -234,7 +239,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         }
 
         /// <summary>
-        /// Deletes the family's directory with the specified key. This also removes all files inside of the directory.
+        /// Deletes the directory of the launcher with the specified name / key. This also removes all files inside of the directory.
         /// </summary>
         /// <param name="key">The name of the launcher.</param>
         public void Delete(string key)
@@ -278,7 +283,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         /// <summary>
         /// Creates the directory where the launcher's files are located.
         /// </summary>
-        /// <param name="obj">The <see cref="Launcher"/> object that this methods uses to gather its information.</param>
+        /// <param name="obj">The <see cref="Launcher"/> object that this method uses to gather its information.</param>
         public DirectoryInfo CreateLauncherDirectory(Launcher obj)
         {
             var message      = String.Empty;
@@ -324,7 +329,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         /// <summary>
         /// Creates the XML file where the launcher's information is held.
         /// </summary>
-        /// <param name="obj">The <see cref="Launcher"/> object that this methods uses to gather its information.</param>
+        /// <param name="obj">The <see cref="Launcher"/> object that this method uses to gather its information.</param>
         public FileStream CreateLauncherFileStream(Launcher obj)
         {
             var message      = String.Empty;

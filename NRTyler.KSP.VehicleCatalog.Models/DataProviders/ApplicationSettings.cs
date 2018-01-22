@@ -1,11 +1,11 @@
 ﻿// ***********************************************************************
-// Assembly         : NRTyler.KSPManager.Models
+// Assembly         : NRTyler.KSP.VehicleCatalog.Models
 //
 // Author           : Nicholas Tyler
-// Created          : 09-07-2017
+// Created          : 12-22-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 12-29-2017
+// Last Modified On : 01-21-2018
 //
 // License          : MIT License
 // ***********************************************************************
@@ -32,24 +32,28 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// </summary>
         public ApplicationSettings()
         {
-            CurrentDirectory      = Environment.CurrentDirectory;
-            VehicleFamilyLocation = $"{CurrentDirectory}/VehicleFamilies";
-            PayloadLocation       = $"{CurrentDirectory}/Payloads";
+            CurrentDirectory           = Environment.CurrentDirectory;
+            VehicleFamilyLocation      = $"{CurrentDirectory}/VehicleFamilies";
+            LauncherCollectionLocation = $"{CurrentDirectory}/LauncherCollections";
+            LauncherLocation           = $"{CurrentDirectory}/Launchers";
+            PayloadLocation            = $"{CurrentDirectory}/Payloads";
         }
 
         private string vehicleFamilyLocation;
+        private string launcherCollectionLocation;
+        private string launcherLocation;
         private string payloadLocation;
 
         /// <summary>
         /// Gets the current directory that the application is residing in.
         /// </summary>
-        //[DataMember]
-        public string CurrentDirectory { get; }
+        [DataMember(Order = 0)]
+        public string CurrentDirectory { get; set; }
 
         /// <summary>
         /// Gets or sets the location where <see cref="VehicleFamily"/> objects are saved.
         /// </summary>
-        [DataMember]
+        [DataMember(Order = 1)]
         public string VehicleFamilyLocation
         {
             get { return this.vehicleFamilyLocation; }
@@ -65,9 +69,45 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         }
 
         /// <summary>
+        /// Gets or sets the location where <see cref="LauncherCollection"/> objects are saved.
+        /// </summary>
+        [DataMember(Order = 1)]
+        public string LauncherCollectionLocation
+        {
+            get { return this.launcherCollectionLocation; }
+            set
+            {
+                if (String.IsNullOrWhiteSpace(value)) return;
+
+                this.launcherCollectionLocation = value;
+                OnPropertyChanged(nameof(LauncherCollectionLocation));
+
+                DirectoryEx.CreateDirectoryIfNonexistent(LauncherCollectionLocation);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the location where <see cref="Launcher"/> objects are saved.
+        /// </summary>
+        [DataMember(Order = 1)]
+        public string LauncherLocation
+        {
+            get { return this.launcherLocation; }
+            set
+            {
+                if (String.IsNullOrWhiteSpace(value)) return;
+
+                this.launcherLocation = value;
+                OnPropertyChanged(nameof(LauncherLocation));
+
+                DirectoryEx.CreateDirectoryIfNonexistent(LauncherLocation);
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the location where <see cref="Payload"/> objects are saved.
         /// </summary>
-        [DataMember]
+        [DataMember(Order = 1)]
         public string PayloadLocation
         {
             get { return this.payloadLocation; }

@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CatalogInitializerTests.cs" />
+    <Compile Include="DataControllerTests\PriceSummaryControllerTests.cs" />
     <Compile Include="DataControllerTests\SummaryControllerTests.cs" />
     <Compile Include="DataProviderTests\OrbitTests.cs" />
     <Compile Include="DataProviderTests\FairingTests.cs" />

@@ -1,12 +1,12 @@
-﻿// ************************************************************************
+﻿// ***********************************************************************
 // Assembly         : NRTyler.KSP.VehicleCatalog.Models
-// 
+//
 // Author           : Nicholas Tyler
 // Created          : 01-16-2018
-// 
+//
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 01-16-2018
-// 
+// Last Modified On : 01-20-2018
+//
 // License          : MIT License
 // ***********************************************************************
 
@@ -15,6 +15,7 @@ using NRTyler.KSP.VehicleCatalog.Models.DataProviders;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using NRTyler.CodeLibrary.Utilities;
 
 namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
 {
@@ -85,7 +86,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
         {
             var capabilitySummaries = new List<CapabilitySummary>();
 
-            var collectionSummaries = GetASummaryForAllCapabilities(vehicleFamily.LauncherCollection);
+            var collectionSummaries = GetASummaryForAllCapabilities(vehicleFamily.LauncherCollections);
             var launcherSummaries = GetASummaryForAllCapabilities(vehicleFamily.Launchers);
 
             capabilitySummaries.AddRange(collectionSummaries);
@@ -223,8 +224,8 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataControllers
                 var summaryLightest = summary.PayloadRange.Lightest;
                 var summaryHeaviest = summary.PayloadRange.Heaviest;
 
-                lightest = SummaryController.GetSmallerValue(lightest, summaryLightest);
-                heaviest = SummaryController.GetLargerValue(heaviest, summaryHeaviest);
+                lightest = ValueComparer.GetSmallerValue(lightest, summaryLightest);
+                heaviest = ValueComparer.GetLargerValue(heaviest, summaryHeaviest);
             }
 
             return new PayloadRange(lightest, heaviest);
