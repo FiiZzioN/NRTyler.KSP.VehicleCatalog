@@ -5,7 +5,7 @@
 // Created          : 10-01-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 01-05-2018
+// Last Modified On : 01-23-2018
 //
 // License          : MIT License
 // ***********************************************************************
@@ -21,21 +21,26 @@ using System.Xml;
 
 namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
 {
+    /// <summary>
+    /// Handles the creation, retrieval, updating, and deletion of <see cref="ApplicationSettings"/> objects, also known as this application's settings file.
+    /// </summary>
+    /// <seealso cref="NRTyler.CodeLibrary.Interfaces.Generic.IDataContractRepository{NRTyler.KSP.VehicleCatalog.Models.DataProviders.ApplicationSettings}" />
+    /// <seealso cref="NRTyler.CodeLibrary.Interfaces.Generic.ICrudRepository{NRTyler.KSP.VehicleCatalog.Models.DataProviders.ApplicationSettings}" />
     public class ApplicationSettingsRepo : IDataContractRepository<ApplicationSettings>, ICrudRepository<ApplicationSettings>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ApplicationSettingsRepo"/> class.
         /// </summary>
-        /// <param name="path">The path where the settings file is located.</param>
+        /// <param name="path">The directory where the settings file is saved.</param>
         public ApplicationSettingsRepo(string path) : this(path, new ErrorReport(true))
         {
             
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApplicationSettingsRepo"/> class.
+        /// Initializes a new instance of the <see cref="ApplicationSettingsRepo" /> class.
         /// </summary>
-        /// <param name="path">The path where the settings file is located.</param>
+        /// <param name="path">The directory where the settings file is saved.</param>
         /// <param name="errorDialogService">The dialog service that this will use when an error occurs.</param>
         public ApplicationSettingsRepo(string path, IErrorDialogService errorDialogService)
         {
@@ -44,39 +49,9 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
             DCSerializer       = new DataContractSerializer(typeof(ApplicationSettings));
         }
 
-        #region Fields, Properties, and Constants
+        #region Fields, Properties
 
-        public const string FileName = "Settings";
-
-        private string path;
-        private IErrorDialogService errorDialogService;
         private DataContractSerializer dcSerializer;
-
-        /// <summary>
-        /// Gets or sets the path where the settings file will be located.
-        /// </summary>
-        public string Path
-        {
-            get { return this.path; }
-            set
-            {
-                if (value == null) return;
-                this.path = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the service that shows the error reporting dialog boxes.
-        /// </summary>
-        private IErrorDialogService ErrorDialogService
-        {
-            get { return this.errorDialogService; }
-            set
-            {
-                if (value == null) return;
-                this.errorDialogService = value;
-            }
-        }
 
         /// <summary>
         /// Gets or sets the <see cref="T:System.Runtime.Serialization.DataContractSerializer" />.
@@ -89,7 +64,17 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
                 if (value == null) return;
                 this.dcSerializer = value;
             }
-        } 
+        }
+
+        /// <summary>
+        /// Gets or sets the path where the settings file will be located.
+        /// </summary>
+        public string Path { get; }
+
+        /// <summary>
+        /// Gets or sets the service that shows the error reporting dialog boxes.
+        /// </summary>
+        private IErrorDialogService ErrorDialogService { get; }
 
         #endregion
 
@@ -122,17 +107,19 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         }
 
         /// <summary>
-        /// Creates the specified <see cref="T:System.Object" />.
+        /// Creates the application setting's XML file.
         /// </summary>
-        /// <param name="obj">The <see cref="T:System.Object" />.</param>
+        /// <param name="obj">The application settings you want to serialize.</param>
         public void Create(ApplicationSettings obj)
         {
-            var message = String.Empty;
+            var message  = String.Empty;
+            var fileName = ApplicationSettings.FileName;
+            var path     = $"{Path}/{fileName}.xml";
 
             // This methods job is to create new objects, not replace them. 
             // If the file already exists, then that's what the update method is for.
             // If you need to replace the file, delete it and then create it.
-            if (File.Exists(Path))
+            if (File.Exists(path))
             {
                 message =
                     "A file with that name already exists. If you wish to update the file, call the Update() method. " +
@@ -141,71 +128,58 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
                 return;
             }
 
-            FileStream stream = null;
+            var fileStream = CreateSettingsFileStream(obj);
 
-            try
+            using (fileStream)
             {
-                stream = File.Create(Path);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                message = "This application's settings file couldn't be created " +
-                          "because doesn't have access to the destination.";
-
-                ErrorDialogService.Show(message);
-            }
-            catch (PathTooLongException)
-            {
-                message = "This application's settings file couldn't be created " +
-                          "because the resulting file path would be too long.";
-
-                ErrorDialogService.Show(message);
-                // Throw here because, if this file can't be created, 
-                // then nothing else will be able to be created either.
-                throw new PathTooLongException();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                ErrorDialogService.Show(e.Message);
-                throw;
-            }
-
-            using (stream)
-            {
-                Serialize(stream, obj);
+                Serialize(fileStream, obj);
             }
         }
 
         /// <summary>
-        /// Retrieves an <see cref="T:System.Object" /> with the specified key.
+        /// Retrieves an application settings with the specified name / key.
         /// </summary>
-        /// <param name="key">The file's name.</param>
-        public ApplicationSettings Retrieve(string key)
+        /// <param name="key">The application settings file name.</param>
+        public ApplicationSettings Retrieve(string key = "Settings")
         {
             var message = String.Empty;
+            var path = $"{Path}/{key}.xml";
+
             FileStream stream = null;
 
             try
             {
-                stream = File.OpenRead(Path);
+                stream = File.OpenRead(path);
             }
-            catch (UnauthorizedAccessException)
+            catch (DirectoryNotFoundException)
             {
-                message = "This application's settings file couldn't be created " +
-                          "because doesn't have access to the destination.";
-
+                message = "The setting's directory couldn't be found because the path was invalid (for example, it's on an unmapped drive).";
                 ErrorDialogService.Show(message);
             }
             catch (FileNotFoundException)
             {
-                message =
-                    "This application's settings file could not be found. A new one " +
-                    "containing the default information has been created in its place.";
-
+                message = "The setting's XML file couldn't be found.";
                 ErrorDialogService.Show(message);
-
-                Create(new ApplicationSettings());
+            }
+            catch (PathTooLongException)
+            {
+                message = "The setting's XML file couldn't be retrieved as the resulting path would be too long.";
+                ErrorDialogService.Show(message);
+            }
+            catch (IOException)
+            {
+                message = "The setting's XML file couldn't be retrieved because an Input / Output error occurred while opening the file.";
+                ErrorDialogService.Show(message);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                message = "The setting's XML file couldn't be retrieved because this application doesn't have access to the destination.";
+                ErrorDialogService.Show(message);
+            }
+            catch (NotSupportedException)
+            {
+                message = "The setting's XML file couldn't be retrieved because the path was in an invalid format.";
+                ErrorDialogService.Show(message);
             }
             catch (Exception e)
             {
@@ -221,35 +195,62 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         }
 
         /// <summary>
-        /// Updates the specified <see cref="T:System.Object" />.
+        /// Updates an application settings file with the specified application settings.
         /// </summary>
-        /// <param name="obj">The <see cref="T:System.Object" />.</param>
+        /// <param name="obj">The new settings you wish to replace the old settings with.</param>
         public void Update(ApplicationSettings obj)
         {
-            Delete(Path);
-            Create(obj);
+            var message  = String.Empty;
+            var fileName = ApplicationSettings.FileName;
+            var path     = $"{Path}/{fileName}.xml";
+
+            if (!File.Exists(path))
+            {
+                message = "The settings file doesn't exist so there's nothing to update.";
+                ErrorDialogService.Show(message);
+                return;
+            }
+
+            var fileStream = CreateSettingsFileStream(obj);
+
+            using (fileStream)
+            {
+                Serialize(fileStream, obj);
+            }
         }
 
         /// <summary>
-        /// Deletes the <see cref="T:System.Object" /> with the specified key.
+        /// Deletes the application settings file with the specified name / key.
         /// </summary>
-        /// <param name="key">The <see cref="T:System.Object" />'s key.</param>
-        public void Delete(string key)
+        /// <param name="key">The application settings file name.</param>
+        public void Delete(string key = "Settings")
         {
             var message = String.Empty;
+            var path = $"{Path}/{key}.xml";
 
             try
             {
-                File.Delete(Path);
+                File.Delete(path);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                message = "The settings's directory couldn't be deleted because the path was invalid (for example, it's on an unmapped drive or it couldn't be found).";
+                ErrorDialogService.Show(message);
+            }
+            catch (PathTooLongException)
+            {
+                message = "The setting's file couldn't be deleted because the resulting path would be too long.";
+                ErrorDialogService.Show(message);
             }
             catch (IOException)
             {
-                message = "The specified file is in use and cannot be deleted.";
+                message = "The setting's file couldn't be deleted because it's the applications current " +
+                          "working directory, being used by another process, or contains a read-only file.";
                 ErrorDialogService.Show(message);
             }
             catch (UnauthorizedAccessException)
             {
-                message = "You don't have the required permissions to remove this file.";
+                message = "The setting's file couldn't be deleted because this application doesn't have the proper permissions.";
                 ErrorDialogService.Show(message);
             }
             catch (Exception e)
@@ -258,6 +259,53 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
                 ErrorDialogService.Show(e.Message);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Creates the XML file where the application settings's information is held. 
+        /// Returns the <see cref="FileStream"/> of the file being created.
+        /// </summary>
+        /// <param name="obj">The <see cref="ApplicationSettings"/> object that this method uses to gather its information.</param>
+        private FileStream CreateSettingsFileStream(ApplicationSettings obj)
+        {
+            var message  = String.Empty;
+            var fileName = ApplicationSettings.FileName;
+            var path     = $"{Path}/{fileName}.xml";
+
+            FileStream stream = null;
+
+            try
+            {
+                stream = File.Create(path);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                message = "The settings file couldn't be created because the path was invalid (for example, it's on an unmapped drive).";
+                ErrorDialogService.Show(message);
+            }
+            catch (PathTooLongException)
+            {
+                message = "The settings file couldn't be created because the resulting path would be too long.";
+                ErrorDialogService.Show(message);
+            }
+            catch (IOException)
+            {
+                message = $"The settings file couldn't be created because the specified path was a file, or the network name isn't known.";
+                ErrorDialogService.Show(message);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                message = "The settings file couldn't be created because this application doesn't have access to the destination.";
+                ErrorDialogService.Show(message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                ErrorDialogService.Show(e.Message);
+                throw;
+            }
+
+            return stream;
         }
 
         /// <summary>

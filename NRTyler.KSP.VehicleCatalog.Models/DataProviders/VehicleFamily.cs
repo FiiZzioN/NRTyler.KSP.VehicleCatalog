@@ -5,7 +5,7 @@
 // Created          : 12-26-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 01-21-2018
+// Last Modified On : 01-23-2018
 //
 // License          : MIT License
 // ***********************************************************************
@@ -127,7 +127,6 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// <summary>
         /// Gets or sets the summary for this vehicle family.
         /// </summary>
-        [DataMember]
         public Summary Summary
         {
             get { return this.summary; }

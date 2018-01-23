@@ -5,7 +5,7 @@
 // Created          : 01-08-2018
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 01-21-2018
+// Last Modified On : 01-23-2018
 //
 // License          : MIT License
 // ***********************************************************************
@@ -51,35 +51,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
 
         #region Fields and Properties
 
-        private string path;
-        private IErrorDialogService errorDialogService;
         private DataContractSerializer dcSerializer;
-
-        /// <summary>
-        /// Gets or sets the path where the settings file will be located.
-        /// </summary>
-        public string Path
-        {
-            get { return this.path; }
-            set
-            {
-                if (value == null) return;
-                this.path = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the service that shows the error reporting dialog boxes.
-        /// </summary>
-        private IErrorDialogService ErrorDialogService
-        {
-            get { return this.errorDialogService; }
-            set
-            {
-                if (value == null) return;
-                this.errorDialogService = value;
-            }
-        }
 
         /// <summary>
         /// Gets or sets the <see cref="T:System.Runtime.Serialization.DataContractSerializer" />.
@@ -93,6 +65,16 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
                 this.dcSerializer = value;
             }
         }
+
+        /// <summary>
+        /// Gets the directory where launchers are saved.
+        /// </summary>
+        public string Path { get; }
+
+        /// <summary>
+        /// Gets or sets the service that shows the error reporting dialog boxes.
+        /// </summary>
+        private IErrorDialogService ErrorDialogService { get; }
 
         #endregion
 
@@ -187,7 +169,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
             }
             catch (IOException)
             {
-                message = $"The launcher's XML file couldn't be retrieved because an Input / Output error occurred while opening the file.";
+                message = "The launcher's XML file couldn't be retrieved because an Input / Output error occurred while opening the file.";
                 ErrorDialogService.Show(message);
             }
             catch (UnauthorizedAccessException)
@@ -282,9 +264,10 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
 
         /// <summary>
         /// Creates the directory where the launcher's files are located.
+        /// Returns the <see cref="DirectoryInfo"/> of the directory being created.
         /// </summary>
         /// <param name="obj">The <see cref="Launcher"/> object that this method uses to gather its information.</param>
-        public DirectoryInfo CreateLauncherDirectory(Launcher obj)
+        private DirectoryInfo CreateLauncherDirectory(Launcher obj)
         {
             var message      = String.Empty;
             var launcherName = obj.Name;
@@ -328,9 +311,10 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
 
         /// <summary>
         /// Creates the XML file where the launcher's information is held.
+        /// Returns the <see cref="FileStream"/> of the file being created.
         /// </summary>
         /// <param name="obj">The <see cref="Launcher"/> object that this method uses to gather its information.</param>
-        public FileStream CreateLauncherFileStream(Launcher obj)
+        private FileStream CreateLauncherFileStream(Launcher obj)
         {
             var message      = String.Empty;
             var launcherName = obj.Name;

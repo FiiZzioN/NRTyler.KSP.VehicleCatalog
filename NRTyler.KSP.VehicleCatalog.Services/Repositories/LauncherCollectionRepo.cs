@@ -51,35 +51,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
 
         #region Fields and Properties
 
-        private string path;
-        private IErrorDialogService errorDialogService;
         private DataContractSerializer dcSerializer;
-
-        /// <summary>
-        /// Gets or sets the path where the settings file will be located.
-        /// </summary>
-        public string Path
-        {
-            get { return this.path; }
-            set
-            {
-                if (value == null) return;
-                this.path = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the service that shows the error reporting dialog boxes.
-        /// </summary>
-        private IErrorDialogService ErrorDialogService
-        {
-            get { return this.errorDialogService; }
-            set
-            {
-                if (value == null) return;
-                this.errorDialogService = value;
-            }
-        }
 
         /// <summary>
         /// Gets or sets the <see cref="T:System.Runtime.Serialization.DataContractSerializer" />.
@@ -93,6 +65,16 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
                 this.dcSerializer = value;
             }
         }
+
+        /// <summary>
+        /// Gets the directory where launcher collections are saved.
+        /// </summary>
+        public string Path { get; }
+
+        /// <summary>
+        /// Gets or sets the service that shows the error reporting dialog boxes.
+        /// </summary>
+        private IErrorDialogService ErrorDialogService { get; }
 
         #endregion
 
@@ -282,9 +264,10 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
 
         /// <summary>
         /// Creates the directory where the launcher collection's files are located.
+        /// Returns the <see cref="DirectoryInfo"/> of the directory being created.
         /// </summary>
         /// <param name="obj">The <see cref="LauncherCollection"/> object that this method uses to gather its information.</param>
-        public DirectoryInfo CreateLauncherDirectory(LauncherCollection obj)
+        private DirectoryInfo CreateLauncherDirectory(LauncherCollection obj)
         {
             var message        = String.Empty;
             var collectionName = obj.Name;
@@ -328,9 +311,10 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
 
         /// <summary>
         /// Creates the XML file where the launcher collection's information is held.
+        /// Returns the <see cref="FileStream"/> of the file being created.
         /// </summary>
         /// <param name="obj">The <see cref="LauncherCollection"/> object that this method uses to gather its information.</param>
-        public FileStream CreateLauncherFileStream(LauncherCollection obj)
+        private FileStream CreateLauncherFileStream(LauncherCollection obj)
         {
             var message        = String.Empty;
             var collectionName = obj.Name;

@@ -2,10 +2,10 @@
 // Assembly         : NRTyler.KSP.VehicleCatalog.Services
 // 
 // Author           : Nicholas Tyler
-// Created          : 01-05-2018
+// Created          : 01-21-2018
 // 
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 01-05-2018
+// Last Modified On : 01-21-2018
 // 
 // License          : MIT License
 // ***********************************************************************
@@ -15,13 +15,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NRTyler.CodeLibrary.Interfaces.Generic;
 using NRTyler.KSP.VehicleCatalog.Models.DataProviders;
 
-namespace NRTyler.KSP.VehicleCatalog.Services.Interfaces
+namespace NRTyler.KSP.VehicleCatalog.Services.Controllers
 {
-    public interface IVehicleFamilyRepo : IDataContractRepository<VehicleFamily>
+    public class LoadVehicleFamilyController
     {
+        public LoadVehicleFamilyController(ApplicationSettings settings)
+        {
+            Settings = settings;
+        }
+
+        private ApplicationSettings Settings { get; }
+
         
+
     }
 }

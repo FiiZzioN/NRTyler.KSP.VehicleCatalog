@@ -58,9 +58,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PathHolder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryTests\ApplicationSettingsRepoTests.cs" />
     <Compile Include="RepositoryTests\VehicleFamilyRepoTests.cs" />
+    <Compile Include="UtilityTests\DirectoryCreatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

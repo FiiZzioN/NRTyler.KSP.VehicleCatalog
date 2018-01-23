@@ -52,35 +52,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
 
         #region Fields and Properties
 
-        private string path;
-        private IErrorDialogService errorDialogService;
         private DataContractSerializer dcSerializer;
-
-        /// <summary>
-        /// Gets or sets the path where the settings file will be located.
-        /// </summary>
-        public string Path
-        {
-            get { return this.path; }
-            set
-            {
-                if (value == null) return;
-                this.path = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the service that shows the error reporting dialog boxes.
-        /// </summary>
-        private IErrorDialogService ErrorDialogService
-        {
-            get { return this.errorDialogService; }
-            set
-            {
-                if (value == null) return;
-                this.errorDialogService = value;
-            }
-        }
 
         /// <summary>
         /// Gets or sets the <see cref="T:System.Runtime.Serialization.DataContractSerializer" />.
@@ -94,6 +66,16 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
                 this.dcSerializer = value;
             }
         }
+
+        /// <summary>
+        /// Gets the directory where vehicle families are saved.
+        /// </summary>
+        public string Path { get; }
+
+        /// <summary>
+        /// Gets or sets the service that shows the error reporting dialog boxes.
+        /// </summary>
+        private IErrorDialogService ErrorDialogService { get; }
 
         #endregion
 
@@ -163,7 +145,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
         public VehicleFamily Retrieve(string key)
         {
             var message = String.Empty;
-            var path    = $"{Path}/{key}/{key} Family.xml";
+            var path    = $"{Path}/{key}/{key}.xml";
 
             FileStream stream = null;
 
@@ -283,9 +265,10 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
 
         /// <summary>
         /// Creates the directory where the vehicle family's files are located.
+        /// Returns the <see cref="DirectoryInfo"/> of the directory being created.
         /// </summary>
         /// <param name="obj">The <see cref="VehicleFamily"/> object that this method uses to gather its information.</param>
-        public DirectoryInfo CreateFamilyDirectory(VehicleFamily obj)
+        private DirectoryInfo CreateFamilyDirectory(VehicleFamily obj)
         {
             var message    = String.Empty;
             var familyName = obj.Name;
@@ -329,9 +312,10 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
 
         /// <summary>
         /// Creates the XML file where the vehicle family's information is held.
+        /// Returns the <see cref="FileStream"/> of the file being created.
         /// </summary>
         /// <param name="obj">The <see cref="VehicleFamily"/> object that this method uses to gather its information.</param>
-        public FileStream CreateFamilyFileStream(VehicleFamily obj)
+        private FileStream CreateFamilyFileStream(VehicleFamily obj)
         {
             var message    = String.Empty;
             var familyName = obj.Name;

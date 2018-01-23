@@ -45,6 +45,12 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         private string payloadLocation;
 
         /// <summary>
+        /// The file name that this settings file, once serialized, will be saved as.
+        /// The file type designation is left up to the user.
+        /// </summary>
+        public const string FileName = "Settings";
+
+        /// <summary>
         /// Gets the current directory that the application is residing in.
         /// </summary>
         [DataMember(Order = 0)]
@@ -63,8 +69,6 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 
                 this.vehicleFamilyLocation = value;
                 OnPropertyChanged(nameof(VehicleFamilyLocation));
-
-                DirectoryEx.CreateDirectoryIfNonexistent(VehicleFamilyLocation);
             }
         }
 
@@ -81,8 +85,6 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 
                 this.launcherCollectionLocation = value;
                 OnPropertyChanged(nameof(LauncherCollectionLocation));
-
-                DirectoryEx.CreateDirectoryIfNonexistent(LauncherCollectionLocation);
             }
         }
 
@@ -99,8 +101,6 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 
                 this.launcherLocation = value;
                 OnPropertyChanged(nameof(LauncherLocation));
-
-                DirectoryEx.CreateDirectoryIfNonexistent(LauncherLocation);
             }
         }
 
@@ -117,8 +117,6 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
 
                 this.payloadLocation = value;
                 OnPropertyChanged(nameof(PayloadLocation));
-
-                DirectoryEx.CreateDirectoryIfNonexistent(PayloadLocation);
             }
         }
 
