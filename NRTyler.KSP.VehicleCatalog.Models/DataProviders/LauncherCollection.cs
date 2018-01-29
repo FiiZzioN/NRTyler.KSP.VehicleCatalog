@@ -92,7 +92,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="Guid"/> of the object that this launcher collection belongs to.
+        /// Gets or sets the <see cref="Guid"/> of the family that this launcher collection belongs to.
         /// </summary>
         [DataMember]
         public Guid RootIdentifier

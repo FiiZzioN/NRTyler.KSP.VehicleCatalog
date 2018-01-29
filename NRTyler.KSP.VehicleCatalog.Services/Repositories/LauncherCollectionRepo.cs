@@ -5,7 +5,7 @@
 // Created          : 01-12-2018
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 01-21-2018
+// Last Modified On : 01-28-2018
 //
 // License          : MIT License
 // ***********************************************************************
@@ -26,7 +26,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
     /// </summary>
     /// <seealso cref="NRTyler.CodeLibrary.Interfaces.Generic.IDataContractRepository{NRTyler.KSP.VehicleCatalog.Models.DataProviders.LauncherCollection}" />
     /// <seealso cref="NRTyler.CodeLibrary.Interfaces.Generic.ICrudRepository{NRTyler.KSP.VehicleCatalog.Models.DataProviders.LauncherCollection}" />
-    public class LauncherCollectionRepo : IDataContractRepository<LauncherCollection>, ICrudRepository<LauncherCollection>
+    public sealed class LauncherCollectionRepo : IDataContractRepository<LauncherCollection>, ICrudRepository<LauncherCollection>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LauncherCollectionRepo"/> class.

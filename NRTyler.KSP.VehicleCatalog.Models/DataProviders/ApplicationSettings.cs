@@ -5,13 +5,12 @@
 // Created          : 12-22-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 01-21-2018
+// Last Modified On : 01-28-2018
 //
 // License          : MIT License
 // ***********************************************************************
 
 using NRTyler.CodeLibrary.Annotations;
-using NRTyler.CodeLibrary.Extensions;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -53,7 +52,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// <summary>
         /// Gets the current directory that the application is residing in.
         /// </summary>
-        [DataMember(Order = 0)]
+        //[DataMember(Order = 0)]
         public string CurrentDirectory { get; set; }
 
         /// <summary>

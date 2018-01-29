@@ -39,18 +39,17 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
             
         }
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="VehicleFamily"/> class.
         /// </summary>
         /// <param name="name">The name of the vehicle family.</param>
         public VehicleFamily(string name)
         {
-            Name               = name;
-            GlobalIdentifier   = Guid.NewGuid();
-            Notes              = new List<Note>();
-            Summary            = new Summary();
-            Launchers          = new List<Launcher>();
+            Name                = name;
+            GlobalIdentifier    = Guid.NewGuid();
+            Notes               = new List<Note>();
+            Summary             = new Summary();
+            Launchers           = new List<Launcher>();
             LauncherCollections = new List<LauncherCollection>();
         }
 

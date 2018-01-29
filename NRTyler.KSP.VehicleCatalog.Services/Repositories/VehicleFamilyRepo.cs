@@ -5,7 +5,7 @@
 // Created          : 01-05-2018
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 01-21-2018
+// Last Modified On : 01-28-2018
 //
 // License          : MIT License
 // ***********************************************************************
@@ -27,7 +27,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Repositories
     /// <seealso cref="NRTyler.CodeLibrary.Interfaces.Generic.IDataContractRepository{NRTyler.KSP.VehicleCatalog.Models.DataProviders.LauncherCollection}" />
     /// <seealso cref="NRTyler.CodeLibrary.Interfaces.Generic.ICrudRepository{NRTyler.KSP.VehicleCatalog.Models.DataProviders.LauncherCollection}" />
 
-    public class VehicleFamilyRepo : IDataContractRepository<VehicleFamily>, ICrudRepository<VehicleFamily>
+    public sealed class VehicleFamilyRepo : IDataContractRepository<VehicleFamily>, ICrudRepository<VehicleFamily>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="VehicleFamilyRepo"/> class.

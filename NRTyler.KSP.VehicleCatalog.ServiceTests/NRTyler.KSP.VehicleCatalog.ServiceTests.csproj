@@ -58,6 +58,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControllerTests\VehicleFamilyCacheControllerTests.cs" />
     <Compile Include="PathHolder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryTests\ApplicationSettingsRepoTests.cs" />

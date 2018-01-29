@@ -10,8 +10,11 @@
 // License          : MIT License
 // ***********************************************************************
 
+using System;
 using NRTyler.KSP.VehicleCatalog.Models.DataProviders;
 using System.Collections.Generic;
+using NRTyler.KSP.VehicleCatalog.Services.Controllers;
+using NRTyler.KSP.VehicleCatalog.Services.Repositories;
 
 namespace NRTyler.KSP.VehicleCatalog.Services.Utilities
 {
@@ -19,18 +22,14 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Utilities
     {
         static Cache()
         {
-            Families            = new HashSet<VehicleFamily>();
-            LauncherCollections = new HashSet<LauncherCollection>();
-            Launchers           = new HashSet<Launcher>();
+            var appSettingsRepo = new ApplicationSettingsRepo($"{Environment.CurrentDirectory}");
+            ApplicationSettings = appSettingsRepo.Retrieve($"{ApplicationSettings.FileName}");
+
+            FamilyCacheController = new VehicleFamilyCacheController(ApplicationSettings);
         }
 
-        public static HashSet<VehicleFamily> Families { get; }
-        public static HashSet<LauncherCollection> LauncherCollections { get;}
-        public static HashSet<Launcher> Launchers { get; }
+        public static ApplicationSettings ApplicationSettings { get; }
+        public static VehicleFamilyCacheController FamilyCacheController { get; }
 
-        //public static void test()
-        //{
-        //    Families.cont   
-        //}
     }
 }

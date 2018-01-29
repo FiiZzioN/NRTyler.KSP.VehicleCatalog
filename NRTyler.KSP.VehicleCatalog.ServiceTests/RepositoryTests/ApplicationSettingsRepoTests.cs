@@ -98,8 +98,6 @@ namespace NRTyler.KSP.VehicleCatalog.ServiceTests.RepositoryTests
             Assert.IsFalse(retievedObject.CompareObject(editedObject));
         }
 
-
-
         /// <summary>
         /// We see if the ApplicationSettingsRepo.Retrieve() method functions properly.
         /// </summary>
@@ -119,8 +117,8 @@ namespace NRTyler.KSP.VehicleCatalog.ServiceTests.RepositoryTests
 
             // If we retrieved the copied object, then it should be different from the original object. Alternatively,
             // if we did retrieve the copied object, then it should be exactly like the one before we serialized it.
-            Assert.IsFalse(retievedObject.CompareObject(Settings));
-            Assert.IsTrue(retievedObject.CompareObject(copiedObject));
+            Assert.IsFalse(retievedObject.LauncherLocation == Settings.LauncherLocation);
+            Assert.IsTrue(retievedObject.LauncherLocation == copiedObject.LauncherLocation);
         }
 
         /// <summary>
@@ -145,7 +143,7 @@ namespace NRTyler.KSP.VehicleCatalog.ServiceTests.RepositoryTests
 
             // If the default settings file was updated, then the retrieved 
             // object should be the same as the edited object.
-            Assert.IsTrue(retievedObject.CompareObject(editedObject));
+            Assert.IsTrue(retievedObject.LauncherCollectionLocation == editedObject.LauncherCollectionLocation);
         }
 
         /// <summary>
