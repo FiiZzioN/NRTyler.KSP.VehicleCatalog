@@ -5,7 +5,7 @@
 // Created          : 01-28-2018
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 01-28-2018
+// Last Modified On : 02-05-2018
 //
 // License          : MIT License
 // ***********************************************************************
@@ -20,34 +20,34 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace NRTyler.KSP.VehicleCatalog.Services.Controllers
+namespace NRTyler.KSP.VehicleCatalog.Services.Cache
 {
-    public sealed class VehicleFamilyCacheController : ICacheController<VehicleFamily>
+    public sealed class VehicleFamilyCache : ICache<VehicleFamily>
     {
-        public VehicleFamilyCacheController(ApplicationSettings applicationSettings) : this(applicationSettings, new ErrorReport(true))
+        public VehicleFamilyCache(ApplicationSettings applicationSettings) : this(applicationSettings, new ErrorReport(true))
         {
             
         }
 
-        public VehicleFamilyCacheController(ApplicationSettings applicationSettings, IErrorDialogService errorDialogService)
+        public VehicleFamilyCache(ApplicationSettings applicationSettings, IErrorDialogService errorDialogService)
         {
-            Settings    = applicationSettings;
-            FamilyRepo  = new VehicleFamilyRepo(Settings.VehicleFamilyLocation, errorDialogService);
-            FamilyCache = new HashSet<VehicleFamily>(new VehicleFamilyEqualityComparer());
+            Settings = applicationSettings;
+            Repo     = new VehicleFamilyRepo(Settings.VehicleFamilyLocation, errorDialogService);
+            Cache    = new HashSet<VehicleFamily>(new VehicleFamilyEqualityComparer());
 
             Populate();
         }
 
         private ApplicationSettings Settings { get; }
-        private VehicleFamilyRepo FamilyRepo { get; }
-        private HashSet<VehicleFamily> FamilyCache { get; }
+        private VehicleFamilyRepo Repo { get; }
+        private HashSet<VehicleFamily> Cache { get; }
 
         /// <summary>
         /// Loads every saved family into the cache.
         /// </summary>
         public void Populate()
         {
-            if (FamilyCache.Count != 0)
+            if (Cache.Count != 0)
             {
                 Clear();
             }
@@ -57,8 +57,8 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Controllers
             foreach (var directoryPath in directoryPaths)
             {
                 var directoryName = new DirectoryInfo(directoryPath).Name;
+                var family        = Repo.Retrieve(directoryName);
 
-                var family = FamilyRepo.Retrieve(directoryName);
                 Add(family);
             }
         }
@@ -71,11 +71,11 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Controllers
         {
             // If the cache already contains the item, there's nothing else to do. 
             // If it doesn't contain the item, then add it to the cache.
-            if (FamilyCache.Contains(obj))
+            if (Cache.Contains(obj))
             {
                 return;
             }
-            FamilyCache.Add(obj);
+            Cache.Add(obj);
         }
 
         /// <summary>
@@ -84,12 +84,12 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Controllers
         /// <param name="key">The name of the family to add to the cache.</param>
         public void Add(string key)
         {
-            var family = FamilyRepo.Retrieve(key);
+            var family = Repo.Retrieve(key);
             Add(family);
         }
 
         /// <summary>
-        /// Adds the elements of the specified collection to the end of the cache.
+        /// Adds the elements of the specified collection the end of the cache.
         /// </summary>
         /// <param name="collection">The collection whose elements should be added to the end of the cache.</param>
         public void AddRange(IEnumerable<VehicleFamily> collection)
@@ -106,7 +106,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Controllers
         /// <param name="obj">The family to remove from the cache.</param>
         public void Remove(VehicleFamily obj)
         {
-            FamilyCache.Remove(obj);
+            Cache.Remove(obj);
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Controllers
         public void Remove(string key)
         {
             var family = Retrieve(key);
-            FamilyCache.Remove(family);
+            Cache.Remove(family);
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Controllers
         {
             Remove(obj);
 
-            var family = FamilyRepo.Retrieve(obj.Name);
+            var family = Repo.Retrieve(obj.Name);
             Add(family);
         }
 
@@ -148,7 +148,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Controllers
         {
             Remove(key);
 
-            var family = FamilyRepo.Retrieve(key);
+            var family = Repo.Retrieve(key);
             Add(family);
         }
 
@@ -159,9 +159,9 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Controllers
         /// <param name="key">The name of the family to retrieve from the cache.</param>
         public VehicleFamily Retrieve(string key)
         {
-            var family = FamilyCache.SingleOrDefault(e => String.Equals(e.Name, key, StringComparison.CurrentCultureIgnoreCase));
+            bool Predicate(VehicleFamily e) => String.Equals(e.Name, key, StringComparison.CurrentCultureIgnoreCase);
 
-            return family == default(VehicleFamily) ? null : family;
+            return Cache.SingleOrDefault(Predicate);
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Controllers
         /// </summary>
         public void Clear()
         {
-            FamilyCache.Clear();
+            Cache.Clear();
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace NRTyler.KSP.VehicleCatalog.Services.Controllers
         /// </summary>
         public IEnumerable<VehicleFamily> GetCachedObjects()
         {
-            return FamilyCache;
+            return Cache;
         }
     }
 }

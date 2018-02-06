@@ -5,7 +5,7 @@
 // Created          : 10-01-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 12-26-2017
+// Last Modified On : 02-05-2018
 //
 // License          : MIT License
 // ***********************************************************************
@@ -45,9 +45,11 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
         /// <param name="name">The name of the payload.</param>
         public Payload(string name)
 	    {
-	        Name = name;
-	        VehicleType = VehicleType.Undefined;
-	    }
+	        Name              = name;
+	        VehicleType       = VehicleType.Undefined;
+	        PreviewLocation   = String.Empty;
+	        CraftFileLocation = String.Empty;
+        }
 
         #region Fields and Properties
 

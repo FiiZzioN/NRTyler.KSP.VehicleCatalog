@@ -1,30 +1,30 @@
-﻿// ************************************************************************
+﻿// ***********************************************************************
 // Assembly         : NRTyler.KSP.VehicleCatalog.ServiceTests
-// 
+//
 // Author           : Nicholas Tyler
 // Created          : 01-28-2018
-// 
+//
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 01-28-2018
-// 
+// Last Modified On : 02-05-2018
+//
 // License          : MIT License
 // ***********************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NRTyler.KSP.VehicleCatalog.Models.DataProviders;
 using NRTyler.KSP.VehicleCatalog.ModelTests;
-using NRTyler.KSP.VehicleCatalog.Services.Controllers;
+using NRTyler.KSP.VehicleCatalog.Services.Cache;
 using NRTyler.KSP.VehicleCatalog.Services.Repositories;
 using NRTyler.KSP.VehicleCatalog.Services.Utilities;
+using NRTyler.KSP.VehicleCatalog.Services.Utilities.Comparers;
 using System;
 using System.IO;
 using System.Linq;
-using NRTyler.KSP.VehicleCatalog.Services.Utilities.Comparers;
 
-namespace NRTyler.KSP.VehicleCatalog.ServiceTests.ControllerTests
+namespace NRTyler.KSP.VehicleCatalog.ServiceTests.CacheTests
 {
     [TestClass]
-    public class VehicleFamilyCacheControllerTests : CatalogInitializer
+    public class VehicleFamilyCacheTests : CatalogInitializer
     {
         #region Initialization and Clean Up
 
@@ -44,7 +44,7 @@ namespace NRTyler.KSP.VehicleCatalog.ServiceTests.ControllerTests
             var repo = new VehicleFamilyRepo(path, errorReport);
             repo.Create(Family);
 
-            Controller         = new VehicleFamilyCacheController(Settings, errorReport);
+            Cache              = new VehicleFamilyCache(Settings, errorReport);
             AdditionalFamilies = new[]
             {
                 new VehicleFamily("Falcon"),
@@ -75,9 +75,9 @@ namespace NRTyler.KSP.VehicleCatalog.ServiceTests.ControllerTests
         protected ApplicationSettings Settings { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="VehicleFamilyCacheController"/> object.
+        /// Gets or sets the <see cref="VehicleFamilyCache"/> object.
         /// </summary>
-        protected VehicleFamilyCacheController Controller { get; set; }
+        protected VehicleFamilyCache Cache { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="Services.Utilities.DirectoryCreator"/> object.
@@ -98,57 +98,57 @@ namespace NRTyler.KSP.VehicleCatalog.ServiceTests.ControllerTests
         #endregion
 
         [TestMethod]
-        public void VehicleFamilyCacheController_Populate()
+        public void VehicleFamilyCache_Populate()
         {
-            Controller.AddRange(AdditionalFamilies);
-            Controller.Populate();
+            Cache.AddRange(AdditionalFamilies);
+            Cache.Populate();
 
-            var cacheObjects = Controller.GetCachedObjects().ToArray();
+            var cacheObjects = Cache.GetCachedObjects().ToArray();
 
             // Since Populate() clears the cache if it isn't empty, there should be only one item even though we 
-            // added the additional families. The populate gathers all families in the family storage location. 
-            // Since the Angara family is the only saved there, it should be the only family in the cached objects.
+            // added the additional families. Then, Populate() gathers all families in the family storage location. 
+            // Since the Angara family is the only one saved there, it should be the only family in the cache.
             Assert.IsTrue(cacheObjects.Length == 1);
             Assert.IsTrue(cacheObjects.Contains(Family, Comparer));
         }
 
         [TestMethod]
-        public void VehicleFamilyCacheController_Add_Object()
+        public void VehicleFamilyCache_Add_Object()
         {
-            Controller.Clear();
-            Controller.Add(Family);
+            Cache.Clear();
+            Cache.Add(Family);
 
-            var cacheObjects = Controller.GetCachedObjects().ToArray();
+            var cacheObjects = Cache.GetCachedObjects().ToArray();
 
             // We cleared the cache and then added the default family, so the retrieved item should be the same as the default family.
             Assert.IsTrue(cacheObjects.Contains(Family, Comparer));
         }
 
         [TestMethod]
-        public void VehicleFamilyCacheController_Add_Key()
+        public void VehicleFamilyCache_Add_ByName()
         {
-            Controller.Clear();
-            Controller.Add(Family.Name);
+            Cache.Clear();
+            Cache.Add(Family.Name);
 
-            var cacheObjects = Controller.GetCachedObjects().ToArray();
+            var cacheObjects = Cache.GetCachedObjects().ToArray();
 
             // We cleared the cache and then added the default family, so the retrieved item should be the same as the default family.
             Assert.IsTrue(cacheObjects.Contains(Family, Comparer));
         }
 
         [TestMethod]
-        public void VehicleFamilyCacheController_AddRange()
+        public void VehicleFamilyCache_AddRange()
         {
-            Controller.Clear();
-            Controller.AddRange(AdditionalFamilies);
+            Cache.Clear();
+            Cache.AddRange(AdditionalFamilies);
 
-            var cacheObjects = Controller.GetCachedObjects().ToArray();
+            var cacheObjects = Cache.GetCachedObjects().ToArray();
 
             var falcon = cacheObjects.SingleOrDefault(e => e.Name == "Falcon");
             var delta  = cacheObjects.SingleOrDefault(e => e.Name == "Delta");
             var atlas  = cacheObjects.SingleOrDefault(e => e.Name == "Atlas");
 
-            // We cleared the cache and the added the additional families, so it should only contain those three families.
+            // We cleared the cache and then added the additional families, so it should only contain those three families.
             Assert.IsTrue(cacheObjects.Contains(falcon));
             Assert.IsTrue(cacheObjects.Contains(delta));
             Assert.IsTrue(cacheObjects.Contains(atlas));
@@ -156,32 +156,32 @@ namespace NRTyler.KSP.VehicleCatalog.ServiceTests.ControllerTests
         }
 
         [TestMethod]
-        public void VehicleFamilyCacheController_Remove_Object()
+        public void VehicleFamilyCache_Remove_Object()
         {
-            Controller.Remove(Family);
-            var cacheObjects = Controller.GetCachedObjects().ToArray();
+            Cache.Remove(Family);
+            var cacheObjects = Cache.GetCachedObjects().ToArray();
 
             // We removed the family so it shouldn't be in the cached objects.
             Assert.IsFalse(cacheObjects.Contains(Family, Comparer));
         }
 
         [TestMethod]
-        public void VehicleFamilyCacheController_Remove_Key()
+        public void VehicleFamilyCache_Remove_ByName()
         {
-            Controller.Remove($"{Family.Name}");
-            var cacheObjects = Controller.GetCachedObjects().ToArray();
+            Cache.Remove($"{Family.Name}");
+            var cacheObjects = Cache.GetCachedObjects().ToArray();
 
             // We removed the family so it shouldn't be in the cached objects.
             Assert.IsTrue(!cacheObjects.Contains(Family, Comparer));
         }
 
         [TestMethod]
-        public void VehicleFamilyCacheController_Refresh()
+        public void VehicleFamilyCache_Refresh()
         {
-            Controller.AddRange(AdditionalFamilies);
-            Controller.Refresh();
+            Cache.AddRange(AdditionalFamilies);
+            Cache.Refresh();
 
-            var cacheObjects = Controller.GetCachedObjects().ToArray();
+            var cacheObjects = Cache.GetCachedObjects().ToArray();
 
             var falcon = cacheObjects.SingleOrDefault(e => e.Name == "Falcon");
 
@@ -192,15 +192,15 @@ namespace NRTyler.KSP.VehicleCatalog.ServiceTests.ControllerTests
         }
 
         [TestMethod]
-        public void VehicleFamilyCacheController_Refresh_Object()
+        public void VehicleFamilyCache_Refresh_Object()
         {
             var oldGlobalIdentifier = Family.GlobalIdentifier;
             var newGlobalIdentifier = new Guid();
             Family.GlobalIdentifier = newGlobalIdentifier;
 
-            Controller.Refresh(Family);
+            Cache.Refresh(Family);
 
-            var cacheObjects = Controller.GetCachedObjects().ToArray();
+            var cacheObjects = Cache.GetCachedObjects().ToArray();
             var cachedIdentifier = cacheObjects[0].GlobalIdentifier;
 
             // We assigned a new GlobalIdentifier to the family, and then refreshed the object in the cache. Refreshing an 
@@ -211,15 +211,15 @@ namespace NRTyler.KSP.VehicleCatalog.ServiceTests.ControllerTests
         }
 
         [TestMethod]
-        public void VehicleFamilyCacheController_Refresh_Key()
+        public void VehicleFamilyCache_Refresh_ByName()
         {
             var oldGlobalIdentifier = Family.GlobalIdentifier;
             var newGlobalIdentifier = new Guid();
             Family.GlobalIdentifier = newGlobalIdentifier;
 
-            Controller.Refresh($"{Family.Name}");
+            Cache.Refresh($"{Family.Name}");
 
-            var cacheObjects = Controller.GetCachedObjects().ToArray();
+            var cacheObjects = Cache.GetCachedObjects().ToArray();
             var cachedIdentifier = cacheObjects[0].GlobalIdentifier;
 
             // We assigned a new GlobalIdentifier to the family, and then refreshed the object in the cache. Refreshing an 
@@ -230,10 +230,10 @@ namespace NRTyler.KSP.VehicleCatalog.ServiceTests.ControllerTests
         }
 
         [TestMethod]
-        public void VehicleFamilyCacheController_Retrieve()
+        public void VehicleFamilyCache_Retrieve()
         {
-            var angara = Controller.Retrieve($"{Family.Name}");
-            var delta  = Controller.Retrieve("Delta");
+            var angara = Cache.Retrieve($"{Family.Name}");
+            var delta  = Cache.Retrieve("Delta");
 
             // The cache holds a family named Angara, so it should retrieve that family.
             // It doesn't contain a family named delta, so it should return null.
@@ -242,10 +242,10 @@ namespace NRTyler.KSP.VehicleCatalog.ServiceTests.ControllerTests
         }
 
         [TestMethod]
-        public void VehicleFamilyCacheController_Clear()
+        public void VehicleFamilyCache_Clear()
         {
-            Controller.Clear();
-            var cacheObjects = Controller.GetCachedObjects().ToArray();
+            Cache.Clear();
+            var cacheObjects = Cache.GetCachedObjects().ToArray();
 
             // Clearing the cache removes everything, so the cache should have a size of 0.
             Assert.IsTrue(cacheObjects.Length == 0);

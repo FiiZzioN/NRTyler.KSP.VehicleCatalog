@@ -16,10 +16,10 @@ using System.Collections.Generic;
 namespace NRTyler.KSP.VehicleCatalog.Services.Interfaces
 {
     /// <summary>
-    /// Interface ICacheController
+    /// Interface ICache
     /// </summary>
     /// <typeparam name="T">The <see cref="Type"/> of object that this cache is meant to deal with.</typeparam>
-    public interface ICacheController<T>
+    public interface ICache<T>
     {
         /// <summary>
         /// Loads every saved object into the cache.

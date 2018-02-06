@@ -5,7 +5,7 @@
 // Created          : 12-27-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 01-23-2018
+// Last Modified On : 02-05-2018
 //
 // License          : MIT License
 // ***********************************************************************
@@ -51,6 +51,7 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
             Notes            = new List<Note>();
             Summary          = new Summary();
             Launchers        = new List<Launcher>();
+            PreviewLocation  = String.Empty;
         }
 
         #region Fields of Properties

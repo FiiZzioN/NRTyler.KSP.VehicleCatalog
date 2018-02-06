@@ -5,7 +5,7 @@
 // Created          : 12-26-2017
 //
 // Last Modified By : Nicholas Tyler
-// Last Modified On : 01-21-2018
+// Last Modified On : 02-05-2018
 //
 // License          : MIT License
 // ***********************************************************************
@@ -43,6 +43,8 @@ namespace NRTyler.KSP.VehicleCatalog.Models.DataProviders
             MaxPayloadDimensions = new PayloadDimensions();
             Notes                = new List<Note>();
             PacificationOptions  = new List<PacificationOption>();
+            PreviewLocation      = String.Empty;
+            CraftFileLocation    = String.Empty;           
             Tags                 = new List<string>();
         }
 
